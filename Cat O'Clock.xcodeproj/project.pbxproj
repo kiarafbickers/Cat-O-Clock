@@ -1,0 +1,431 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		88634FCD3FF4AF6744A412BF /* libPods-Cat O'Clock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 55B41402EF673F798B7EFDF9 /* libPods-Cat O'Clock.a */; };
+		E906CA031C77B3CE00DC535F /* meow.wav in Resources */ = {isa = PBXBuildFile; fileRef = E906CA021C77B3CE00DC535F /* meow.wav */; };
+		E906CA061C7A7A4500DC535F /* AlarmManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E906CA051C7A7A4500DC535F /* AlarmManager.m */; settings = {ASSET_TAGS = (); }; };
+		E906CA081C7AB66B00DC535F /* Code_Pro_Demo.otf in Resources */ = {isa = PBXBuildFile; fileRef = E906CA071C7AB66000DC535F /* Code_Pro_Demo.otf */; settings = {ASSET_TAGS = (); }; };
+		E906CA0B1C7AC76700DC535F /* ModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E906CA0A1C7AC76700DC535F /* ModalViewController.m */; settings = {ASSET_TAGS = (); }; };
+		E906CA0E1C7ADF6E00DC535F /* UIImage+AutoScaleResize.m in Sources */ = {isa = PBXBuildFile; fileRef = E906CA0D1C7ADF6E00DC535F /* UIImage+AutoScaleResize.m */; settings = {ASSET_TAGS = (); }; };
+		E906CA111C7AE24C00DC535F /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = E906CA101C7AE24C00DC535F /* UIImage+Resize.m */; settings = {ASSET_TAGS = (); }; };
+		E94B07B01C75618C00CF05C7 /* MainTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E94B07AF1C75618C00CF05C7 /* MainTableViewController.m */; settings = {ASSET_TAGS = (); }; };
+		E94B07B31C7561B200CF05C7 /* AddTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E94B07B21C7561B200CF05C7 /* AddTableViewController.m */; settings = {ASSET_TAGS = (); }; };
+		E959C0551C75515000B0878D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E959C0541C75515000B0878D /* main.m */; };
+		E959C0581C75515200B0878D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E959C0571C75515200B0878D /* AppDelegate.m */; };
+		E959C05E1C75515500B0878D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E959C05C1C75515500B0878D /* Main.storyboard */; };
+		E959C0601C75515700B0878D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E959C05F1C75515700B0878D /* Assets.xcassets */; };
+		E959C0631C75515700B0878D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E959C0611C75515700B0878D /* LaunchScreen.storyboard */; };
+		E9F9F25F1C7620C0001067FF /* AlarmModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F9F25E1C7620C0001067FF /* AlarmModel.m */; settings = {ASSET_TAGS = (); }; };
+		E9F9F2611C776E04001067FF /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9F9F2601C776E04001067FF /* EventKit.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		55B41402EF673F798B7EFDF9 /* libPods-Cat O'Clock.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Cat O'Clock.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6E164FAC2668DCAC1555453E /* Pods-Cat O'Clock.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Cat O'Clock.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Cat O'Clock/Pods-Cat O'Clock.debug.xcconfig"; sourceTree = "<group>"; };
+		809544C4A72099B8C070B09D /* Pods-Cat O'Clock.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Cat O'Clock.release.xcconfig"; path = "Pods/Target Support Files/Pods-Cat O'Clock/Pods-Cat O'Clock.release.xcconfig"; sourceTree = "<group>"; };
+		E906CA021C77B3CE00DC535F /* meow.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = meow.wav; sourceTree = "<group>"; };
+		E906CA041C7A7A4500DC535F /* AlarmManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlarmManager.h; sourceTree = "<group>"; };
+		E906CA051C7A7A4500DC535F /* AlarmManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlarmManager.m; sourceTree = "<group>"; };
+		E906CA071C7AB66000DC535F /* Code_Pro_Demo.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Code_Pro_Demo.otf; sourceTree = "<group>"; };
+		E906CA091C7AC76700DC535F /* ModalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModalViewController.h; sourceTree = "<group>"; };
+		E906CA0A1C7AC76700DC535F /* ModalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModalViewController.m; sourceTree = "<group>"; };
+		E906CA0C1C7ADF6E00DC535F /* UIImage+AutoScaleResize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+AutoScaleResize.h"; sourceTree = "<group>"; };
+		E906CA0D1C7ADF6E00DC535F /* UIImage+AutoScaleResize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+AutoScaleResize.m"; sourceTree = "<group>"; };
+		E906CA0F1C7AE24C00DC535F /* UIImage+Resize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Resize.h"; sourceTree = "<group>"; };
+		E906CA101C7AE24C00DC535F /* UIImage+Resize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Resize.m"; sourceTree = "<group>"; };
+		E94B07AE1C75618C00CF05C7 /* MainTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainTableViewController.h; sourceTree = "<group>"; };
+		E94B07AF1C75618C00CF05C7 /* MainTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainTableViewController.m; sourceTree = "<group>"; };
+		E94B07B11C7561B200CF05C7 /* AddTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddTableViewController.h; sourceTree = "<group>"; };
+		E94B07B21C7561B200CF05C7 /* AddTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddTableViewController.m; sourceTree = "<group>"; };
+		E959C0501C75514B00B0878D /* Cat O'Clock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cat O'Clock.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E959C0541C75515000B0878D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		E959C0561C75515100B0878D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		E959C0571C75515200B0878D /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		E959C05D1C75515500B0878D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		E959C05F1C75515700B0878D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		E959C0621C75515700B0878D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		E959C0641C75515800B0878D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E9F9F25D1C7620C0001067FF /* AlarmModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlarmModel.h; sourceTree = "<group>"; };
+		E9F9F25E1C7620C0001067FF /* AlarmModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlarmModel.m; sourceTree = "<group>"; };
+		E9F9F2601C776E04001067FF /* EventKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKit.framework; path = System/Library/Frameworks/EventKit.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E959C04D1C75514B00B0878D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E9F9F2611C776E04001067FF /* EventKit.framework in Frameworks */,
+				88634FCD3FF4AF6744A412BF /* libPods-Cat O'Clock.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		34D64B87CA84EA9B6D9A2A1D /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				6E164FAC2668DCAC1555453E /* Pods-Cat O'Clock.debug.xcconfig */,
+				809544C4A72099B8C070B09D /* Pods-Cat O'Clock.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		9317852FEA58D12A35DFBA01 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E9F9F2601C776E04001067FF /* EventKit.framework */,
+				55B41402EF673F798B7EFDF9 /* libPods-Cat O'Clock.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E959C0471C75514A00B0878D = {
+			isa = PBXGroup;
+			children = (
+				E959C0521C75514C00B0878D /* Cat O'Clock */,
+				E959C0511C75514B00B0878D /* Products */,
+				34D64B87CA84EA9B6D9A2A1D /* Pods */,
+				9317852FEA58D12A35DFBA01 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		E959C0511C75514B00B0878D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E959C0501C75514B00B0878D /* Cat O'Clock.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E959C0521C75514C00B0878D /* Cat O'Clock */ = {
+			isa = PBXGroup;
+			children = (
+				E959C0561C75515100B0878D /* AppDelegate.h */,
+				E959C0571C75515200B0878D /* AppDelegate.m */,
+				E94B07AE1C75618C00CF05C7 /* MainTableViewController.h */,
+				E94B07AF1C75618C00CF05C7 /* MainTableViewController.m */,
+				E94B07B11C7561B200CF05C7 /* AddTableViewController.h */,
+				E94B07B21C7561B200CF05C7 /* AddTableViewController.m */,
+				E906CA091C7AC76700DC535F /* ModalViewController.h */,
+				E906CA0A1C7AC76700DC535F /* ModalViewController.m */,
+				E9F9F25D1C7620C0001067FF /* AlarmModel.h */,
+				E9F9F25E1C7620C0001067FF /* AlarmModel.m */,
+				E906CA041C7A7A4500DC535F /* AlarmManager.h */,
+				E906CA051C7A7A4500DC535F /* AlarmManager.m */,
+				E959C05C1C75515500B0878D /* Main.storyboard */,
+				E959C05F1C75515700B0878D /* Assets.xcassets */,
+				E959C0611C75515700B0878D /* LaunchScreen.storyboard */,
+				E959C0641C75515800B0878D /* Info.plist */,
+				E959C0531C75514F00B0878D /* Supporting Files */,
+			);
+			path = "Cat O'Clock";
+			sourceTree = "<group>";
+		};
+		E959C0531C75514F00B0878D /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E906CA071C7AB66000DC535F /* Code_Pro_Demo.otf */,
+				E906CA021C77B3CE00DC535F /* meow.wav */,
+				E959C0541C75515000B0878D /* main.m */,
+				E906CA0F1C7AE24C00DC535F /* UIImage+Resize.h */,
+				E906CA101C7AE24C00DC535F /* UIImage+Resize.m */,
+				E906CA0C1C7ADF6E00DC535F /* UIImage+AutoScaleResize.h */,
+				E906CA0D1C7ADF6E00DC535F /* UIImage+AutoScaleResize.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		E959C04F1C75514B00B0878D /* Cat O'Clock */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E959C0671C75515800B0878D /* Build configuration list for PBXNativeTarget "Cat O'Clock" */;
+			buildPhases = (
+				FAF9617E2151537A3575D8DA /* Check Pods Manifest.lock */,
+				E959C04C1C75514B00B0878D /* Sources */,
+				E959C04D1C75514B00B0878D /* Frameworks */,
+				E959C04E1C75514B00B0878D /* Resources */,
+				6AE98C766609BBDC81D292AC /* Embed Pods Frameworks */,
+				605AB653AF39F95A265FA682 /* Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Cat O'Clock";
+			productName = "Cat O'Clock";
+			productReference = E959C0501C75514B00B0878D /* Cat O'Clock.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E959C0481C75514A00B0878D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0700;
+				ORGANIZATIONNAME = kiaraRobles;
+				TargetAttributes = {
+					E959C04F1C75514B00B0878D = {
+						CreatedOnToolsVersion = 7.0.1;
+					};
+				};
+			};
+			buildConfigurationList = E959C04B1C75514A00B0878D /* Build configuration list for PBXProject "Cat O'Clock" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = E959C0471C75514A00B0878D;
+			productRefGroup = E959C0511C75514B00B0878D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E959C04F1C75514B00B0878D /* Cat O'Clock */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E959C04E1C75514B00B0878D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E906CA081C7AB66B00DC535F /* Code_Pro_Demo.otf in Resources */,
+				E906CA031C77B3CE00DC535F /* meow.wav in Resources */,
+				E959C0631C75515700B0878D /* LaunchScreen.storyboard in Resources */,
+				E959C0601C75515700B0878D /* Assets.xcassets in Resources */,
+				E959C05E1C75515500B0878D /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		605AB653AF39F95A265FA682 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Cat O'Clock/Pods-Cat O'Clock-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6AE98C766609BBDC81D292AC /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Cat O'Clock/Pods-Cat O'Clock-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FAF9617E2151537A3575D8DA /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E959C04C1C75514B00B0878D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E94B07B31C7561B200CF05C7 /* AddTableViewController.m in Sources */,
+				E94B07B01C75618C00CF05C7 /* MainTableViewController.m in Sources */,
+				E906CA0B1C7AC76700DC535F /* ModalViewController.m in Sources */,
+				E906CA0E1C7ADF6E00DC535F /* UIImage+AutoScaleResize.m in Sources */,
+				E959C0581C75515200B0878D /* AppDelegate.m in Sources */,
+				E906CA111C7AE24C00DC535F /* UIImage+Resize.m in Sources */,
+				E959C0551C75515000B0878D /* main.m in Sources */,
+				E9F9F25F1C7620C0001067FF /* AlarmModel.m in Sources */,
+				E906CA061C7A7A4500DC535F /* AlarmManager.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		E959C05C1C75515500B0878D /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E959C05D1C75515500B0878D /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		E959C0611C75515700B0878D /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E959C0621C75515700B0878D /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		E959C0651C75515800B0878D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		E959C0661C75515800B0878D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		E959C0681C75515800B0878D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6E164FAC2668DCAC1555453E /* Pods-Cat O'Clock.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = "Cat O'Clock/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "kiaraRobles.Cat-O-Clock";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		E959C0691C75515800B0878D /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 809544C4A72099B8C070B09D /* Pods-Cat O'Clock.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = "Cat O'Clock/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "kiaraRobles.Cat-O-Clock";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E959C04B1C75514A00B0878D /* Build configuration list for PBXProject "Cat O'Clock" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E959C0651C75515800B0878D /* Debug */,
+				E959C0661C75515800B0878D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E959C0671C75515800B0878D /* Build configuration list for PBXNativeTarget "Cat O'Clock" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E959C0681C75515800B0878D /* Debug */,
+				E959C0691C75515800B0878D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E959C0481C75514A00B0878D /* Project object */;
+}

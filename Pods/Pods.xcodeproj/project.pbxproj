@@ -1,0 +1,1188 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		00F6517A3117C3CB6C67F1F4DC4FF050 /* UINavigationController+Chameleon.h in Headers */ = {isa = PBXBuildFile; fileRef = 25ED1458FC154BA92237BA11056301C3 /* UINavigationController+Chameleon.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		062258F0A1BD8AB11E3E3B1815357988 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22CC099EDADB76C55367796DBD37AE8D /* QuartzCore.framework */; };
+		0BF1D88239677B7698ED7C8F915465A3 /* AXCGiphyImageOriginal.m in Sources */ = {isa = PBXBuildFile; fileRef = C3239BC81D60AB9DF3A762B792B0E748 /* AXCGiphyImageOriginal.m */; };
+		19C46278134445E6A61F5934ADA4193C /* AnimatedGIFImageSerialization-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 8938544B5AD975AAB15128EECC0DF323 /* AnimatedGIFImageSerialization-dummy.m */; };
+		1BD84F263236FAC2780B0576B7BC037C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FDC947C2C4A736687249A5D97209C29B /* CoreGraphics.framework */; };
+		1C9B78D6EC022316C546A6A6C5284253 /* ChameleonEnums.h in Headers */ = {isa = PBXBuildFile; fileRef = 513A3CEB951408C1FC034E881C942915 /* ChameleonEnums.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		287BE8ACB8EAE441ED9C109741072664 /* AnimatedGIFImageSerialization.h in Headers */ = {isa = PBXBuildFile; fileRef = 84D3C983C24DC0651EAB9834C145F746 /* AnimatedGIFImageSerialization.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2CB90A2498B5CBB8BBED0EA8BD06163E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEBC85ECBD828DF92AC9EEB8B18DA6F1 /* Foundation.framework */; };
+		2D5CE155885A48B9BE8C331644EC1846 /* UIButton+Chameleon.h in Headers */ = {isa = PBXBuildFile; fileRef = E9302F48EDFBD912912937487258258C /* UIButton+Chameleon.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2E97FE3C3B03CBED77973E7199ADA2B8 /* AXCGiphyImageFixed.h in Headers */ = {isa = PBXBuildFile; fileRef = DC6F01E59A2FBC369BFA162EAD35560E /* AXCGiphyImageFixed.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		34AE6EE9360CA0D32BAAC84B94E0D29A /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B304EE4E3C9C59C6AC5562290B8E54A0 /* MobileCoreServices.framework */; };
+		34E44C9CF6B3FEEE14A1A8774D2B072F /* AXCGiphyImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BE85466605CFAB8BEB42712C20215FE /* AXCGiphyImage.m */; };
+		3962E111BE7E4B0BF02371AEE6860C5E /* UIView+ChameleonPrivate.m in Sources */ = {isa = PBXBuildFile; fileRef = FD1FA6BE544864A5EAFC6C83910D166D /* UIView+ChameleonPrivate.m */; };
+		3D258E9A843C52C991E5E9455CB8DB51 /* FLAnimatedImage-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 50F177824292167085E6CD33BDEBD011 /* FLAnimatedImage-dummy.m */; };
+		3F0DAEF7AD12BD925424AC392AC64164 /* UIColor+Chameleon.h in Headers */ = {isa = PBXBuildFile; fileRef = 73FE4EDDFB27E34F2484AAFA77CB04DA /* UIColor+Chameleon.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		426B448E3256264D133826A2F7CA832D /* Chameleon.h in Headers */ = {isa = PBXBuildFile; fileRef = BA6C0AE52C9843C367C65E88F64330DD /* Chameleon.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		43DAC0673B961635CB2091B93B01456A /* AXCGiphyImageDownsampled.m in Sources */ = {isa = PBXBuildFile; fileRef = 231EA00A1020C13C0480F545070AA681 /* AXCGiphyImageDownsampled.m */; };
+		4B6619D006E09AE372922F58C2ADC303 /* Chameleon_.m in Sources */ = {isa = PBXBuildFile; fileRef = 44FBF15B38836C0FC27649513D1826D0 /* Chameleon_.m */; };
+		4D72438ED0026027ED03F71A83232CE7 /* AXCGiphyImageFixed.m in Sources */ = {isa = PBXBuildFile; fileRef = A712A413FC77CE716E4A3F52DC66FF2B /* AXCGiphyImageFixed.m */; };
+		4E2B74ABD7E0224ECA5C6F19CAE14494 /* UIAppearance+Swift.h in Headers */ = {isa = PBXBuildFile; fileRef = 64FE23A20BF921B4B1818FB8EA6504C4 /* UIAppearance+Swift.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		542AC671A670FEE603A5B1F539639803 /* AXCGiphyImageDownsampled.h in Headers */ = {isa = PBXBuildFile; fileRef = F547E8DA7121FDED247C25BA20834602 /* AXCGiphyImageDownsampled.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		56F6E92E8BC1DA120BB1093656049F60 /* AnimatedGIFImageSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FA776D83E4526D42D0F39EACC094921 /* AnimatedGIFImageSerialization.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
+		5AE2E46A16828914FBE9055186274C3B /* ChameleonFramework-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FFECB698AD4E202722B02C49967B604 /* ChameleonFramework-dummy.m */; };
+		5BFFA6BF3CBA19340F64DA7F5B7DE572 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B79803237D0CE63E235B8BB3964A0726 /* UIKit.framework */; };
+		67DE570D3BCBADB16C2749D472566770 /* AFNetworking-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B589B4EC555F2027FDB75093EF7CF40 /* AFNetworking-dummy.m */; };
+		6DF6EB8F7E7738D44FD3BEC9321646C3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEBC85ECBD828DF92AC9EEB8B18DA6F1 /* Foundation.framework */; };
+		79C8A519D41EAB667C14CF49496DA839 /* AFURLRequestSerialization.h in Headers */ = {isa = PBXBuildFile; fileRef = 209E93E3E5D732BDAF6755A6D3386556 /* AFURLRequestSerialization.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7AE83DFAD9756ED1FB1CB5E36F9CF6EB /* FLAnimatedImageView.h in Headers */ = {isa = PBXBuildFile; fileRef = A86BEE09DD8AE7B7C4F4303B6C0A4947 /* FLAnimatedImageView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7F18A631A68678DE5B11D4785CE6E57B /* Chameleon_.h in Headers */ = {isa = PBXBuildFile; fileRef = D0CA65B92DA60259CB4EA4964B6D9241 /* Chameleon_.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8DD0C4DDA8CC388707934D517D67B341 /* UIColor+ChameleonPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = DF71F38C4EBBBAABA355A3C19F038158 /* UIColor+ChameleonPrivate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8E52CD4F8DFC4BEA2D326378917CF07A /* AXCGiphyImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 48A09C1428EF49529816576E226C340D /* AXCGiphyImage.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8F50CA77B0E3DFB9F53EAFB91AA53DE7 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 22CC099EDADB76C55367796DBD37AE8D /* QuartzCore.framework */; };
+		9C7918E111C08328CB036CCB91E20254 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B304EE4E3C9C59C6AC5562290B8E54A0 /* MobileCoreServices.framework */; };
+		9DBEA9021C306361196214AF4411D376 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEBC85ECBD828DF92AC9EEB8B18DA6F1 /* Foundation.framework */; };
+		9E3171D11E72D10AEDBCF7D659C7EE3D /* AFURLResponseSerialization.h in Headers */ = {isa = PBXBuildFile; fileRef = 4D338B1928018BB9A8DEBE563DA8A8FD /* AFURLResponseSerialization.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A08CE5412C61D1FD9E4FEDCB4CA730E9 /* Giphy-iOS-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 8443EF8D6730A81927FE06BBA8F516ED /* Giphy-iOS-dummy.m */; };
+		A11273A68549A3AA66A4D92764E9A6EA /* ChameleonConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 0860F60292928AA52B6AACADC8A5A5C7 /* ChameleonConstants.m */; };
+		A8113B8A15CF74628C874F7F4CF48A25 /* UINavigationController+Chameleon.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DC51D76CFCE5F57DCEA1E10720B0FCB /* UINavigationController+Chameleon.m */; };
+		ACA60FF340E8E8002773BE03D1BEAA9F /* UIAppearance+Swift.m in Sources */ = {isa = PBXBuildFile; fileRef = 188CDD4139BDD13EDC91DDFD2C4AFEB6 /* UIAppearance+Swift.m */; };
+		ACB1EDBEA26C42FC11D9A296FAF602C2 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89FBE0107A6C5519C16F855DD8133A06 /* ImageIO.framework */; };
+		B3AA789E74DBAB167DAD0FDCA19690C7 /* FLAnimatedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = C34812CA5D5AF10F4CDC86CC35541B6E /* FLAnimatedImageView.m */; };
+		B5A2130E674C9CADDF96A29D5B082EF0 /* AXCGiphy.h in Headers */ = {isa = PBXBuildFile; fileRef = F6AD53110727F975BE3BD7107848C868 /* AXCGiphy.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BD14B249D67F8DDF85ADCD0501CF7750 /* UIImage+ChameleonPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = F20314E96B1EB27B36BFC1407BD76232 /* UIImage+ChameleonPrivate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BE3F2030D5A2EF5404E107599DD2FEB5 /* NSArray+Chameleon.h in Headers */ = {isa = PBXBuildFile; fileRef = 8786038BB8E7C7AFE8F37D232D900E6F /* NSArray+Chameleon.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BE8800C6A3E4432857AB26ECC78F7ADD /* NSArray+Chameleon.m in Sources */ = {isa = PBXBuildFile; fileRef = 89DFD84CCFAB52ABB5F27E0FFEE55F64 /* NSArray+Chameleon.m */; };
+		C0AF386B38730A787EEBE1C1A6DCB395 /* UIColor+Chameleon.m in Sources */ = {isa = PBXBuildFile; fileRef = F6394170CF0D9E8C186DEEF468D2CF01 /* UIColor+Chameleon.m */; };
+		C2596CDB92D59D7FC5505505B68FD55C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FDC947C2C4A736687249A5D97209C29B /* CoreGraphics.framework */; };
+		C896453931F7A63F41AB77E343F06BB3 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FDC947C2C4A736687249A5D97209C29B /* CoreGraphics.framework */; };
+		CF4B766BBDFDC0563FD515033D3B3417 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEBC85ECBD828DF92AC9EEB8B18DA6F1 /* Foundation.framework */; };
+		D03FEEB55244FFE7A8363981DA629DB8 /* UIImage+ChameleonPrivate.m in Sources */ = {isa = PBXBuildFile; fileRef = 36E240F7216EB685A9F775ECAB1CE972 /* UIImage+ChameleonPrivate.m */; };
+		D19658D62F2D49EEE1B525F178700423 /* UIColor+ChameleonPrivate.m in Sources */ = {isa = PBXBuildFile; fileRef = 42D12FF37A445AC615FDD3667A13425B /* UIColor+ChameleonPrivate.m */; };
+		D19F5D7B316BFDBDDE17066EEE4CF5C8 /* ChameleonMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = 188DD9EFCBF433200F1F3F993B45375C /* ChameleonMacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D385FECF73FAF6EE66F456ED9C7297FA /* UIButton+Chameleon.m in Sources */ = {isa = PBXBuildFile; fileRef = B16D141AD59EE9E54979F342663E7F2B /* UIButton+Chameleon.m */; };
+		D4AF14AA032644FCDFA5E31716C0DB4B /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = C4BC20078A3B4B391D3ACFC4EA3A6A78 /* AFURLResponseSerialization.m */; };
+		D7673B94D90B98099ECFC36133BFBBA6 /* ChameleonConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E32ABF5E66B26B715171ACE3777093B /* ChameleonConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DB2FA399D486D405C314293663C87414 /* Pods-Cat O'Clock-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E8F35EDF35367274308583F9F2C5B95 /* Pods-Cat O'Clock-dummy.m */; };
+		DC012BF0FE4E64F03483EA0A6B258FE0 /* AXCGiphyImageOriginal.h in Headers */ = {isa = PBXBuildFile; fileRef = E002577D4AAA442422F7F7F95C7FD269 /* AXCGiphyImageOriginal.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E8E8DD19527758AD1F1DC2C310AF0EB9 /* UILabel+Chameleon.m in Sources */ = {isa = PBXBuildFile; fileRef = A3928B6FDA276513837653D9DBDC6850 /* UILabel+Chameleon.m */; };
+		E98C998FF24730ADBA78B463FC67A07E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FDC947C2C4A736687249A5D97209C29B /* CoreGraphics.framework */; };
+		E99CE64289F5FDD09B7E1188379AED41 /* FLAnimatedImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 7215829A1A37AD4A635C3C1BE12603DF /* FLAnimatedImage.m */; };
+		EB619B06154CC00E6D5F873B7CB5496B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEBC85ECBD828DF92AC9EEB8B18DA6F1 /* Foundation.framework */; };
+		EBF221C5C3ADA8AB540DD02556D9D1EA /* AFURLRequestSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 53D2BD7D58C9C93B0357DA8862512EC7 /* AFURLRequestSerialization.m */; };
+		F094CFC91D8E6E3EAD2D1FE0ECA4DCAE /* AXCGiphy.m in Sources */ = {isa = PBXBuildFile; fileRef = F4BCC176DF858C71914827183E402D41 /* AXCGiphy.m */; };
+		F23763692FB8006B34D4C2509F1D4678 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B304EE4E3C9C59C6AC5562290B8E54A0 /* MobileCoreServices.framework */; };
+		F3973E81DDBB552E2C0A54C3D2B7728C /* UIViewController+Chameleon.m in Sources */ = {isa = PBXBuildFile; fileRef = B776D64C75D878E64B6001366BD610EC /* UIViewController+Chameleon.m */; };
+		F432595774C6621E191AC5192DA6A88B /* UIViewController+Chameleon.h in Headers */ = {isa = PBXBuildFile; fileRef = 1FEC1C54A1960454D597C0E0AF253363 /* UIViewController+Chameleon.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F5C01AC5B350E12C063267A3FE002E5C /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89FBE0107A6C5519C16F855DD8133A06 /* ImageIO.framework */; };
+		F660B0BD2419D7A833AF75C2094DEFE4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEBC85ECBD828DF92AC9EEB8B18DA6F1 /* Foundation.framework */; };
+		F6C4321A0A8B0003BEC037A307112B38 /* UILabel+Chameleon.h in Headers */ = {isa = PBXBuildFile; fileRef = A0C55AA170A9AA0ED01C3C861B60F9B5 /* UILabel+Chameleon.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F8C5EBF5A81C10B08CBC7433094085BC /* UIView+ChameleonPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 8FB0BC629DCCA656D85F306A11BB42F6 /* UIView+ChameleonPrivate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FB423EE72C2A6D0ED5DEFBEE9BE80A98 /* FLAnimatedImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 644CE510FE08E704709EF1DF457F82B8 /* FLAnimatedImage.h */; settings = {ATTRIBUTES = (Public, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		10D93A24AB124ED69673ED736C723966 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 34A2F62255BEF1F1BF9AC4A9045556D0;
+			remoteInfo = "Giphy-iOS";
+		};
+		406D9B49585B2B2F2351B07530668E68 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4BDA044AECE6E1C8F4A991E6866614FB;
+			remoteInfo = AFNetworking;
+		};
+		4518EE6120D3C69881731F245AA6287D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 372134479973790B9EFB36D12016B94B;
+			remoteInfo = AnimatedGIFImageSerialization;
+		};
+		5B22A789F0CD8EEB6B4AF17C6D8B9FF5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 935A7E52B6D8B7E37EAEA138EDC52155;
+			remoteInfo = ChameleonFramework;
+		};
+		B7A629BAE01B3326CDD11561D477161B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1A79BA86DB198181905CBBFC1F1E6701;
+			remoteInfo = FLAnimatedImage;
+		};
+		D69881C3B63BCC8B119198EA7445238A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4BDA044AECE6E1C8F4A991E6866614FB;
+			remoteInfo = AFNetworking;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0860F60292928AA52B6AACADC8A5A5C7 /* ChameleonConstants.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = ChameleonConstants.m; path = "Pod/Classes/Objective-C/ChameleonConstants.m"; sourceTree = "<group>"; };
+		188CDD4139BDD13EDC91DDFD2C4AFEB6 /* UIAppearance+Swift.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIAppearance+Swift.m"; path = "Pod/Classes/Objective-C/UIAppearance+Swift.m"; sourceTree = "<group>"; };
+		188DD9EFCBF433200F1F3F993B45375C /* ChameleonMacros.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ChameleonMacros.h; path = "Pod/Classes/Objective-C/ChameleonMacros.h"; sourceTree = "<group>"; };
+		1BE85466605CFAB8BEB42712C20215FE /* AXCGiphyImage.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AXCGiphyImage.m; path = Pod/Classes/AXCGiphyImage.m; sourceTree = "<group>"; };
+		1E8F35EDF35367274308583F9F2C5B95 /* Pods-Cat O'Clock-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Cat O'Clock-dummy.m"; sourceTree = "<group>"; };
+		1FEC1C54A1960454D597C0E0AF253363 /* UIViewController+Chameleon.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIViewController+Chameleon.h"; path = "Pod/Classes/Objective-C/UIViewController+Chameleon.h"; sourceTree = "<group>"; };
+		209E93E3E5D732BDAF6755A6D3386556 /* AFURLRequestSerialization.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AFURLRequestSerialization.h; path = AFNetworking/AFURLRequestSerialization.h; sourceTree = "<group>"; };
+		22CC099EDADB76C55367796DBD37AE8D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.0.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = DEVELOPER_DIR; };
+		231EA00A1020C13C0480F545070AA681 /* AXCGiphyImageDownsampled.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AXCGiphyImageDownsampled.m; path = Pod/Classes/AXCGiphyImageDownsampled.m; sourceTree = "<group>"; };
+		24F9C21D0ECF087686D2E9DEBAC3F0A6 /* AnimatedGIFImageSerialization-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "AnimatedGIFImageSerialization-prefix.pch"; sourceTree = "<group>"; };
+		25ED1458FC154BA92237BA11056301C3 /* UINavigationController+Chameleon.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UINavigationController+Chameleon.h"; path = "Pod/Classes/Objective-C/UINavigationController+Chameleon.h"; sourceTree = "<group>"; };
+		2FA776D83E4526D42D0F39EACC094921 /* AnimatedGIFImageSerialization.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AnimatedGIFImageSerialization.m; path = AnimatedGIFImageSerialization/AnimatedGIFImageSerialization.m; sourceTree = "<group>"; };
+		3370AC768529A529A3414581F09A69CE /* ChameleonFramework.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = ChameleonFramework.xcconfig; sourceTree = "<group>"; };
+		36E240F7216EB685A9F775ECAB1CE972 /* UIImage+ChameleonPrivate.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIImage+ChameleonPrivate.m"; path = "Pod/Classes/Objective-C/UIImage+ChameleonPrivate.m"; sourceTree = "<group>"; };
+		42D12FF37A445AC615FDD3667A13425B /* UIColor+ChameleonPrivate.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIColor+ChameleonPrivate.m"; path = "Pod/Classes/Objective-C/UIColor+ChameleonPrivate.m"; sourceTree = "<group>"; };
+		44FBF15B38836C0FC27649513D1826D0 /* Chameleon_.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = Chameleon_.m; path = "Pod/Classes/Objective-C/Chameleon_.m"; sourceTree = "<group>"; };
+		4546EB24F45A44AF3C1900DA7A372252 /* Pods-Cat O'Clock.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Cat O'Clock.debug.xcconfig"; sourceTree = "<group>"; };
+		48A09C1428EF49529816576E226C340D /* AXCGiphyImage.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AXCGiphyImage.h; path = Pod/Classes/AXCGiphyImage.h; sourceTree = "<group>"; };
+		4D338B1928018BB9A8DEBE563DA8A8FD /* AFURLResponseSerialization.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AFURLResponseSerialization.h; path = AFNetworking/AFURLResponseSerialization.h; sourceTree = "<group>"; };
+		50F177824292167085E6CD33BDEBD011 /* FLAnimatedImage-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "FLAnimatedImage-dummy.m"; sourceTree = "<group>"; };
+		513A3CEB951408C1FC034E881C942915 /* ChameleonEnums.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ChameleonEnums.h; path = "Pod/Classes/Objective-C/ChameleonEnums.h"; sourceTree = "<group>"; };
+		53D2BD7D58C9C93B0357DA8862512EC7 /* AFURLRequestSerialization.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AFURLRequestSerialization.m; path = AFNetworking/AFURLRequestSerialization.m; sourceTree = "<group>"; };
+		5BD02517313D6461E4BE20DF4B337C33 /* libChameleonFramework.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libChameleonFramework.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		5DC51D76CFCE5F57DCEA1E10720B0FCB /* UINavigationController+Chameleon.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UINavigationController+Chameleon.m"; path = "Pod/Classes/Objective-C/UINavigationController+Chameleon.m"; sourceTree = "<group>"; };
+		5FFECB698AD4E202722B02C49967B604 /* ChameleonFramework-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "ChameleonFramework-dummy.m"; sourceTree = "<group>"; };
+		644CE510FE08E704709EF1DF457F82B8 /* FLAnimatedImage.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FLAnimatedImage.h; path = FLAnimatedImage/FLAnimatedImage.h; sourceTree = "<group>"; };
+		64FE23A20BF921B4B1818FB8EA6504C4 /* UIAppearance+Swift.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIAppearance+Swift.h"; path = "Pod/Classes/Objective-C/UIAppearance+Swift.h"; sourceTree = "<group>"; };
+		6E32ABF5E66B26B715171ACE3777093B /* ChameleonConstants.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ChameleonConstants.h; path = "Pod/Classes/Objective-C/ChameleonConstants.h"; sourceTree = "<group>"; };
+		7215829A1A37AD4A635C3C1BE12603DF /* FLAnimatedImage.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = FLAnimatedImage.m; path = FLAnimatedImage/FLAnimatedImage.m; sourceTree = "<group>"; };
+		73FE4EDDFB27E34F2484AAFA77CB04DA /* UIColor+Chameleon.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIColor+Chameleon.h"; path = "Pod/Classes/Objective-C/UIColor+Chameleon.h"; sourceTree = "<group>"; };
+		77D87A0922F4DAB84D7EE81C13B10EAA /* Pods-Cat O'Clock-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Cat O'Clock-acknowledgements.plist"; sourceTree = "<group>"; };
+		7B7552A3F214BBE5193731735EDA78FB /* Pods-Cat O'Clock-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Cat O'Clock-resources.sh"; sourceTree = "<group>"; };
+		8443EF8D6730A81927FE06BBA8F516ED /* Giphy-iOS-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Giphy-iOS-dummy.m"; sourceTree = "<group>"; };
+		84D3C983C24DC0651EAB9834C145F746 /* AnimatedGIFImageSerialization.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AnimatedGIFImageSerialization.h; path = AnimatedGIFImageSerialization/AnimatedGIFImageSerialization.h; sourceTree = "<group>"; };
+		8786038BB8E7C7AFE8F37D232D900E6F /* NSArray+Chameleon.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSArray+Chameleon.h"; path = "Pod/Classes/Objective-C/NSArray+Chameleon.h"; sourceTree = "<group>"; };
+		8876E789096B5A7302305B21223C588F /* ChameleonFramework-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "ChameleonFramework-prefix.pch"; sourceTree = "<group>"; };
+		8938544B5AD975AAB15128EECC0DF323 /* AnimatedGIFImageSerialization-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "AnimatedGIFImageSerialization-dummy.m"; sourceTree = "<group>"; };
+		89DFD84CCFAB52ABB5F27E0FFEE55F64 /* NSArray+Chameleon.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSArray+Chameleon.m"; path = "Pod/Classes/Objective-C/NSArray+Chameleon.m"; sourceTree = "<group>"; };
+		89FBE0107A6C5519C16F855DD8133A06 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.0.sdk/System/Library/Frameworks/ImageIO.framework; sourceTree = DEVELOPER_DIR; };
+		8B054E601DA7F93E489322A031081911 /* Giphy-iOS.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Giphy-iOS.xcconfig"; sourceTree = "<group>"; };
+		8B589B4EC555F2027FDB75093EF7CF40 /* AFNetworking-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "AFNetworking-dummy.m"; sourceTree = "<group>"; };
+		8FB0BC629DCCA656D85F306A11BB42F6 /* UIView+ChameleonPrivate.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIView+ChameleonPrivate.h"; path = "Pod/Classes/Objective-C/UIView+ChameleonPrivate.h"; sourceTree = "<group>"; };
+		947FC9545C263FD78EB4E302D9F4A96A /* AnimatedGIFImageSerialization.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = AnimatedGIFImageSerialization.xcconfig; sourceTree = "<group>"; };
+		95BFD1B0CB4FB927C596C2CD9436E33D /* FLAnimatedImage-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "FLAnimatedImage-prefix.pch"; sourceTree = "<group>"; };
+		9B021057746AF181DC9ABE30DEF72CF6 /* Pods-Cat O'Clock.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Cat O'Clock.release.xcconfig"; sourceTree = "<group>"; };
+		A0C55AA170A9AA0ED01C3C861B60F9B5 /* UILabel+Chameleon.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UILabel+Chameleon.h"; path = "Pod/Classes/Objective-C/UILabel+Chameleon.h"; sourceTree = "<group>"; };
+		A3928B6FDA276513837653D9DBDC6850 /* UILabel+Chameleon.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UILabel+Chameleon.m"; path = "Pod/Classes/Objective-C/UILabel+Chameleon.m"; sourceTree = "<group>"; };
+		A712A413FC77CE716E4A3F52DC66FF2B /* AXCGiphyImageFixed.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AXCGiphyImageFixed.m; path = Pod/Classes/AXCGiphyImageFixed.m; sourceTree = "<group>"; };
+		A86BEE09DD8AE7B7C4F4303B6C0A4947 /* FLAnimatedImageView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = FLAnimatedImageView.h; path = FLAnimatedImage/FLAnimatedImageView.h; sourceTree = "<group>"; };
+		AEA8E44AF8D1BB65876AB35A4AC33FA9 /* Giphy-iOS-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Giphy-iOS-prefix.pch"; sourceTree = "<group>"; };
+		B16D141AD59EE9E54979F342663E7F2B /* UIButton+Chameleon.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIButton+Chameleon.m"; path = "Pod/Classes/Objective-C/UIButton+Chameleon.m"; sourceTree = "<group>"; };
+		B304EE4E3C9C59C6AC5562290B8E54A0 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.0.sdk/System/Library/Frameworks/MobileCoreServices.framework; sourceTree = DEVELOPER_DIR; };
+		B44A467F99D7A01A1DFE064AAE49B5ED /* AFNetworking-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "AFNetworking-prefix.pch"; sourceTree = "<group>"; };
+		B465B77D039119AFB56AB90FDEF055A8 /* libPods-Cat O'Clock.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Cat O'Clock.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B776D64C75D878E64B6001366BD610EC /* UIViewController+Chameleon.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIViewController+Chameleon.m"; path = "Pod/Classes/Objective-C/UIViewController+Chameleon.m"; sourceTree = "<group>"; };
+		B79803237D0CE63E235B8BB3964A0726 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.0.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		B8785B173EA13C76BD62FCA9DCB3271A /* libGiphy-iOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libGiphy-iOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BA6428E9F66FD5A23C0A2E06ED26CD2F /* Podfile */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		BA6C0AE52C9843C367C65E88F64330DD /* Chameleon.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = Chameleon.h; path = "Pod/Classes/Objective-C/Chameleon.h"; sourceTree = "<group>"; };
+		BFE98F42E6B368134D6A9E97B85C33CA /* FLAnimatedImage.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = FLAnimatedImage.xcconfig; sourceTree = "<group>"; };
+		C3239BC81D60AB9DF3A762B792B0E748 /* AXCGiphyImageOriginal.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AXCGiphyImageOriginal.m; path = Pod/Classes/AXCGiphyImageOriginal.m; sourceTree = "<group>"; };
+		C34812CA5D5AF10F4CDC86CC35541B6E /* FLAnimatedImageView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = FLAnimatedImageView.m; path = FLAnimatedImage/FLAnimatedImageView.m; sourceTree = "<group>"; };
+		C4BC20078A3B4B391D3ACFC4EA3A6A78 /* AFURLResponseSerialization.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AFURLResponseSerialization.m; path = AFNetworking/AFURLResponseSerialization.m; sourceTree = "<group>"; };
+		CEBC85ECBD828DF92AC9EEB8B18DA6F1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		D05424AEDDFED95B5D89611FB6BE91D5 /* Pods-Cat O'Clock-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Cat O'Clock-acknowledgements.markdown"; sourceTree = "<group>"; };
+		D0CA65B92DA60259CB4EA4964B6D9241 /* Chameleon_.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = Chameleon_.h; path = "Pod/Classes/Objective-C/Chameleon_.h"; sourceTree = "<group>"; };
+		D173BD4BFA3004DFCC6D43DD6F7DA764 /* libAnimatedGIFImageSerialization.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAnimatedGIFImageSerialization.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		D7334927F8B741C169D262E3A2E24C73 /* libFLAnimatedImage.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libFLAnimatedImage.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		DC6F01E59A2FBC369BFA162EAD35560E /* AXCGiphyImageFixed.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AXCGiphyImageFixed.h; path = Pod/Classes/AXCGiphyImageFixed.h; sourceTree = "<group>"; };
+		DF71F38C4EBBBAABA355A3C19F038158 /* UIColor+ChameleonPrivate.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIColor+ChameleonPrivate.h"; path = "Pod/Classes/Objective-C/UIColor+ChameleonPrivate.h"; sourceTree = "<group>"; };
+		E002577D4AAA442422F7F7F95C7FD269 /* AXCGiphyImageOriginal.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AXCGiphyImageOriginal.h; path = Pod/Classes/AXCGiphyImageOriginal.h; sourceTree = "<group>"; };
+		E5800AAFF25545128791CFE30EACA774 /* Pods-Cat O'Clock-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Cat O'Clock-frameworks.sh"; sourceTree = "<group>"; };
+		E9302F48EDFBD912912937487258258C /* UIButton+Chameleon.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIButton+Chameleon.h"; path = "Pod/Classes/Objective-C/UIButton+Chameleon.h"; sourceTree = "<group>"; };
+		EF5E13CD2679A5EAC60E61F3E8F75A8C /* AFNetworking.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = AFNetworking.xcconfig; sourceTree = "<group>"; };
+		F20314E96B1EB27B36BFC1407BD76232 /* UIImage+ChameleonPrivate.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIImage+ChameleonPrivate.h"; path = "Pod/Classes/Objective-C/UIImage+ChameleonPrivate.h"; sourceTree = "<group>"; };
+		F2E800DCB38F54E784F3E74CC1A910F0 /* libAFNetworking.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAFNetworking.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4BCC176DF858C71914827183E402D41 /* AXCGiphy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AXCGiphy.m; path = Pod/Classes/AXCGiphy.m; sourceTree = "<group>"; };
+		F547E8DA7121FDED247C25BA20834602 /* AXCGiphyImageDownsampled.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AXCGiphyImageDownsampled.h; path = Pod/Classes/AXCGiphyImageDownsampled.h; sourceTree = "<group>"; };
+		F6394170CF0D9E8C186DEEF468D2CF01 /* UIColor+Chameleon.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIColor+Chameleon.m"; path = "Pod/Classes/Objective-C/UIColor+Chameleon.m"; sourceTree = "<group>"; };
+		F6AD53110727F975BE3BD7107848C868 /* AXCGiphy.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AXCGiphy.h; path = Pod/Classes/AXCGiphy.h; sourceTree = "<group>"; };
+		FD1FA6BE544864A5EAFC6C83910D166D /* UIView+ChameleonPrivate.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIView+ChameleonPrivate.m"; path = "Pod/Classes/Objective-C/UIView+ChameleonPrivate.m"; sourceTree = "<group>"; };
+		FDC947C2C4A736687249A5D97209C29B /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.0.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2EFD5344FA57E002A4B9C1BEE0479232 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EB619B06154CC00E6D5F873B7CB5496B /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		456E3D8CBA16CC53451C696545611E92 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C2596CDB92D59D7FC5505505B68FD55C /* CoreGraphics.framework in Frameworks */,
+				6DF6EB8F7E7738D44FD3BEC9321646C3 /* Foundation.framework in Frameworks */,
+				F5C01AC5B350E12C063267A3FE002E5C /* ImageIO.framework in Frameworks */,
+				34AE6EE9360CA0D32BAAC84B94E0D29A /* MobileCoreServices.framework in Frameworks */,
+				062258F0A1BD8AB11E3E3B1815357988 /* QuartzCore.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6E36DD0367EA91140ADA17AF63AEB738 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2CB90A2498B5CBB8BBED0EA8BD06163E /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		977C0F4383D7B900F019F3D515C59032 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1BD84F263236FAC2780B0576B7BC037C /* CoreGraphics.framework in Frameworks */,
+				F660B0BD2419D7A833AF75C2094DEFE4 /* Foundation.framework in Frameworks */,
+				8F50CA77B0E3DFB9F53EAFB91AA53DE7 /* QuartzCore.framework in Frameworks */,
+				5BFFA6BF3CBA19340F64DA7F5B7DE572 /* UIKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D84ABA2446524B3613B4BBF3E75EE8BC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C896453931F7A63F41AB77E343F06BB3 /* CoreGraphics.framework in Frameworks */,
+				CF4B766BBDFDC0563FD515033D3B3417 /* Foundation.framework in Frameworks */,
+				F23763692FB8006B34D4C2509F1D4678 /* MobileCoreServices.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F30D92F2BD2D99470D8C6C09B35C83EA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E98C998FF24730ADBA78B463FC67A07E /* CoreGraphics.framework in Frameworks */,
+				9DBEA9021C306361196214AF4411D376 /* Foundation.framework in Frameworks */,
+				ACB1EDBEA26C42FC11D9A296FAF602C2 /* ImageIO.framework in Frameworks */,
+				9C7918E111C08328CB036CCB91E20254 /* MobileCoreServices.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		07E953775129748845CEAF073FBCFBFE /* AFNetworking */ = {
+			isa = PBXGroup;
+			children = (
+				7A597EA6060F97312C5BF3BD1576850A /* Serialization */,
+				19C2C9C0D744C78BC770A11709031174 /* Support Files */,
+			);
+			path = AFNetworking;
+			sourceTree = "<group>";
+		};
+		08246DECE9BE7496A1DC12C510006479 /* AnimatedGIFImageSerialization */ = {
+			isa = PBXGroup;
+			children = (
+				84D3C983C24DC0651EAB9834C145F746 /* AnimatedGIFImageSerialization.h */,
+				2FA776D83E4526D42D0F39EACC094921 /* AnimatedGIFImageSerialization.m */,
+				AF286031EFCAAF43A2DA42044C56AB0B /* Support Files */,
+			);
+			path = AnimatedGIFImageSerialization;
+			sourceTree = "<group>";
+		};
+		0DF4ACFDE20A76AAFF9A8BCF0880CD1F /* FLAnimatedImage */ = {
+			isa = PBXGroup;
+			children = (
+				644CE510FE08E704709EF1DF457F82B8 /* FLAnimatedImage.h */,
+				7215829A1A37AD4A635C3C1BE12603DF /* FLAnimatedImage.m */,
+				A86BEE09DD8AE7B7C4F4303B6C0A4947 /* FLAnimatedImageView.h */,
+				C34812CA5D5AF10F4CDC86CC35541B6E /* FLAnimatedImageView.m */,
+				F2EF621CBA1D095F9809F895CD068F3C /* Support Files */,
+			);
+			path = FLAnimatedImage;
+			sourceTree = "<group>";
+		};
+		0F75DF6C7C5F002280EC53F48E80B587 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				29BE1818C624D9007E5AFFC9F6FE671A /* iOS */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		19C2C9C0D744C78BC770A11709031174 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				EF5E13CD2679A5EAC60E61F3E8F75A8C /* AFNetworking.xcconfig */,
+				8B589B4EC555F2027FDB75093EF7CF40 /* AFNetworking-dummy.m */,
+				B44A467F99D7A01A1DFE064AAE49B5ED /* AFNetworking-prefix.pch */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/AFNetworking";
+			sourceTree = "<group>";
+		};
+		20D77977ED9DA5444A0572DDDFD36AAE /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				07E953775129748845CEAF073FBCFBFE /* AFNetworking */,
+				08246DECE9BE7496A1DC12C510006479 /* AnimatedGIFImageSerialization */,
+				55861D4A52A66E24452B682C62DB80B8 /* ChameleonFramework */,
+				0DF4ACFDE20A76AAFF9A8BCF0880CD1F /* FLAnimatedImage */,
+				64EC22E6279406CD7A0F33CD7831E8E9 /* Giphy-iOS */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		29BE1818C624D9007E5AFFC9F6FE671A /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				FDC947C2C4A736687249A5D97209C29B /* CoreGraphics.framework */,
+				CEBC85ECBD828DF92AC9EEB8B18DA6F1 /* Foundation.framework */,
+				89FBE0107A6C5519C16F855DD8133A06 /* ImageIO.framework */,
+				B304EE4E3C9C59C6AC5562290B8E54A0 /* MobileCoreServices.framework */,
+				22CC099EDADB76C55367796DBD37AE8D /* QuartzCore.framework */,
+				B79803237D0CE63E235B8BB3964A0726 /* UIKit.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		34A84DF3D00F2D41FC40034AF5DD20F5 /* Default */ = {
+			isa = PBXGroup;
+			children = (
+				BA6C0AE52C9843C367C65E88F64330DD /* Chameleon.h */,
+				D0CA65B92DA60259CB4EA4964B6D9241 /* Chameleon_.h */,
+				44FBF15B38836C0FC27649513D1826D0 /* Chameleon_.m */,
+				6E32ABF5E66B26B715171ACE3777093B /* ChameleonConstants.h */,
+				0860F60292928AA52B6AACADC8A5A5C7 /* ChameleonConstants.m */,
+				513A3CEB951408C1FC034E881C942915 /* ChameleonEnums.h */,
+				188DD9EFCBF433200F1F3F993B45375C /* ChameleonMacros.h */,
+				8786038BB8E7C7AFE8F37D232D900E6F /* NSArray+Chameleon.h */,
+				89DFD84CCFAB52ABB5F27E0FFEE55F64 /* NSArray+Chameleon.m */,
+				64FE23A20BF921B4B1818FB8EA6504C4 /* UIAppearance+Swift.h */,
+				188CDD4139BDD13EDC91DDFD2C4AFEB6 /* UIAppearance+Swift.m */,
+				E9302F48EDFBD912912937487258258C /* UIButton+Chameleon.h */,
+				B16D141AD59EE9E54979F342663E7F2B /* UIButton+Chameleon.m */,
+				73FE4EDDFB27E34F2484AAFA77CB04DA /* UIColor+Chameleon.h */,
+				F6394170CF0D9E8C186DEEF468D2CF01 /* UIColor+Chameleon.m */,
+				DF71F38C4EBBBAABA355A3C19F038158 /* UIColor+ChameleonPrivate.h */,
+				42D12FF37A445AC615FDD3667A13425B /* UIColor+ChameleonPrivate.m */,
+				F20314E96B1EB27B36BFC1407BD76232 /* UIImage+ChameleonPrivate.h */,
+				36E240F7216EB685A9F775ECAB1CE972 /* UIImage+ChameleonPrivate.m */,
+				A0C55AA170A9AA0ED01C3C861B60F9B5 /* UILabel+Chameleon.h */,
+				A3928B6FDA276513837653D9DBDC6850 /* UILabel+Chameleon.m */,
+				25ED1458FC154BA92237BA11056301C3 /* UINavigationController+Chameleon.h */,
+				5DC51D76CFCE5F57DCEA1E10720B0FCB /* UINavigationController+Chameleon.m */,
+				8FB0BC629DCCA656D85F306A11BB42F6 /* UIView+ChameleonPrivate.h */,
+				FD1FA6BE544864A5EAFC6C83910D166D /* UIView+ChameleonPrivate.m */,
+				1FEC1C54A1960454D597C0E0AF253363 /* UIViewController+Chameleon.h */,
+				B776D64C75D878E64B6001366BD610EC /* UIViewController+Chameleon.m */,
+			);
+			name = Default;
+			sourceTree = "<group>";
+		};
+		55861D4A52A66E24452B682C62DB80B8 /* ChameleonFramework */ = {
+			isa = PBXGroup;
+			children = (
+				34A84DF3D00F2D41FC40034AF5DD20F5 /* Default */,
+				698CC750B7FB01AB911CF961B11F3377 /* Support Files */,
+			);
+			path = ChameleonFramework;
+			sourceTree = "<group>";
+		};
+		62B119C7A461FA3051227719BBB48026 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				8B054E601DA7F93E489322A031081911 /* Giphy-iOS.xcconfig */,
+				8443EF8D6730A81927FE06BBA8F516ED /* Giphy-iOS-dummy.m */,
+				AEA8E44AF8D1BB65876AB35A4AC33FA9 /* Giphy-iOS-prefix.pch */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/Giphy-iOS";
+			sourceTree = "<group>";
+		};
+		64EC22E6279406CD7A0F33CD7831E8E9 /* Giphy-iOS */ = {
+			isa = PBXGroup;
+			children = (
+				F6AD53110727F975BE3BD7107848C868 /* AXCGiphy.h */,
+				F4BCC176DF858C71914827183E402D41 /* AXCGiphy.m */,
+				48A09C1428EF49529816576E226C340D /* AXCGiphyImage.h */,
+				1BE85466605CFAB8BEB42712C20215FE /* AXCGiphyImage.m */,
+				F547E8DA7121FDED247C25BA20834602 /* AXCGiphyImageDownsampled.h */,
+				231EA00A1020C13C0480F545070AA681 /* AXCGiphyImageDownsampled.m */,
+				DC6F01E59A2FBC369BFA162EAD35560E /* AXCGiphyImageFixed.h */,
+				A712A413FC77CE716E4A3F52DC66FF2B /* AXCGiphyImageFixed.m */,
+				E002577D4AAA442422F7F7F95C7FD269 /* AXCGiphyImageOriginal.h */,
+				C3239BC81D60AB9DF3A762B792B0E748 /* AXCGiphyImageOriginal.m */,
+				62B119C7A461FA3051227719BBB48026 /* Support Files */,
+			);
+			path = "Giphy-iOS";
+			sourceTree = "<group>";
+		};
+		666F4DF4C3711F097E6472509B4C20E1 /* Pods-Cat O'Clock */ = {
+			isa = PBXGroup;
+			children = (
+				D05424AEDDFED95B5D89611FB6BE91D5 /* Pods-Cat O'Clock-acknowledgements.markdown */,
+				77D87A0922F4DAB84D7EE81C13B10EAA /* Pods-Cat O'Clock-acknowledgements.plist */,
+				1E8F35EDF35367274308583F9F2C5B95 /* Pods-Cat O'Clock-dummy.m */,
+				E5800AAFF25545128791CFE30EACA774 /* Pods-Cat O'Clock-frameworks.sh */,
+				7B7552A3F214BBE5193731735EDA78FB /* Pods-Cat O'Clock-resources.sh */,
+				4546EB24F45A44AF3C1900DA7A372252 /* Pods-Cat O'Clock.debug.xcconfig */,
+				9B021057746AF181DC9ABE30DEF72CF6 /* Pods-Cat O'Clock.release.xcconfig */,
+			);
+			name = "Pods-Cat O'Clock";
+			path = "Target Support Files/Pods-Cat O'Clock";
+			sourceTree = "<group>";
+		};
+		698CC750B7FB01AB911CF961B11F3377 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				3370AC768529A529A3414581F09A69CE /* ChameleonFramework.xcconfig */,
+				5FFECB698AD4E202722B02C49967B604 /* ChameleonFramework-dummy.m */,
+				8876E789096B5A7302305B21223C588F /* ChameleonFramework-prefix.pch */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/ChameleonFramework";
+			sourceTree = "<group>";
+		};
+		7A597EA6060F97312C5BF3BD1576850A /* Serialization */ = {
+			isa = PBXGroup;
+			children = (
+				209E93E3E5D732BDAF6755A6D3386556 /* AFURLRequestSerialization.h */,
+				53D2BD7D58C9C93B0357DA8862512EC7 /* AFURLRequestSerialization.m */,
+				4D338B1928018BB9A8DEBE563DA8A8FD /* AFURLResponseSerialization.h */,
+				C4BC20078A3B4B391D3ACFC4EA3A6A78 /* AFURLResponseSerialization.m */,
+			);
+			name = Serialization;
+			sourceTree = "<group>";
+		};
+		7DB346D0F39D3F0E887471402A8071AB = {
+			isa = PBXGroup;
+			children = (
+				BA6428E9F66FD5A23C0A2E06ED26CD2F /* Podfile */,
+				0F75DF6C7C5F002280EC53F48E80B587 /* Frameworks */,
+				20D77977ED9DA5444A0572DDDFD36AAE /* Pods */,
+				970C7EB32A221D1569E1B52798193843 /* Products */,
+				FEB6F6FC6B5DCEE56C8450224598E1BB /* Targets Support Files */,
+			);
+			sourceTree = "<group>";
+		};
+		970C7EB32A221D1569E1B52798193843 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F2E800DCB38F54E784F3E74CC1A910F0 /* libAFNetworking.a */,
+				D173BD4BFA3004DFCC6D43DD6F7DA764 /* libAnimatedGIFImageSerialization.a */,
+				5BD02517313D6461E4BE20DF4B337C33 /* libChameleonFramework.a */,
+				D7334927F8B741C169D262E3A2E24C73 /* libFLAnimatedImage.a */,
+				B8785B173EA13C76BD62FCA9DCB3271A /* libGiphy-iOS.a */,
+				B465B77D039119AFB56AB90FDEF055A8 /* libPods-Cat O'Clock.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AF286031EFCAAF43A2DA42044C56AB0B /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				947FC9545C263FD78EB4E302D9F4A96A /* AnimatedGIFImageSerialization.xcconfig */,
+				8938544B5AD975AAB15128EECC0DF323 /* AnimatedGIFImageSerialization-dummy.m */,
+				24F9C21D0ECF087686D2E9DEBAC3F0A6 /* AnimatedGIFImageSerialization-prefix.pch */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/AnimatedGIFImageSerialization";
+			sourceTree = "<group>";
+		};
+		F2EF621CBA1D095F9809F895CD068F3C /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				BFE98F42E6B368134D6A9E97B85C33CA /* FLAnimatedImage.xcconfig */,
+				50F177824292167085E6CD33BDEBD011 /* FLAnimatedImage-dummy.m */,
+				95BFD1B0CB4FB927C596C2CD9436E33D /* FLAnimatedImage-prefix.pch */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/FLAnimatedImage";
+			sourceTree = "<group>";
+		};
+		FEB6F6FC6B5DCEE56C8450224598E1BB /* Targets Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				666F4DF4C3711F097E6472509B4C20E1 /* Pods-Cat O'Clock */,
+			);
+			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		11850780452AD800E73F51C2A81C1C6E /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B5A2130E674C9CADDF96A29D5B082EF0 /* AXCGiphy.h in Headers */,
+				8E52CD4F8DFC4BEA2D326378917CF07A /* AXCGiphyImage.h in Headers */,
+				542AC671A670FEE603A5B1F539639803 /* AXCGiphyImageDownsampled.h in Headers */,
+				2E97FE3C3B03CBED77973E7199ADA2B8 /* AXCGiphyImageFixed.h in Headers */,
+				DC012BF0FE4E64F03483EA0A6B258FE0 /* AXCGiphyImageOriginal.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DA342E3A500DDE26308517F0B6CA74BB /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				79C8A519D41EAB667C14CF49496DA839 /* AFURLRequestSerialization.h in Headers */,
+				9E3171D11E72D10AEDBCF7D659C7EE3D /* AFURLResponseSerialization.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E2FE9EB963A455DF3657CD3A206000AC /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				426B448E3256264D133826A2F7CA832D /* Chameleon.h in Headers */,
+				7F18A631A68678DE5B11D4785CE6E57B /* Chameleon_.h in Headers */,
+				D7673B94D90B98099ECFC36133BFBBA6 /* ChameleonConstants.h in Headers */,
+				1C9B78D6EC022316C546A6A6C5284253 /* ChameleonEnums.h in Headers */,
+				D19F5D7B316BFDBDDE17066EEE4CF5C8 /* ChameleonMacros.h in Headers */,
+				BE3F2030D5A2EF5404E107599DD2FEB5 /* NSArray+Chameleon.h in Headers */,
+				4E2B74ABD7E0224ECA5C6F19CAE14494 /* UIAppearance+Swift.h in Headers */,
+				2D5CE155885A48B9BE8C331644EC1846 /* UIButton+Chameleon.h in Headers */,
+				3F0DAEF7AD12BD925424AC392AC64164 /* UIColor+Chameleon.h in Headers */,
+				8DD0C4DDA8CC388707934D517D67B341 /* UIColor+ChameleonPrivate.h in Headers */,
+				BD14B249D67F8DDF85ADCD0501CF7750 /* UIImage+ChameleonPrivate.h in Headers */,
+				F6C4321A0A8B0003BEC037A307112B38 /* UILabel+Chameleon.h in Headers */,
+				00F6517A3117C3CB6C67F1F4DC4FF050 /* UINavigationController+Chameleon.h in Headers */,
+				F8C5EBF5A81C10B08CBC7433094085BC /* UIView+ChameleonPrivate.h in Headers */,
+				F432595774C6621E191AC5192DA6A88B /* UIViewController+Chameleon.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E4EF707ED0F955EB07AECB04813D75AF /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				287BE8ACB8EAE441ED9C109741072664 /* AnimatedGIFImageSerialization.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F6746889C4A73BAD8B783E1DD0879CBF /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FB423EE72C2A6D0ED5DEFBEE9BE80A98 /* FLAnimatedImage.h in Headers */,
+				7AE83DFAD9756ED1FB1CB5E36F9CF6EB /* FLAnimatedImageView.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		1A79BA86DB198181905CBBFC1F1E6701 /* FLAnimatedImage */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7CCD7F601F55B0AB6E88DCCFF6374DB5 /* Build configuration list for PBXNativeTarget "FLAnimatedImage" */;
+			buildPhases = (
+				BA051833E256E1799D7759FE76438EDC /* Sources */,
+				456E3D8CBA16CC53451C696545611E92 /* Frameworks */,
+				F6746889C4A73BAD8B783E1DD0879CBF /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FLAnimatedImage;
+			productName = FLAnimatedImage;
+			productReference = D7334927F8B741C169D262E3A2E24C73 /* libFLAnimatedImage.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		30AE813EC89F218C1C26EFF7ABBDFFD4 /* Pods-Cat O'Clock */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E79694D5E50383066A1F2E2D8636D656 /* Build configuration list for PBXNativeTarget "Pods-Cat O'Clock" */;
+			buildPhases = (
+				85AA82AE2837DF93E857F18D535CCD84 /* Sources */,
+				2EFD5344FA57E002A4B9C1BEE0479232 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				461615F7F5E35E96454DECE5015F52C9 /* PBXTargetDependency */,
+				AB762CEFA43BA1D7307E2366237D34D7 /* PBXTargetDependency */,
+				E6878AF99B0BFAA176FC2071ECE2EF92 /* PBXTargetDependency */,
+				B5FDF1EEF035943D536C05B7438DEF7B /* PBXTargetDependency */,
+				BCDB92284846C75B9CD5C33C4E6DA7AD /* PBXTargetDependency */,
+			);
+			name = "Pods-Cat O'Clock";
+			productName = "Pods-Cat O'Clock";
+			productReference = B465B77D039119AFB56AB90FDEF055A8 /* libPods-Cat O'Clock.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		34A2F62255BEF1F1BF9AC4A9045556D0 /* Giphy-iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 17660C7767072B43E1D1E5219C019115 /* Build configuration list for PBXNativeTarget "Giphy-iOS" */;
+			buildPhases = (
+				B60BDEA2EACBB282FE124285FCD46AB7 /* Sources */,
+				6E36DD0367EA91140ADA17AF63AEB738 /* Frameworks */,
+				11850780452AD800E73F51C2A81C1C6E /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B0485EBF51EF9A4E46B3E7DCDA85E248 /* PBXTargetDependency */,
+			);
+			name = "Giphy-iOS";
+			productName = "Giphy-iOS";
+			productReference = B8785B173EA13C76BD62FCA9DCB3271A /* libGiphy-iOS.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		372134479973790B9EFB36D12016B94B /* AnimatedGIFImageSerialization */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9E4A4BDF8270CBFEFC3A8D457522DE20 /* Build configuration list for PBXNativeTarget "AnimatedGIFImageSerialization" */;
+			buildPhases = (
+				19F2FBE4DC4FCE34CEEBF039D552B5CE /* Sources */,
+				F30D92F2BD2D99470D8C6C09B35C83EA /* Frameworks */,
+				E4EF707ED0F955EB07AECB04813D75AF /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AnimatedGIFImageSerialization;
+			productName = AnimatedGIFImageSerialization;
+			productReference = D173BD4BFA3004DFCC6D43DD6F7DA764 /* libAnimatedGIFImageSerialization.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		4BDA044AECE6E1C8F4A991E6866614FB /* AFNetworking */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9239BE241332F1928C8C85C2496819C7 /* Build configuration list for PBXNativeTarget "AFNetworking" */;
+			buildPhases = (
+				0B3FFB3A6AE1D00D8EE1177E8FA82371 /* Sources */,
+				D84ABA2446524B3613B4BBF3E75EE8BC /* Frameworks */,
+				DA342E3A500DDE26308517F0B6CA74BB /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AFNetworking;
+			productName = AFNetworking;
+			productReference = F2E800DCB38F54E784F3E74CC1A910F0 /* libAFNetworking.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		935A7E52B6D8B7E37EAEA138EDC52155 /* ChameleonFramework */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4AC795793934FFD62D512BB1C6163D90 /* Build configuration list for PBXNativeTarget "ChameleonFramework" */;
+			buildPhases = (
+				9A2E1C04BBA4F18812DDE7C415A4809A /* Sources */,
+				977C0F4383D7B900F019F3D515C59032 /* Frameworks */,
+				E2FE9EB963A455DF3657CD3A206000AC /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ChameleonFramework;
+			productName = ChameleonFramework;
+			productReference = 5BD02517313D6461E4BE20DF4B337C33 /* libChameleonFramework.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D41D8CD98F00B204E9800998ECF8427E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0700;
+				LastUpgradeCheck = 0700;
+			};
+			buildConfigurationList = 2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 7DB346D0F39D3F0E887471402A8071AB;
+			productRefGroup = 970C7EB32A221D1569E1B52798193843 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				4BDA044AECE6E1C8F4A991E6866614FB /* AFNetworking */,
+				372134479973790B9EFB36D12016B94B /* AnimatedGIFImageSerialization */,
+				935A7E52B6D8B7E37EAEA138EDC52155 /* ChameleonFramework */,
+				1A79BA86DB198181905CBBFC1F1E6701 /* FLAnimatedImage */,
+				34A2F62255BEF1F1BF9AC4A9045556D0 /* Giphy-iOS */,
+				30AE813EC89F218C1C26EFF7ABBDFFD4 /* Pods-Cat O'Clock */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0B3FFB3A6AE1D00D8EE1177E8FA82371 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				67DE570D3BCBADB16C2749D472566770 /* AFNetworking-dummy.m in Sources */,
+				EBF221C5C3ADA8AB540DD02556D9D1EA /* AFURLRequestSerialization.m in Sources */,
+				D4AF14AA032644FCDFA5E31716C0DB4B /* AFURLResponseSerialization.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		19F2FBE4DC4FCE34CEEBF039D552B5CE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				19C46278134445E6A61F5934ADA4193C /* AnimatedGIFImageSerialization-dummy.m in Sources */,
+				56F6E92E8BC1DA120BB1093656049F60 /* AnimatedGIFImageSerialization.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		85AA82AE2837DF93E857F18D535CCD84 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DB2FA399D486D405C314293663C87414 /* Pods-Cat O'Clock-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9A2E1C04BBA4F18812DDE7C415A4809A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4B6619D006E09AE372922F58C2ADC303 /* Chameleon_.m in Sources */,
+				A11273A68549A3AA66A4D92764E9A6EA /* ChameleonConstants.m in Sources */,
+				5AE2E46A16828914FBE9055186274C3B /* ChameleonFramework-dummy.m in Sources */,
+				BE8800C6A3E4432857AB26ECC78F7ADD /* NSArray+Chameleon.m in Sources */,
+				ACA60FF340E8E8002773BE03D1BEAA9F /* UIAppearance+Swift.m in Sources */,
+				D385FECF73FAF6EE66F456ED9C7297FA /* UIButton+Chameleon.m in Sources */,
+				C0AF386B38730A787EEBE1C1A6DCB395 /* UIColor+Chameleon.m in Sources */,
+				D19658D62F2D49EEE1B525F178700423 /* UIColor+ChameleonPrivate.m in Sources */,
+				D03FEEB55244FFE7A8363981DA629DB8 /* UIImage+ChameleonPrivate.m in Sources */,
+				E8E8DD19527758AD1F1DC2C310AF0EB9 /* UILabel+Chameleon.m in Sources */,
+				A8113B8A15CF74628C874F7F4CF48A25 /* UINavigationController+Chameleon.m in Sources */,
+				3962E111BE7E4B0BF02371AEE6860C5E /* UIView+ChameleonPrivate.m in Sources */,
+				F3973E81DDBB552E2C0A54C3D2B7728C /* UIViewController+Chameleon.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B60BDEA2EACBB282FE124285FCD46AB7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F094CFC91D8E6E3EAD2D1FE0ECA4DCAE /* AXCGiphy.m in Sources */,
+				34E44C9CF6B3FEEE14A1A8774D2B072F /* AXCGiphyImage.m in Sources */,
+				43DAC0673B961635CB2091B93B01456A /* AXCGiphyImageDownsampled.m in Sources */,
+				4D72438ED0026027ED03F71A83232CE7 /* AXCGiphyImageFixed.m in Sources */,
+				0BF1D88239677B7698ED7C8F915465A3 /* AXCGiphyImageOriginal.m in Sources */,
+				A08CE5412C61D1FD9E4FEDCB4CA730E9 /* Giphy-iOS-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BA051833E256E1799D7759FE76438EDC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3D258E9A843C52C991E5E9455CB8DB51 /* FLAnimatedImage-dummy.m in Sources */,
+				E99CE64289F5FDD09B7E1188379AED41 /* FLAnimatedImage.m in Sources */,
+				B3AA789E74DBAB167DAD0FDCA19690C7 /* FLAnimatedImageView.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		461615F7F5E35E96454DECE5015F52C9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AFNetworking;
+			target = 4BDA044AECE6E1C8F4A991E6866614FB /* AFNetworking */;
+			targetProxy = 406D9B49585B2B2F2351B07530668E68 /* PBXContainerItemProxy */;
+		};
+		AB762CEFA43BA1D7307E2366237D34D7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AnimatedGIFImageSerialization;
+			target = 372134479973790B9EFB36D12016B94B /* AnimatedGIFImageSerialization */;
+			targetProxy = 4518EE6120D3C69881731F245AA6287D /* PBXContainerItemProxy */;
+		};
+		B0485EBF51EF9A4E46B3E7DCDA85E248 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AFNetworking;
+			target = 4BDA044AECE6E1C8F4A991E6866614FB /* AFNetworking */;
+			targetProxy = D69881C3B63BCC8B119198EA7445238A /* PBXContainerItemProxy */;
+		};
+		B5FDF1EEF035943D536C05B7438DEF7B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = FLAnimatedImage;
+			target = 1A79BA86DB198181905CBBFC1F1E6701 /* FLAnimatedImage */;
+			targetProxy = B7A629BAE01B3326CDD11561D477161B /* PBXContainerItemProxy */;
+		};
+		BCDB92284846C75B9CD5C33C4E6DA7AD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Giphy-iOS";
+			target = 34A2F62255BEF1F1BF9AC4A9045556D0 /* Giphy-iOS */;
+			targetProxy = 10D93A24AB124ED69673ED736C723966 /* PBXContainerItemProxy */;
+		};
+		E6878AF99B0BFAA176FC2071ECE2EF92 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = ChameleonFramework;
+			target = 935A7E52B6D8B7E37EAEA138EDC52155 /* ChameleonFramework */;
+			targetProxy = 5B22A789F0CD8EEB6B4AF17C6D8B9FF5 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		0F406D27CA2C641903AB99D6E5B65E6C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 947FC9545C263FD78EB4E302D9F4A96A /* AnimatedGIFImageSerialization.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/AnimatedGIFImageSerialization/AnimatedGIFImageSerialization-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		15E7B792C74BBC40FC66A4F64519C06B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BFE98F42E6B368134D6A9E97B85C33CA /* FLAnimatedImage.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/FLAnimatedImage/FLAnimatedImage-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		21BAEAB333D1E9A8A9DA7987E0EC48CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BFE98F42E6B368134D6A9E97B85C33CA /* FLAnimatedImage.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/FLAnimatedImage/FLAnimatedImage-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		2DB6E1CF38B6E7160DC03160FF8F20FE /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = EF5E13CD2679A5EAC60E61F3E8F75A8C /* AFNetworking.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/AFNetworking/AFNetworking-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		2F8C276A5D7C36AAE36C823451E76E3C /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3370AC768529A529A3414581F09A69CE /* ChameleonFramework.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/ChameleonFramework/ChameleonFramework-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		3A5C72A116CE9BC476E77B0FCE63884F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4546EB24F45A44AF3C1900DA7A372252 /* Pods-Cat O'Clock.debug.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MACH_O_TYPE = staticlib;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		3CC1331E6DDC34FDD418761204505B28 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3370AC768529A529A3414581F09A69CE /* ChameleonFramework.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/ChameleonFramework/ChameleonFramework-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		5CE5176205D06FF3FFE3DDDA9291E44B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				ONLY_ACTIVE_ARCH = YES;
+				STRIP_INSTALLED_PRODUCT = NO;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Debug;
+		};
+		74857149DC1E0D599B8A01A78349A926 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PREPROCESSOR_DEFINITIONS = "RELEASE=1";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				STRIP_INSTALLED_PRODUCT = NO;
+				SYMROOT = "${SRCROOT}/../build";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		9CCCCED7D8F954BC116A14A441181424 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8B054E601DA7F93E489322A031081911 /* Giphy-iOS.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Giphy-iOS/Giphy-iOS-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		A2E40D6A1A8275F8A04A3ABFC74E31E8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 947FC9545C263FD78EB4E302D9F4A96A /* AnimatedGIFImageSerialization.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/AnimatedGIFImageSerialization/AnimatedGIFImageSerialization-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		DEB5A0766B7DFAF854456691324896B9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9B021057746AF181DC9ABE30DEF72CF6 /* Pods-Cat O'Clock.release.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MACH_O_TYPE = staticlib;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		E8ADB01F178137AC008C257555A5E8E2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8B054E601DA7F93E489322A031081911 /* Giphy-iOS.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Giphy-iOS/Giphy-iOS-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		EBAC4C52E2C44D4D29279477E1BAF746 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = EF5E13CD2679A5EAC60E61F3E8F75A8C /* AFNetworking.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/AFNetworking/AFNetworking-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		17660C7767072B43E1D1E5219C019115 /* Build configuration list for PBXNativeTarget "Giphy-iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E8ADB01F178137AC008C257555A5E8E2 /* Debug */,
+				9CCCCED7D8F954BC116A14A441181424 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5CE5176205D06FF3FFE3DDDA9291E44B /* Debug */,
+				74857149DC1E0D599B8A01A78349A926 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4AC795793934FFD62D512BB1C6163D90 /* Build configuration list for PBXNativeTarget "ChameleonFramework" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3CC1331E6DDC34FDD418761204505B28 /* Debug */,
+				2F8C276A5D7C36AAE36C823451E76E3C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7CCD7F601F55B0AB6E88DCCFF6374DB5 /* Build configuration list for PBXNativeTarget "FLAnimatedImage" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				15E7B792C74BBC40FC66A4F64519C06B /* Debug */,
+				21BAEAB333D1E9A8A9DA7987E0EC48CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9239BE241332F1928C8C85C2496819C7 /* Build configuration list for PBXNativeTarget "AFNetworking" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EBAC4C52E2C44D4D29279477E1BAF746 /* Debug */,
+				2DB6E1CF38B6E7160DC03160FF8F20FE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9E4A4BDF8270CBFEFC3A8D457522DE20 /* Build configuration list for PBXNativeTarget "AnimatedGIFImageSerialization" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0F406D27CA2C641903AB99D6E5B65E6C /* Debug */,
+				A2E40D6A1A8275F8A04A3ABFC74E31E8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E79694D5E50383066A1F2E2D8636D656 /* Build configuration list for PBXNativeTarget "Pods-Cat O'Clock" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3A5C72A116CE9BC476E77B0FCE63884F /* Debug */,
+				DEB5A0766B7DFAF854456691324896B9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+}
