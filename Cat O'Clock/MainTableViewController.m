@@ -45,11 +45,11 @@
     self.navigationController.navigationBar.backgroundColor = [UIColor flatWhiteColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showModalVCWithImage:) name:@"timerPlaying" object:nil];
+    
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.tableView addSubview:self.refreshControl];
     [self.refreshControl addTarget:self action:@selector(newAlarmPull) forControlEvents:UIControlEventValueChanged];
-    
-    //[self showModalVCWithImage];
     
     self.alarmManager = [AlarmManager sharedAlarmDataStore];
     self.alarmsArray = [[self.alarmManager getAlarmsFromUserDefaults] mutableCopy];
@@ -193,7 +193,7 @@
 
 #pragma mark - ModalViewController Methods
 
-- (void)showModalVCWithImage
+- (void)showModalVCWithImage:(NSNotification *)notification
 {
     NSUInteger randomNumber = [self getRandomNumberBetween:0 to:35488];
     

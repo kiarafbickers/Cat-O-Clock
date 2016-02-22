@@ -122,19 +122,20 @@
     }
 }
 
-- (void)stopTimer
-{
-    if (self.alarmTimer) {
-        [self.alarmTimer invalidate];
-        self.alarmTimer = nil;
-    }
-}
-
 - (void)doTimer
 {
+    NSLog(@"Alarm Fired from Manager");
     [self.alarmAudioPlayer play];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"timerPlaying" object:nil userInfo:nil];
 }
 
+- (void)stopTimer
+{
+    if (self.alarmAudioPlayer) {
+        [self.alarmTimer invalidate];
+        self.alarmAudioPlayer = nil;
+    }
+}
 
 - (void)checkForValidAlarm
 {

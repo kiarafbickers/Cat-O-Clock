@@ -11,6 +11,7 @@
 
 @interface ModalViewController ()
 
+@property (nonatomic, strong) AlarmManager *alarmManager;
 @property (weak, nonatomic) IBOutlet UIButton *dismissButton;
 
 @end
@@ -20,6 +21,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.alarmManager = [AlarmManager sharedAlarmDataStore];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -39,6 +41,7 @@
 
 - (IBAction)endGifAlarm:(id)sender
 {
+    [self.alarmManager stopTimer];
     [self performSegueWithIdentifier:@"showMainView" sender:self];
 }
 

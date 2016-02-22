@@ -18,7 +18,8 @@
 - (void)removeAlarmFromAlarmArrayAtIndex:(NSUInteger)alarmIndex;
 - (void)updateAlarmInAlarmArray:(NSUInteger)alarmIndex;
 
-//- (void)saveAlarmsToUserDefaults;
+- (void)stopTimer;
+
 - (NSArray *)getAlarmsFromUserDefaults;
 - (void)checkForValidAlarm;
 
