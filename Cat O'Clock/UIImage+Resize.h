@@ -7,6 +7,7 @@
 
 @interface UIImage (Resize)
 
+- (UIImage *)scaleToWidth:(CGFloat)width;
 - (UIImage *)croppedImage:(CGRect)bounds;
 - (UIImage *)resizedImage:(CGSize)newSize
      interpolationQuality:(CGInterpolationQuality)quality;

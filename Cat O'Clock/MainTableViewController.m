@@ -8,17 +8,17 @@
 
 #import "MainTableViewController.h"
 #import "AlarmManager.h"
+#import "AlarmModel.h"
 #import "ModalViewController.h"
-@import AVFoundation;
-#import "UIImage+Resize.h"
 #import <ChameleonFramework/Chameleon.h>
 #import <Giphy-iOS/AXCGiphy.h>
 #import <AnimatedGIFImageSerialization/AnimatedGIFImageSerialization.h>
 #import <FLAnimatedImage/FLAnimatedImage.h>
 #import "FLAnimatedImage.h"
+@import AVFoundation;
 
 
-@interface MainTableViewController ()<ModalViewControllerDelegate>
+@interface MainTableViewController () <ModalViewControllerDelegate>
 
 @property (nonatomic, strong) AlarmManager *alarmManager;
 @property (nonatomic, strong) NSMutableArray *alarmsArray;
@@ -28,8 +28,8 @@
 
 @end
 
-@implementation MainTableViewController
 
+@implementation MainTableViewController
 
 #pragma mark - View Lifecyle Methods
 
@@ -195,45 +195,59 @@
 
 - (void)showModalVCWithImage:(NSNotification *)notification
 {
-    NSUInteger randomNumber = [self getRandomNumberBetween:0 to:35488];
-    
-    [AXCGiphy setGiphyAPIKey:@"dc6zaTOxFJmzC"];
-    [AXCGiphy searchGiphyWithTerm:@"cats" limit:1 offset:randomNumber completion:^(NSArray *results, NSError *error) {
+    if (!self.modalVC) {
+        NSUInteger randomNumber = [self getRandomNumberBetween:0 to:35488];
         
-        AXCGiphy *gif = results[0];
-        
-        if(gif.originalImage.url){
-            NSURLRequest *request = [NSURLRequest requestWithURL:gif.originalImage.url];
-            [[[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        [AXCGiphy setGiphyAPIKey:@"dc6zaTOxFJmzC"];
+        [AXCGiphy searchGiphyWithTerm:@"cats" limit:1 offset:randomNumber completion:^(NSArray *results, NSError *error) {
+            
+            if (!error){
+                AXCGiphy *gif = results[0];
                 
-                UIImage *gifImage = [UIImage imageWithData:data];
-                NSLog(@"width: %f", gifImage.size.width);
-                NSLog(@"height: %f", gifImage.size.height);
-                
-                if(!error){
-                    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-                        self.modalVC = (ModalViewController *)[storyboard instantiateViewControllerWithIdentifier:@"modalViewController"];
+                if(gif.originalImage.url){
+                    NSURLRequest *request = [NSURLRequest requestWithURL:gif.originalImage.url];
+                    [[[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                         
-                        self.modalVC.view.alpha = 0;
-                        [self presentViewController:self.modalVC animated:YES completion:(^{
-                            FLAnimatedImage *image = [FLAnimatedImage animatedImageWithGIFData:data];
-                            FLAnimatedImageView *imageView = [[FLAnimatedImageView alloc] init];
-                            imageView.animatedImage = image;
-                            
-                            imageView.frame = CGRectMake(0.0, 0.0, 200, 200);
-                            [self.modalVC.gifImageView addSubview:imageView];
-                            
-                            [UIView animateWithDuration:.5 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
-                                self.modalVC.view.alpha = 1;
-                            } completion:^(BOOL finished) {
+                        UIImage *gifImage = [UIImage imageWithData:data];
+                        double gifRatio = gifImage.size.height/gifImage.size.width;
+                        NSUInteger gifNewWidth = self.view.frame.size.width - 36;
+                        NSUInteger gifNewHeight = gifRatio * gifNewWidth;
+                        
+                        
+                        NSLog(@"width: %f", gifImage.size.width);
+                        NSLog(@"height: %f", gifImage.size.height);
+                        
+                        if(!error){
+                            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                                UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                                self.modalVC = (ModalViewController *)[storyboard instantiateViewControllerWithIdentifier:@"modalViewController"];
+                                
+                                self.modalVC.view.alpha = 0;
+                                [self presentViewController:self.modalVC animated:YES completion:(^{
+                                    FLAnimatedImage *image = [FLAnimatedImage animatedImageWithGIFData:data];
+                                    FLAnimatedImageView *imageView = [[FLAnimatedImageView alloc] init];
+                                    imageView.animatedImage = image;
+                                    
+                                    imageView.contentMode = UIViewContentModeScaleAspectFit;
+                                    imageView.frame = CGRectMake((self.view.frame.size.width - gifNewWidth)/2, (self.view.frame.size.width - gifNewHeight)/2, gifNewWidth, gifNewHeight);
+                                    
+                                    [self.modalVC.gifImageView addSubview:imageView];
+                                    
+                                    [UIView animateWithDuration:.5 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+                                        self.modalVC.view.alpha = 1;
+                                    } completion:^(BOOL finished) {
+                                    }];
+                                })];
                             }];
-                        })];
-                    }];
+                        }
+                    }] resume];
                 }
-            }] resume];
-        }
-    }];
+            }
+            else {
+                NSLog(@"%@", error);
+            }
+        }];
+    }
 }
 
 #pragma mark - Helper Methods
@@ -255,19 +269,16 @@
     backgroundNilPlayer.numberOfLoops = 0;	// Never Plays
     backgroundNilPlayer.volume = 1;
 }
-                                                                                          
--(UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize
-{
-    UIGraphicsBeginImageContext(newSize);
-    [image drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
-    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();    
-    UIGraphicsEndImageContext();
-    return newImage;
-}
 
 -(int)getRandomNumberBetween:(int)from to:(int)to
 {
     return (int)from + arc4random() % (to-from+1);
 }
+
+- (BOOL)shouldAutorotate
+{
+    return NO;
+}
+
 
 @end

@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="UKt-0m-zGN">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -58,7 +59,11 @@
                         </barButtonItem>
                     </navigationItem>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
+                    <nil key="simulatedTopBarMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="pqc-Bw-mYe">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </refreshControl>
                     <connections>
                         <segue destination="yhl-Jp-gK6" kind="presentation" identifier="showAddTableViewVC" id="Ntp-8b-A08"/>
                     </connections>
@@ -83,8 +88,8 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="272"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <datePicker tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="4I1-ZC-gQY">
-                                            <rect key="frame" x="0.0" y="8" width="375" height="216"/>
+                                        <datePicker tag="1" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="4I1-ZC-gQY">
+                                            <rect key="frame" x="1" y="8" width="375" height="216"/>
                                             <date key="date" timeIntervalSinceReferenceDate="477454356.36225402">
                                                 <!--2016-02-18 02:12:36 +0000-->
                                             </date>
@@ -94,6 +99,9 @@
                                             <date key="maximumDate" timeIntervalSinceReferenceDate="1167562800">
                                                 <!--2037-12-31 11:00:00 +0000-->
                                             </date>
+                                            <variation key="heightClass=compact" misplaced="YES">
+                                                <rect key="frame" x="1" y="8" width="375" height="216"/>
+                                            </variation>
                                         </datePicker>
                                     </subviews>
                                     <constraints>
@@ -134,7 +142,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wOs-lT-bP7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1364.5" y="338.5"/>
+            <point key="canvasLocation" x="1520.25" y="338.5"/>
         </scene>
         <!--Modal View Controller-->
         <scene sceneID="pbY-sd-Ta0">
@@ -149,12 +157,16 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="53b-Gb-2Qg" customClass="FLAnimatedImageView">
-                                <rect key="frame" x="87" y="234" width="200" height="200"/>
-                                <color key="backgroundColor" red="0.32549019610000002" green="0.80784313730000001" blue="0.51764705879999995" alpha="1" colorSpace="calibratedRGB"/>
+                                <rect key="frame" x="0.0" y="146" width="375" height="375"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="200" id="oFD-S0-INv"/>
-                                    <constraint firstAttribute="height" constant="200" id="x8o-5F-aYt"/>
+                                    <constraint firstAttribute="width" secondItem="53b-Gb-2Qg" secondAttribute="height" multiplier="1:1" id="nrI-hg-KpV"/>
                                 </constraints>
+                                <variation key="heightClass=compact" ambiguous="YES" misplaced="YES">
+                                    <rect key="frame" x="0.0" y="146" width="375" height="375"/>
+                                </variation>
+                                <variation key="heightClass=compact-widthClass=regular" ambiguous="YES" misplaced="YES">
+                                    <rect key="frame" x="146" y="0.0" width="375" height="375"/>
+                                </variation>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="adu-gm-0ks">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
@@ -166,18 +178,16 @@
                         <color key="backgroundColor" white="0.0" alpha="0.5" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="adu-gm-0ks" firstAttribute="width" secondItem="xsF-qO-56X" secondAttribute="width" id="2ys-Fn-lja"/>
+                            <constraint firstItem="53b-Gb-2Qg" firstAttribute="height" secondItem="xsF-qO-56X" secondAttribute="height" priority="750" id="Gvk-42-ss1"/>
+                            <constraint firstItem="53b-Gb-2Qg" firstAttribute="height" relation="lessThanOrEqual" secondItem="xsF-qO-56X" secondAttribute="height" id="H6s-7q-5Jn"/>
                             <constraint firstItem="adu-gm-0ks" firstAttribute="height" secondItem="xsF-qO-56X" secondAttribute="height" id="HtQ-pZ-pKb"/>
-                            <constraint firstItem="53b-Gb-2Qg" firstAttribute="top" secondItem="rAR-MQ-akU" secondAttribute="bottom" constant="162" id="SHy-xW-p67"/>
-                            <constraint firstItem="53b-Gb-2Qg" firstAttribute="centerY" secondItem="xsF-qO-56X" secondAttribute="centerY" id="Y8K-JP-Oku"/>
-                            <constraint firstItem="53b-Gb-2Qg" firstAttribute="centerX" secondItem="xsF-qO-56X" secondAttribute="centerX" id="beI-aK-jyc"/>
+                            <constraint firstItem="53b-Gb-2Qg" firstAttribute="width" secondItem="xsF-qO-56X" secondAttribute="width" priority="750" id="Kml-GM-NXU"/>
                             <constraint firstItem="adu-gm-0ks" firstAttribute="centerY" secondItem="xsF-qO-56X" secondAttribute="centerY" id="fUG-lz-eVh"/>
+                            <constraint firstItem="53b-Gb-2Qg" firstAttribute="width" relation="lessThanOrEqual" secondItem="xsF-qO-56X" secondAttribute="width" id="kLq-qK-aP7"/>
+                            <constraint firstItem="53b-Gb-2Qg" firstAttribute="centerX" secondItem="xsF-qO-56X" secondAttribute="centerX" id="ngW-Rj-R24"/>
                             <constraint firstItem="adu-gm-0ks" firstAttribute="centerX" secondItem="xsF-qO-56X" secondAttribute="centerX" id="pfJ-Bb-MgA"/>
+                            <constraint firstItem="53b-Gb-2Qg" firstAttribute="centerY" secondItem="xsF-qO-56X" secondAttribute="centerY" id="wcO-E0-EWL"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="SHy-xW-p67"/>
-                            </mask>
-                        </variation>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="LcR-qY-qwx" appends="YES" id="LcV-tb-lxk"/>
                         </connections>
@@ -214,7 +224,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Eoe-R8-hJz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1364.5" y="-445.5"/>
+            <point key="canvasLocation" x="1520.25" y="-437.5"/>
         </scene>
     </scenes>
 </document>

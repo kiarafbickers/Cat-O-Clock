@@ -9,12 +9,9 @@
 #import "AppDelegate.h"
 #import "AlarmManager.h"
 @import AVFoundation;
-#import <ChameleonFramework/Chameleon.h>
 
 @interface AppDelegate ()
-
 @property (nonatomic, strong) AlarmManager *alarmManager;
-
 @end
 
 @implementation AppDelegate

@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "AlarmModel.h"
 
 @interface MainTableViewController : UITableViewController
 
