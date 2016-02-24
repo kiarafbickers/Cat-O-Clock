@@ -10,6 +10,7 @@
 #import "MainTableViewController.h"
 #import "AlarmModel.h"
 #import "AlarmManager.h"
+#import <ChameleonFramework/Chameleon.h>
 
 @interface AddTableViewController ()
 
@@ -22,11 +23,17 @@
 
 @implementation AddTableViewController
 
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
     self.tableView.allowsMultipleSelectionDuringEditing = NO;
+    self.tableView.backgroundColor = [UIColor flatBlackColor];
+    self.view.backgroundColor = [UIColor flatBlackColor];
+    
+    [self.datePicker setBackgroundColor:[UIColor flatBlackColor]];
+    [self.datePicker setValue:[UIColor whiteColor] forKey:@"textColor"];
     
     self.alarmManager = [AlarmManager sharedAlarmDataStore];
 }
