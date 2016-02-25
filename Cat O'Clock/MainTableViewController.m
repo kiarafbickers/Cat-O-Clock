@@ -10,28 +10,32 @@
 #import "AlarmManager.h"
 #import "AlarmModel.h"
 #import "ModalViewController.h"
+#import "AddAlarmViewContoller.h"
 #import <ChameleonFramework/Chameleon.h>
 #import <Giphy-iOS/AXCGiphy.h>
 #import <AnimatedGIFImageSerialization/AnimatedGIFImageSerialization.h>
 #import <FLAnimatedImage/FLAnimatedImage.h>
-#import "FLAnimatedImage.h"
 @import AVFoundation;
 
 
-@interface MainTableViewController () <ModalViewControllerDelegate>
-
-@property (nonatomic, strong) AlarmManager *alarmManager;
-@property (nonatomic, strong) NSMutableArray *alarmsArray;
-@property (strong, nonatomic) NSArray * giphyResults;
-@property (nonatomic, assign) BOOL showingModalViewController;
-@property (nonatomic, strong) ModalViewController *modalVC;
+@interface MainTableViewController () <AddAlarmViewContollerDelegate>
 
 @property (nonatomic, strong) UIView *refreshLoadingView;
 @property (nonatomic, strong) UIView *refreshColorView;
-@property (nonatomic, strong) UIImageView *compass_background;
-@property (nonatomic, strong) UIImageView *compass_spinner;
+@property (nonatomic, strong) UIImageView *toastImageView;
+@property (nonatomic, strong) UIImageView *catImageView;
+
 @property (assign) BOOL isRefreshIconsOverlap;
 @property (assign) BOOL isRefreshAnimating;
+@property (nonatomic, assign) BOOL showingAlarmViewController;
+
+@property (nonatomic, strong) AddAlarmViewContoller *alarmSetController;
+@property (nonatomic, strong) ModalViewController *modalVC;
+
+@property (nonatomic, strong) AlarmManager *alarmManager;
+
+@property (nonatomic, strong) NSMutableArray *alarmsArray;
+@property (strong, nonatomic) NSArray * giphyResults;
 
 @end
 
@@ -46,24 +50,32 @@
     [self configureBackroundNilSound];
     [self setupRefreshControl];
 
+    self.navigationController.navigationBar.hidden = YES;
+    
+    UIView *statusBackround = [[UIView alloc] init];
+    statusBackround.frame =  CGRectMake(0, 0, self.view.frame.size.width, 20);
+    statusBackround.backgroundColor = [UIColor flatBlackColor];
+    [self.navigationController.view addSubview:statusBackround];
+    
     self.tableView.dataSource = self;
     self.tableView.allowsMultipleSelectionDuringEditing = NO;
-    self.tableView.backgroundColor = [UIColor flatGrayColorDark];
     
     self.view.backgroundColor = [UIColor flatBlackColor];
     self.navigationController.navigationBar.backgroundColor = [UIColor flatWhiteColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"timerPlaying" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showModalVCWithImage:) name:@"timerPlaying" object:nil];
     
     self.alarmManager = [AlarmManager sharedAlarmDataStore];
     self.alarmsArray = [[self.alarmManager getAlarmsFromUserDefaults] mutableCopy];
+    
+    [self setTableviewColor];
 }
 
 - (void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
-    
     [self.refreshControl.superview sendSubviewToBack:self.refreshControl];
 }
 
@@ -72,7 +84,41 @@
     [super didReceiveMemoryWarning];
 }
 
-#pragma mark - Tableview Data Source Methods
+#pragma mark - Action Methods
+
+- (void)refresh:(id)sender
+{
+    double delayInSeconds = 1.0f;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        
+        [self newAlarmPull];
+        [self.refreshControl endRefreshing];
+    });
+}
+
+- (void)newAlarmPull
+{
+    [self showAlarmTimeSelector];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"SecondViewControllerDismissed" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didDismissSecondViewController) name:@"SecondViewControllerDismissed" object:nil];
+}
+
+- (void)didDismissSecondViewController
+{
+    [self reloadDataAndTableView];
+    [self hideAlarmTimeSelector];
+}
+
+- (void)reloadDataAndTableView
+{
+    self.alarmsArray = [[self.alarmManager getAlarmsFromUserDefaults] mutableCopy];
+    [self setTableviewColor];
+    [self.tableView reloadData];
+    [self.alarmManager checkForValidAlarm];
+}
+
+#pragma mark - Tableview Methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -87,7 +133,7 @@
         UILabel *noDataLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
         noDataLabel.font = [UIFont fontWithName:@"Code-Pro-Demo" size:15.0f];
         noDataLabel.textColor = [[UIColor flatWhiteColor] colorWithAlphaComponent:0.3f];
-        noDataLabel.text = @"Pull To Set Gif Alarm";
+        noDataLabel.text = @"Pull to set an alarm";
         noDataLabel.textAlignment = NSTextAlignmentCenter;
         self.tableView.backgroundView = noDataLabel;
     }
@@ -98,21 +144,6 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return self.alarmsArray.count;
-}
-
--(UIColor*)colorForIndex:(NSInteger)index
-{
-    NSUInteger itemCount = self.alarmsArray.count - 1;
-    float val = 1.0f - (((float)index / (float)itemCount) * 0.99);
-    
-    if (index == 0) {
-        val = 1;
-    }
-    if (val < 0.15f) {
-        val = 0.15f;
-    }
-    
-    return [[UIColor flatBlueColor] colorWithAlphaComponent:val];
 }
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -153,17 +184,13 @@
     return cell;
 }
 
-- (void) switchChanged:(id)sender {
-    UISwitch *switchControl = sender;
-    
+- (void) switchChanged:(id)sender
+{
     /* GETS CELL ROW INFO*/
     CGPoint hitPoint = [sender convertPoint:CGPointZero toView:self.tableView];
     NSIndexPath *hitIndex = [self.tableView indexPathForRowAtPoint:hitPoint];
-    
-    NSLog(@"The switch is %@ at indexPath %ld", switchControl.on ? @"ON" : @"OFF", (long)hitIndex.row);
-    
+
     [self.alarmManager updateAlarmInAlarmArray:hitIndex.row];
-    
     [self reloadDataAndTableView];
 }
 
@@ -173,10 +200,6 @@
     CGFloat customTableCellHeight = viewHeight/4;
     
     return customTableCellHeight;
-}
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    NSLog( @"The indexPath is %@", indexPath );
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
@@ -200,26 +223,31 @@
     }
 }
 
-#pragma mark - Action Methods
-
-- (IBAction)addAlarmButton:(id)sender
+- (UIColor *)colorForIndex:(NSInteger)index
 {
-    [self performSegueWithIdentifier:@"showAddTableViewVC" sender:sender];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didDismissSecondViewController) name:@"SecondViewControllerDismissed" object:nil];
-}
-
-- (void)newAlarmPull
-{
-    [self.refreshControl endRefreshing];
-    [self performSegueWithIdentifier:@"showAddTableViewVC" sender:self];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didDismissSecondViewController) name:@"SecondViewControllerDismissed" object:nil];
-}
-
-- (void)didDismissSecondViewController
-{
-    NSLog(@"Dismissed SecondViewController");
+    NSUInteger itemCount = self.alarmsArray.count - 1;
+    float val = 1.0f - (((float)index / (float)itemCount) * 0.99);
     
-    [self reloadDataAndTableView];
+    if (index == 0) {
+        val = 1.0f;
+    }
+    if (index == 1 && self.alarmsArray.count == 2) {
+        val = 0.5f;
+    }
+    if (val < 0.15f) {
+        val = 0.15f;
+    }
+    
+    return [[UIColor flatBlueColor] colorWithAlphaComponent:val];
+}
+
+- (void)setTableviewColor
+{
+    if (self.alarmsArray.count == 0) {
+        self.tableView.backgroundColor = [UIColor clearColor];
+    } else {
+        self.tableView.backgroundColor = [UIColor flatBlackColor];
+    }
 }
 
 #pragma mark - ModalViewController Methods
@@ -260,7 +288,7 @@
                                     imageView.animatedImage = image;
                                     
                                     imageView.contentMode = UIViewContentModeScaleAspectFit;
-                                    imageView.frame = CGRectMake((self.view.frame.size.width - gifNewWidth)/2, (self.view.frame.size.width - gifNewHeight)/2, gifNewWidth, gifNewHeight);
+                                    imageView.frame = CGRectMake((self.modalVC.gifImageView.frame.size.width - gifNewWidth)/2, (self.modalVC.gifImageView.frame.size.width - gifNewHeight)/2, gifNewWidth, gifNewHeight);
                                     
                                     [self.modalVC.gifImageView addSubview:imageView];
                                     
@@ -276,9 +304,90 @@
             }
             else {
                 NSLog(@"%@", error);
+                
+                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                    self.modalVC = (ModalViewController *)[storyboard instantiateViewControllerWithIdentifier:@"modalViewController"];
+                    
+                    self.modalVC.view.alpha = 0;
+                    [self presentViewController:self.modalVC animated:YES completion:(^{
+                        
+                        UIImage *image;
+                        if ([error.localizedDescription isEqualToString:@"The Internet connection appears to be offline."]){
+                            image = [UIImage imageNamed:@"cat_nointernet"];
+                        } else {
+                            image = [UIImage imageNamed:@"cat_api"];
+                        }
+                        
+                        UIImageView *imageView = [[UIImageView alloc] init];
+                        imageView.image = image;
+                        
+                        double gifRatio = image.size.height/image.size.width;
+                        NSUInteger imageNewWidth = self.view.frame.size.width - 36;
+                        NSUInteger imageNewHeight = gifRatio * imageNewWidth;
+                        
+                        imageView.contentMode = UIViewContentModeScaleAspectFit;
+                        imageView.frame = CGRectMake((self.modalVC.gifImageView.frame.size.width - imageNewWidth)/2, (self.modalVC.gifImageView.frame.size.width - imageNewHeight)/2, imageNewWidth, imageNewHeight);
+                        
+                        [self.modalVC.gifImageView addSubview:imageView];
+                        
+                        [UIView animateWithDuration:.5 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+                            self.modalVC.view.alpha = 1;
+                        } completion:^(BOOL finished) {
+                        }];
+                    })];
+                }];
+
             }
         }];
     }
+}
+
+#pragma mark - AddAlarmViewContoller Methods
+
+- (void)showAlarmTimeSelector
+{
+    if (!self.showingAlarmViewController) {
+
+        if (!self.alarmSetController) {
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            self.alarmSetController = [storyboard instantiateViewControllerWithIdentifier:@"timeSelect"];
+            self.alarmSetController.delegate = self;
+        }
+        [self addChildViewController:self.alarmSetController];
+        [self.view addSubview:self.alarmSetController.view];
+        [self.alarmSetController didMoveToParentViewController:self];
+        
+        self.alarmSetController.view.alpha = 0;
+        self.alarmSetController.pickerViewVerticalSpaceConstraint.constant = -250;
+        [self.view layoutIfNeeded];
+        
+        [UIView animateWithDuration:.3 delay:0 options:UIViewAnimationOptionAllowUserInteraction|UIViewAnimationOptionBeginFromCurrentState animations:^{
+            self.alarmSetController.view.alpha = 1;
+            self.alarmSetController.pickerViewVerticalSpaceConstraint.constant = 0;
+            [self.view layoutIfNeeded];
+        } completion:^(BOOL finished) {
+            if (finished) {
+                self.showingAlarmViewController = YES;
+            }
+        }];
+    }
+}
+
+- (void)hideAlarmTimeSelector
+{
+    [UIView animateWithDuration:.3 delay:0 options:UIViewAnimationOptionAllowUserInteraction|UIViewAnimationOptionBeginFromCurrentState animations:^{
+        self.alarmSetController.view.alpha = 0;
+        self.alarmSetController.pickerViewVerticalSpaceConstraint.constant = -250;
+        [self.view layoutIfNeeded];
+    } completion:^(BOOL finished) {
+        if (finished) {
+            [self.alarmSetController willMoveToParentViewController:nil];
+            [self.alarmSetController.view removeFromSuperview];
+            [self.alarmSetController removeFromParentViewController];
+            self.showingAlarmViewController = NO;
+        }
+    }];
 }
 
 #pragma mark - Pull to Refresh Methods
@@ -286,149 +395,94 @@
 - (void)setupRefreshControl
 {
     self.refreshControl = [[UIRefreshControl alloc] init];
-    
-    // Setup the loading view, which will hold the moving graphics
     self.refreshLoadingView = [[UIView alloc] initWithFrame:self.refreshControl.bounds];
     self.refreshLoadingView.backgroundColor = [UIColor clearColor];
-    
-    // Setup the color view, which will display the rainbowed background
     self.refreshColorView = [[UIView alloc] initWithFrame:self.refreshControl.bounds];
     self.refreshColorView.backgroundColor = [UIColor clearColor];
     self.refreshColorView.alpha = 0.70;
     
-    // Create the graphic image views
-    self.compass_background = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"compass_background.png"]];
-    self.compass_spinner = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"compass_spinner.png"]];
+    self.catImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"cat"]];
+    self.toastImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"toast"]];
     
-    // Add the graphics to the loading view
-    [self.refreshLoadingView addSubview:self.compass_background];
-    [self.refreshLoadingView addSubview:self.compass_spinner];
+    [self.refreshLoadingView addSubview:self.catImageView];
+    [self.refreshLoadingView addSubview:self.toastImageView];
+    self.refreshLoadingView.clipsToBounds = NO;
     
-    // Clip so the graphics don't stick out
-    self.refreshLoadingView.clipsToBounds = YES;
-    
-    // Hide the original spinner icon
     self.refreshControl.tintColor = [UIColor clearColor];
     
-    // Add the loading and colors views to our refresh control
     [self.refreshControl addSubview:self.refreshColorView];
     [self.refreshControl addSubview:self.refreshLoadingView];
     
-    // Initalize flags
     self.isRefreshIconsOverlap = NO;
     self.isRefreshAnimating = NO;
     
-    // When activated, invoke our refresh function
     [self.refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
-}
-
-- (void)refresh:(id)sender{
-    NSLog(@"");
-    
-    // Just wait 1.5 seconds for effect
-    double delayInSeconds = 1.5;
-    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        NSLog(@"DONE");
-        
-        // When done requesting/reloading/processing invoke endRefreshing, to close the control
-        [self newAlarmPull];
-        [self.refreshControl endRefreshing];
-    });
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    // Get the current size of the refresh controller
     CGRect refreshBounds = self.refreshControl.bounds;
-    
-    // Distance the table has been pulled >= 0
     CGFloat pullDistance = MAX(0.0, -self.refreshControl.frame.origin.y);
-    
-    // Half the width of the table
     CGFloat midX = self.tableView.frame.size.width / 2.0;
-    
-    // Calculate the width and height of our graphics
-    CGFloat compassHeight = self.compass_background.bounds.size.height;
+    CGFloat compassHeight = self.catImageView.bounds.size.height;
     CGFloat compassHeightHalf = compassHeight / 2.0;
-    
-    CGFloat compassWidth = self.compass_background.bounds.size.width;
+    CGFloat compassWidth = self.catImageView.bounds.size.width;
     CGFloat compassWidthHalf = compassWidth / 2.0;
-    
-    CGFloat spinnerHeight = self.compass_spinner.bounds.size.height;
+    CGFloat spinnerHeight = self.toastImageView.bounds.size.height;
     CGFloat spinnerHeightHalf = spinnerHeight / 2.0;
-    
-    CGFloat spinnerWidth = self.compass_spinner.bounds.size.width;
+    CGFloat spinnerWidth = self.toastImageView.bounds.size.width;
     CGFloat spinnerWidthHalf = spinnerWidth / 2.0;
-    
-    // Calculate the pull ratio, between 0.0-1.0
     CGFloat pullRatio = MIN( MAX(pullDistance, 0.0), 100.0) / 100.0;
-    
-    // Set the Y coord of the graphics, based on pull distance
     CGFloat compassY = pullDistance / 2.0 - compassHeightHalf;
     CGFloat spinnerY = pullDistance / 2.0 - spinnerHeightHalf;
-    
-    // Calculate the X coord of the graphics, adjust based on pull ratio
     CGFloat compassX = (midX + compassWidthHalf) - (compassWidth * pullRatio);
     CGFloat spinnerX = (midX - spinnerWidth - spinnerWidthHalf) + (spinnerWidth * pullRatio);
     
-    // When the compass and spinner overlap, keep them together
     if (fabs(compassX - spinnerX) < 1.0) {
         self.isRefreshIconsOverlap = YES;
     }
     
-    // If the graphics have overlapped or we are refreshing, keep them together
     if (self.isRefreshIconsOverlap || self.refreshControl.isRefreshing) {
         compassX = midX - compassWidthHalf;
         spinnerX = midX - spinnerWidthHalf;
     }
     
-    // Set the graphic's frames
-    CGRect compassFrame = self.compass_background.frame;
+    CGRect compassFrame = self.catImageView.frame;
     compassFrame.origin.x = compassX;
     compassFrame.origin.y = compassY;
-    
-    CGRect spinnerFrame = self.compass_spinner.frame;
+    CGRect spinnerFrame = self.toastImageView.frame;
     spinnerFrame.origin.x = spinnerX;
     spinnerFrame.origin.y = spinnerY;
     
-    self.compass_background.frame = compassFrame;
-    self.compass_spinner.frame = spinnerFrame;
+    self.catImageView.frame = compassFrame;
+    self.toastImageView.frame = spinnerFrame;
     
-    // Set the encompassing view's frames
     refreshBounds.size.height = pullDistance;
-    
     self.refreshColorView.frame = refreshBounds;
     self.refreshLoadingView.frame = refreshBounds;
     
-    // If we're refreshing and the animation is not playing, then play the animation
     if (self.refreshControl.isRefreshing && !self.isRefreshAnimating) {
         [self animateRefreshView];
     }
-    
-    NSLog(@"pullDistance: %.1f, pullRatio: %.1f, midX: %.1f, isRefreshing: %i", pullDistance, pullRatio, midX, self.refreshControl.isRefreshing);
 }
 
 - (void)animateRefreshView
 {
-    // Background color to loop through for our color view
-    NSArray *colorArray = @[[UIColor flatWhiteColor], [UIColor flatGrayColor]];
+    NSArray *colorArray = @[[UIColor flatBlackColor]];
     static int colorIndex = 0;
-    
-    // Flag that we are animating
     self.isRefreshAnimating = YES;
     
     [UIView animateWithDuration:0.3
                           delay:0
                         options:UIViewAnimationOptionCurveLinear
                      animations:^{
-
-                         // Change the background color
+                         
+                         [self.toastImageView setTransform:CGAffineTransformRotate(self.toastImageView.transform, M_PI_2)];
                          self.refreshColorView.backgroundColor = [colorArray objectAtIndex:colorIndex];
                          colorIndex = (colorIndex + 1) % colorArray.count;
                      }
                      completion:^(BOOL finished) {
-                         // If still refreshing, keep spinning, else reset
+                         
                          if (self.refreshControl.isRefreshing) {
                              [self animateRefreshView];
                          }else{
@@ -439,21 +493,12 @@
 
 - (void)resetAnimation
 {
-    // Reset our flags and background color
     self.isRefreshAnimating = NO;
     self.isRefreshIconsOverlap = NO;
     self.refreshColorView.backgroundColor = [UIColor clearColor];
 }
 
 #pragma mark - Helper Methods
-
-- (void)reloadDataAndTableView
-{
-    self.alarmsArray = [[self.alarmManager getAlarmsFromUserDefaults] mutableCopy];
-    [self.tableView reloadData];
-    
-    [self.alarmManager checkForValidAlarm];
-}
 
 - (void)configureBackroundNilSound
 {
@@ -465,15 +510,16 @@
     backgroundNilPlayer.volume = 1;
 }
 
--(int)getRandomNumberBetween:(int)from to:(int)to
+- (int)getRandomNumberBetween:(int)from to:(int)to
 {
     return (int)from + arc4random() % (to-from+1);
 }
 
-- (BOOL)shouldAutorotate
-{
-    return NO;
-}
+#pragma mark - Override Methods
 
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskPortrait;
+}
 
 @end

@@ -16,13 +16,10 @@
 
 @implementation AppDelegate
 
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    [UIApplication sharedApplication].statusBarHidden = NO;
-    
-    self.window.clipsToBounds = YES;
-    self.window.frame =  CGRectMake(0,20,self.window.frame.size.width,self.window.frame.size.height-20);
-    self.window.bounds = CGRectMake(0, 20, self.window.frame.size.width, self.window.frame.size.height);
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent];
     
     /* CHECK PERMISSIONS */
     if ([UIApplication instancesRespondToSelector:@selector(registerUserNotificationSettings:)]){
@@ -36,6 +33,7 @@
     [[AVAudioSession sharedInstance] setActive:YES error:&activationErr];
     
     self.alarmManager = [AlarmManager sharedAlarmDataStore];
+    [self.alarmManager checkForOldAlarm];
     [self.alarmManager checkForValidAlarm];
     
     return YES;

@@ -7,6 +7,7 @@
 //
 
 #import "AlarmManager.h"
+#import "NSDate+Comparison.h"
 @import AVFoundation;
 
 @interface AlarmManager ()
@@ -42,7 +43,7 @@
     return self;
 }
 
-#pragma mark - Initialization Method
+#pragma mark - Alarm Array Methods
 
 - (void)addAlarmToAlarmArray:(AlarmModel *)newAlarm
 {
@@ -67,12 +68,20 @@
 - (void)updateAlarmInAlarmArray:(NSUInteger)alarmIndex
 {
     self.alarmsArray = [[self getAlarmsFromUserDefaults] mutableCopy];
-    
     AlarmModel *oldAlarm = self.alarmsArray[alarmIndex];
-    AlarmModel *updatedAlarm = [[AlarmModel alloc] initWithDate:oldAlarm.date WithString:oldAlarm.timeString withSwitchState:!oldAlarm.switchState];
     
-    NSLog(@"remove alarm with switch value %d", oldAlarm.switchState);
-    NSLog(@"replace alarm with switch value %d", updatedAlarm.switchState);
+    NSDate *nextTime;
+    if ([oldAlarm.date isEarlierThan:[NSDate date]]){
+        NSCalendar *calendar = [NSCalendar currentCalendar];
+        NSDateComponents *oldComponents = [calendar components:(NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute) fromDate:oldAlarm.date];
+        NSInteger hour = [oldComponents hour];
+        NSInteger minute = [oldComponents minute];
+        
+        NSCalendarOptions options = NSCalendarMatchNextTime;
+        nextTime = [calendar nextDateAfterDate:oldAlarm.date matchingHour:hour minute:minute second:0 options:options];
+    }
+    
+    AlarmModel *updatedAlarm = [[AlarmModel alloc] initWithDate:nextTime WithString:oldAlarm.timeString withSwitchState:!oldAlarm.switchState];
     
     [self.alarmsArray removeObjectAtIndex:alarmIndex];
     [self.alarmsArray insertObject:updatedAlarm atIndex:alarmIndex];
@@ -103,12 +112,6 @@
     NSData *myDecodedObject = [userDefaults objectForKey: [NSString stringWithFormat:@"sample"]];
     NSArray *decodedArray =[NSKeyedUnarchiver unarchiveObjectWithData: myDecodedObject];
     
-//    for (AlarmModel *alarm in decodedArray) {
-//        NSLog(@"time = %@", alarm.timeString);
-//        NSLog(@"switchState = %@", alarm.switchState ? @"ON" : @"OFF");
-//        NSLog(@"-----------");
-//    }
-    
     return decodedArray;
 }
 
@@ -137,6 +140,21 @@
     }
 }
 
+- (void)checkForOldAlarm
+{
+    [self.alarmsArray removeAllObjects];
+    NSMutableArray *mArray = [[self getAlarmsFromUserDefaults] mutableCopy];
+    
+    for (AlarmModel *thisAlarm in mArray) {
+        if ([thisAlarm.date isEarlierThan:[NSDate date]]){
+            thisAlarm.switchState = NO;
+        }
+        [self.alarmsArray addObject:thisAlarm];
+    }
+    
+    [self saveAlarmsToUserDefaults];
+}
+
 - (void)checkForValidAlarm
 {
     NSMutableArray *alarmsArray = [[self getAlarmsFromUserDefaults] mutableCopy];
@@ -145,6 +163,7 @@
     NSURL *fileURL = [[NSURL alloc] initFileURLWithPath:filePath];
     
     for (AlarmModel *firstAlarm in alarmsArray) {
+        
         if (firstAlarm.switchState == YES) {
             
             NSDate * today = [NSDate date];

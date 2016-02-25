@@ -18,6 +18,8 @@
 
 @implementation ModalViewController
 
+#pragma mark - View Lifecyle Methods
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -34,16 +36,15 @@
     [super didReceiveMemoryWarning];
 }
 
-- (IBAction)hideView:(id)sender
-{
-    [self.delegate dismissTapped:self];
-}
+#pragma mark - Navigation Methods
 
 - (IBAction)endGifAlarm:(id)sender
 {
     [self.alarmManager stopTimer];
     [self performSegueWithIdentifier:@"showMainView" sender:self];
 }
+
+#pragma mark - Overrides Methods
 
 
 @end

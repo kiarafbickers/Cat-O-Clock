@@ -16,6 +16,5 @@
 
 - (instancetype)initWithDate:(NSDate *)date withSwitchState:(BOOL)switchState;
 - (instancetype)initWithDate:(NSDate *)date WithString:(NSString *)timeString withSwitchState:(BOOL)switchState;
-//- (NSString *)getTimeStringFromDate:(NSDate *)alarmTime;
 
 @end

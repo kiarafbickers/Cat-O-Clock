@@ -14,8 +14,10 @@
 		E906CA0B1C7AC76700DC535F /* ModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E906CA0A1C7AC76700DC535F /* ModalViewController.m */; settings = {ASSET_TAGS = (); }; };
 		E906CA0E1C7ADF6E00DC535F /* UIImage+AutoScaleResize.m in Sources */ = {isa = PBXBuildFile; fileRef = E906CA0D1C7ADF6E00DC535F /* UIImage+AutoScaleResize.m */; settings = {ASSET_TAGS = (); }; };
 		E906CA111C7AE24C00DC535F /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = E906CA101C7AE24C00DC535F /* UIImage+Resize.m */; settings = {ASSET_TAGS = (); }; };
+		E93A27481C7D9036008730EA /* AddAlarmViewContoller.m in Sources */ = {isa = PBXBuildFile; fileRef = E93A27471C7D9036008730EA /* AddAlarmViewContoller.m */; settings = {ASSET_TAGS = (); }; };
+		E93A274B1C7DAD65008730EA /* UINavigationController+UIInterfaceOrientation.m in Sources */ = {isa = PBXBuildFile; fileRef = E93A274A1C7DAD65008730EA /* UINavigationController+UIInterfaceOrientation.m */; settings = {ASSET_TAGS = (); }; };
+		E93A27541C7EB731008730EA /* NSDate+Comparison.m in Sources */ = {isa = PBXBuildFile; fileRef = E93A27531C7EB731008730EA /* NSDate+Comparison.m */; settings = {ASSET_TAGS = (); }; };
 		E94B07B01C75618C00CF05C7 /* MainTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E94B07AF1C75618C00CF05C7 /* MainTableViewController.m */; settings = {ASSET_TAGS = (); }; };
-		E94B07B31C7561B200CF05C7 /* AddTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E94B07B21C7561B200CF05C7 /* AddTableViewController.m */; settings = {ASSET_TAGS = (); }; };
 		E959C0551C75515000B0878D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E959C0541C75515000B0878D /* main.m */; };
 		E959C0581C75515200B0878D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E959C0571C75515200B0878D /* AppDelegate.m */; };
 		E959C05E1C75515500B0878D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E959C05C1C75515500B0878D /* Main.storyboard */; };
@@ -39,10 +41,14 @@
 		E906CA0D1C7ADF6E00DC535F /* UIImage+AutoScaleResize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+AutoScaleResize.m"; sourceTree = "<group>"; };
 		E906CA0F1C7AE24C00DC535F /* UIImage+Resize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Resize.h"; sourceTree = "<group>"; };
 		E906CA101C7AE24C00DC535F /* UIImage+Resize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Resize.m"; sourceTree = "<group>"; };
+		E93A27461C7D9036008730EA /* AddAlarmViewContoller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddAlarmViewContoller.h; sourceTree = "<group>"; };
+		E93A27471C7D9036008730EA /* AddAlarmViewContoller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddAlarmViewContoller.m; sourceTree = "<group>"; };
+		E93A27491C7DAD65008730EA /* UINavigationController+UIInterfaceOrientation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+UIInterfaceOrientation.h"; sourceTree = "<group>"; };
+		E93A274A1C7DAD65008730EA /* UINavigationController+UIInterfaceOrientation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+UIInterfaceOrientation.m"; sourceTree = "<group>"; };
+		E93A27521C7EB731008730EA /* NSDate+Comparison.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Comparison.h"; sourceTree = "<group>"; };
+		E93A27531C7EB731008730EA /* NSDate+Comparison.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Comparison.m"; sourceTree = "<group>"; };
 		E94B07AE1C75618C00CF05C7 /* MainTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainTableViewController.h; sourceTree = "<group>"; };
 		E94B07AF1C75618C00CF05C7 /* MainTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainTableViewController.m; sourceTree = "<group>"; };
-		E94B07B11C7561B200CF05C7 /* AddTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddTableViewController.h; sourceTree = "<group>"; };
-		E94B07B21C7561B200CF05C7 /* AddTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddTableViewController.m; sourceTree = "<group>"; };
 		E959C0501C75514B00B0878D /* Cat O'Clock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cat O'Clock.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E959C0541C75515000B0878D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E959C0561C75515100B0878D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -112,8 +118,8 @@
 				E959C0571C75515200B0878D /* AppDelegate.m */,
 				E94B07AE1C75618C00CF05C7 /* MainTableViewController.h */,
 				E94B07AF1C75618C00CF05C7 /* MainTableViewController.m */,
-				E94B07B11C7561B200CF05C7 /* AddTableViewController.h */,
-				E94B07B21C7561B200CF05C7 /* AddTableViewController.m */,
+				E93A27461C7D9036008730EA /* AddAlarmViewContoller.h */,
+				E93A27471C7D9036008730EA /* AddAlarmViewContoller.m */,
 				E906CA091C7AC76700DC535F /* ModalViewController.h */,
 				E906CA0A1C7AC76700DC535F /* ModalViewController.m */,
 				E9F9F25D1C7620C0001067FF /* AlarmModel.h */,
@@ -139,6 +145,10 @@
 				E906CA101C7AE24C00DC535F /* UIImage+Resize.m */,
 				E906CA0C1C7ADF6E00DC535F /* UIImage+AutoScaleResize.h */,
 				E906CA0D1C7ADF6E00DC535F /* UIImage+AutoScaleResize.m */,
+				E93A27521C7EB731008730EA /* NSDate+Comparison.h */,
+				E93A27531C7EB731008730EA /* NSDate+Comparison.m */,
+				E93A27491C7DAD65008730EA /* UINavigationController+UIInterfaceOrientation.h */,
+				E93A274A1C7DAD65008730EA /* UINavigationController+UIInterfaceOrientation.m */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -266,11 +276,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E94B07B31C7561B200CF05C7 /* AddTableViewController.m in Sources */,
+				E93A27541C7EB731008730EA /* NSDate+Comparison.m in Sources */,
 				E94B07B01C75618C00CF05C7 /* MainTableViewController.m in Sources */,
 				E906CA0B1C7AC76700DC535F /* ModalViewController.m in Sources */,
 				E906CA0E1C7ADF6E00DC535F /* UIImage+AutoScaleResize.m in Sources */,
+				E93A274B1C7DAD65008730EA /* UINavigationController+UIInterfaceOrientation.m in Sources */,
 				E959C0581C75515200B0878D /* AppDelegate.m in Sources */,
+				E93A27481C7D9036008730EA /* AddAlarmViewContoller.m in Sources */,
 				E906CA111C7AE24C00DC535F /* UIImage+Resize.m in Sources */,
 				E959C0551C75515000B0878D /* main.m in Sources */,
 				E9F9F25F1C7620C0001067FF /* AlarmModel.m in Sources */,
