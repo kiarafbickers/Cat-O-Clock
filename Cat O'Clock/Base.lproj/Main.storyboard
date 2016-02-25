@@ -12,69 +12,6 @@
         </mutableArray>
     </customFonts>
     <scenes>
-        <!--Master View Controller-->
-        <scene sceneID="0fc-xN-AAG">
-            <objects>
-                <viewController id="LSL-Qd-BUR" customClass="MasterViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="Hmx-9w-vkD"/>
-                        <viewControllerLayoutGuide type="bottom" id="MzG-bN-djJ"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="TJz-cU-W6X">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3Tc-pw-cYu">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dj0-6a-tgX">
-                                        <rect key="frame" x="-1" y="0.0" width="376" height="667"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iBW-wI-b86">
-                                                <rect key="frame" x="167" y="490" width="42" height="21"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                        </subviews>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <gestureRecognizers/>
-                                        <constraints>
-                                            <constraint firstItem="iBW-wI-b86" firstAttribute="centerY" secondItem="Dj0-6a-tgX" secondAttribute="centerY" multiplier="1.5" id="fcq-VC-0V7"/>
-                                        </constraints>
-                                    </view>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstItem="Dj0-6a-tgX" firstAttribute="centerX" secondItem="3Tc-pw-cYu" secondAttribute="centerX" id="6HL-RN-HPe"/>
-                                    <constraint firstItem="Dj0-6a-tgX" firstAttribute="centerY" secondItem="3Tc-pw-cYu" secondAttribute="centerY" id="K9O-jZ-RCE"/>
-                                    <constraint firstItem="Dj0-6a-tgX" firstAttribute="width" secondItem="3Tc-pw-cYu" secondAttribute="width" id="QiU-RA-Kay"/>
-                                    <constraint firstItem="Dj0-6a-tgX" firstAttribute="height" secondItem="3Tc-pw-cYu" secondAttribute="height" id="auO-V9-cqS"/>
-                                </constraints>
-                            </view>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="3Tc-pw-cYu" firstAttribute="centerX" secondItem="TJz-cU-W6X" secondAttribute="centerX" id="2Ar-MS-rT1"/>
-                            <constraint firstItem="3Tc-pw-cYu" firstAttribute="centerY" secondItem="TJz-cU-W6X" secondAttribute="centerY" id="8Yu-6q-MCs"/>
-                            <constraint firstItem="3Tc-pw-cYu" firstAttribute="height" secondItem="TJz-cU-W6X" secondAttribute="height" id="D8T-3p-Zt7"/>
-                            <constraint firstItem="3Tc-pw-cYu" firstAttribute="width" secondItem="TJz-cU-W6X" secondAttribute="width" id="p5Q-zf-Sh1"/>
-                            <constraint firstItem="iBW-wI-b86" firstAttribute="centerX" secondItem="TJz-cU-W6X" secondAttribute="centerX" id="zE0-Ly-DIq"/>
-                        </constraints>
-                    </view>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
-                    <connections>
-                        <outlet property="backroundView" destination="3Tc-pw-cYu" id="Zar-Q1-adX"/>
-                        <outlet property="breadCrumbLabel" destination="fcq-VC-0V7" id="hga-cb-7df"/>
-                        <outlet property="containerBreadCrumbView" destination="Dj0-6a-tgX" id="QfL-db-OUu"/>
-                        <outlet property="swipeForNextViewLabel" destination="iBW-wI-b86" id="Dq2-mx-Ivb"/>
-                        <segue destination="zNK-gf-e46" kind="show" identifier="showMainTableView" id="AFI-gG-Zld"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="gds-V8-HZU" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1021.5" y="-452.5"/>
-        </scene>
         <!--Cat O'Clock-->
         <scene sceneID="T0q-tc-67i">
             <objects>
@@ -326,7 +263,4 @@
             <point key="canvasLocation" x="1528.5" y="384.5"/>
         </scene>
     </scenes>
-    <inferredMetricsTieBreakers>
-        <segue reference="AFI-gG-Zld"/>
-    </inferredMetricsTieBreakers>
 </document>

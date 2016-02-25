@@ -6,11 +6,11 @@
 //  Copyright © 2016 kiaraRobles. All rights reserved.
 //
 
-#import "MasterViewController.h"
+#import "TopViewController.h"
 #import "BreadCrumbView.h"
 #import <ChameleonFramework/Chameleon.h>
 
-@interface MasterViewController ()
+@interface TopViewController ()
 
 @property (nonatomic, strong) NSUserDefaults *theDefaults;
 @property (assign, nonatomic) NSInteger currentView;
@@ -33,7 +33,7 @@
 
 @end
 
-@implementation MasterViewController
+@implementation TopViewController
 
 #pragma mark - View Lifecyle Methods
 
@@ -41,13 +41,13 @@
 {
     [super viewDidLoad];
     
-    BOOL firstLaunch = [self checkFirstLaunch];
-    if (firstLaunch == YES) {
-        [self setupGestures];
-        self.view.backgroundColor = [UIColor flatBlackColor];
-    } else {
-        [self performSegueWithIdentifier:@"showMainTableView" sender:self];
-    }
+//    BOOL firstLaunch = [self checkFirstLaunch];
+//    if (firstLaunch == YES) {
+//        [self setupGestures];
+//        self.view.backgroundColor = [UIColor flatBlackColor];
+//    } else {
+//        [self performSegueWithIdentifier:@"showMainTableView" sender:self];
+//    }
 }
 
 - (void)viewWillAppear:(BOOL)animated

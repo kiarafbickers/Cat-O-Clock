@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MasterViewController : UIViewController
+@interface TopViewController : UIViewController
 
 @end

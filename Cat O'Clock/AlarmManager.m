@@ -211,40 +211,34 @@
     NSString *filePath = [[NSBundle mainBundle] pathForResource:@"meow" ofType:@"wav"];
     NSURL *fileURL = [[NSURL alloc] initFileURLWithPath:filePath];
     
-    UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-    NSString *notificationBody = @"Meeeeoww!";
-    NSDictionary *info = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt: -1], @"ringCount", nil];
-    
     for (AlarmModel *firstAlarm in alarmsArray) {
-        NSDate * today = [NSDate date];
-        NSComparisonResult result = [today compare:firstAlarm.date];
         
-        switch (result)
-        {
-            case NSOrderedAscending:
-                NSLog(@"Future Date: %@ - %@", firstAlarm.timeString, firstAlarm.date);
-                [localNotification setFireDate:firstAlarm.date];
-                [localNotification setTimeZone:[NSTimeZone defaultTimeZone]];
-                [localNotification setAlertBody: notificationBody];
-                [localNotification setAlertAction:@"Open App"];
-                [localNotification setHasAction:YES];
-                [localNotification setUserInfo:info];
-                [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
-                [self startTimerWithDate:firstAlarm.date];
-                self.alarmAudioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:fileURL error:nil];
-                [self.alarmAudioPlayer prepareToPlay];
-                self.alarmAudioPlayer.volume = 0.1;
-                self.alarmAudioPlayer.numberOfLoops = -1;
-                break;
-            case NSOrderedDescending:
-                NSLog(@"Earlier Date: %@ - %@", firstAlarm.timeString,firstAlarm.date);
-                break;
-            case NSOrderedSame:
-                NSLog(@"Today/Null Date Passed %@ - %@", firstAlarm.timeString, firstAlarm.date); //Not sure why This is case when null/wrong date is passed
-                break;
-            default:
-                NSLog(@"Error Comparing Dates");
-                break;
+        if (firstAlarm.switchState == YES) {
+            
+            NSDate * today = [NSDate date];
+            NSComparisonResult result = [today compare:firstAlarm.date];
+            switch (result)
+            {
+                case NSOrderedAscending:
+                    NSLog(@"Future Date");
+                    
+                    [self startTimerWithDate:firstAlarm.date];
+                    self.alarmAudioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:fileURL error:nil];
+                    [self.alarmAudioPlayer prepareToPlay];
+                    self.alarmAudioPlayer.volume = 0.1;
+                    self.alarmAudioPlayer.numberOfLoops = -1;
+                    
+                    break;
+                case NSOrderedDescending:
+                    NSLog(@"Earlier Date");
+                    break;
+                case NSOrderedSame:
+                    NSLog(@"Today/Null Date Passed"); //Not sure why This is case when null/wrong date is passed
+                    break;
+                default:
+                    NSLog(@"Error Comparing Dates");
+                    break;
+            }
         }
     }
 }
