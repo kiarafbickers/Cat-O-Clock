@@ -21,7 +21,9 @@
 - (void)checkForOldAlarm;
 - (void)checkForValidAlarm;
 
-- (void)stopTimer;
+- (void)stopAlarmTimer;
+- (void)stopAudioPlayer;
+- (void)doTimer;
 
 - (NSArray *)getAlarmsFromUserDefaults;
 

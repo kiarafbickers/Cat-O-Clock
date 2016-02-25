@@ -25,6 +25,7 @@
     if ([UIApplication instancesRespondToSelector:@selector(registerUserNotificationSettings:)]){
         [application registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeBadge|UIUserNotificationTypeSound categories:nil]];
     }
+    
     NSError *setCategoryErr = nil;
     NSError *activationErr  = nil;
     
@@ -68,8 +69,10 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     NSLog(@"WillTerminate");
     
-    /* DISABLE AUDIO */
+    [self.alarmManager stopAlarmTimer];
     [[AVAudioSession sharedInstance] setActive:NO error:NULL];
+    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+    [self.alarmManager stopAudioPlayer];
 }
 
 @end

@@ -40,7 +40,8 @@
 
 - (IBAction)endGifAlarm:(id)sender
 {
-    [self.alarmManager stopTimer];
+    [self.alarmManager stopAlarmTimer];
+    [self.alarmManager stopAudioPlayer];
     [self performSegueWithIdentifier:@"showMainView" sender:self];
 }
 

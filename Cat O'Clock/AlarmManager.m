@@ -8,6 +8,7 @@
 
 #import "AlarmManager.h"
 #import "NSDate+Comparison.h"
+#import "AppDelegate.h"
 @import AVFoundation;
 
 @interface AlarmManager ()
@@ -53,7 +54,10 @@
         self.alarmsArray = [[NSMutableArray alloc] init];
     }
     
-    [self.alarmsArray addObject:newAlarm];
+    NSDate *nextTime = [self guaranteeTimeOfFutureDate:newAlarm.date];
+    AlarmModel *updatedAlarm = [[AlarmModel alloc] initWithDate:nextTime WithString:newAlarm.timeString withSwitchState:newAlarm.switchState];
+    
+    [self.alarmsArray addObject:updatedAlarm];
     [self saveAlarmsToUserDefaults];
 }
 
@@ -70,17 +74,7 @@
     self.alarmsArray = [[self getAlarmsFromUserDefaults] mutableCopy];
     AlarmModel *oldAlarm = self.alarmsArray[alarmIndex];
     
-    NSDate *nextTime;
-    if ([oldAlarm.date isEarlierThan:[NSDate date]]){
-        NSCalendar *calendar = [NSCalendar currentCalendar];
-        NSDateComponents *oldComponents = [calendar components:(NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute) fromDate:oldAlarm.date];
-        NSInteger hour = [oldComponents hour];
-        NSInteger minute = [oldComponents minute];
-        
-        NSCalendarOptions options = NSCalendarMatchNextTime;
-        nextTime = [calendar nextDateAfterDate:oldAlarm.date matchingHour:hour minute:minute second:0 options:options];
-    }
-    
+    NSDate *nextTime = [self guaranteeTimeOfFutureDate:oldAlarm.date];
     AlarmModel *updatedAlarm = [[AlarmModel alloc] initWithDate:nextTime WithString:oldAlarm.timeString withSwitchState:!oldAlarm.switchState];
     
     [self.alarmsArray removeObjectAtIndex:alarmIndex];
@@ -88,23 +82,70 @@
     [self saveAlarmsToUserDefaults];
 }
 
+-(NSDate *)guaranteeTimeOfFutureDate:(NSDate *)date
+{
+    NSDate *nextTime;
+    
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSCalendarUnit calendarUnits = NSCalendarUnitTimeZone | NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond;
+    NSDateComponents *components = [calendar components:calendarUnits fromDate:[NSDate date]];
+    components.day += 1;
+    NSDate *oneDayFromNow = [calendar dateFromComponents:components];
+    
+    NSCalendarOptions options = NSCalendarMatchNextTime;
+    if ([date isEarlierThan:[NSDate date]]){
+        NSDateComponents *oldComponents = [calendar components:(NSCalendarUnitHour | NSCalendarUnitMinute) fromDate:date];
+        NSInteger hour = [oldComponents hour];
+        NSInteger minute = [oldComponents minute];
+
+        nextTime = [calendar nextDateAfterDate:date matchingHour:hour minute:minute second:0 options:options];
+    } else if ([date isLaterThan:oneDayFromNow]) {
+        NSDateComponents *oldComponents = [calendar components:(NSCalendarUnitHour | NSCalendarUnitMinute) fromDate:date];
+        NSInteger hour = [oldComponents hour];
+        NSInteger minute = [oldComponents minute];
+        
+        nextTime = [calendar dateBySettingHour:hour minute:minute second:0 ofDate:[NSDate date] options:options];
+    }
+    else {
+        nextTime = date;
+    }
+    
+    return nextTime;
+}
+
 #pragma mark - User Defaults Methods
 
 - (void)saveAlarmsToUserDefaults
 {
+    NSMutableArray *mSortedArray = [[NSMutableArray alloc] init];
     NSArray *array = self.alarmsArray;
     
     /*SORT ARRAY IN ORDER OF MOST RESENT*/
-    NSMutableArray *alarms = [[NSMutableArray alloc] init];
-    alarms = [array mutableCopy];
-    
-    [alarms sortUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"date" ascending:YES] ]];
+    NSMutableArray *onAlarms = [[NSMutableArray alloc] init];
+    NSMutableArray *offAlarms = [[NSMutableArray alloc] init];
+    for (AlarmModel *alarm in array) {
+        if (alarm.switchState == YES) {
+            [onAlarms addObject:alarm];
+            [onAlarms sortUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"date" ascending:YES]]];
+        } else {
+            [offAlarms addObject:alarm];
+            [onAlarms sortUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"date" ascending:YES]]];
+        }
+    }
+    for (AlarmModel *alarm in onAlarms) {
+        [mSortedArray addObject:alarm];
+    }
+    for (AlarmModel *alarm in offAlarms) {
+        [mSortedArray addObject:alarm];
+    }
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSData *myEncodedObject = [NSKeyedArchiver archivedDataWithRootObject:alarms];
+    NSData *myEncodedObject = [NSKeyedArchiver archivedDataWithRootObject:mSortedArray];
     [userDefaults setObject:myEncodedObject forKey:[NSString stringWithFormat:@"sample"]];
     [userDefaults synchronize];
 }
+
+
 
 - (NSArray *)getAlarmsFromUserDefaults
 {
@@ -125,14 +166,7 @@
     }
 }
 
-- (void)doTimer
-{
-    NSLog(@"Alarm Fired from Manager");
-    [self.alarmAudioPlayer play];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"timerPlaying" object:nil userInfo:nil];
-}
-
-- (void)stopTimer
+- (void)stopAudioPlayer
 {
     if (self.alarmAudioPlayer) {
         [self.alarmTimer invalidate];
@@ -140,18 +174,33 @@
     }
 }
 
+- (void)stopAlarmTimer
+{
+    if (self.alarmTimer) {
+        [self.alarmTimer invalidate];
+        self.alarmTimer = nil;
+    }
+}
+
+- (void)doTimer
+{
+    NSLog(@"Alarm Fired from Manager");
+    [self.alarmAudioPlayer play];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"timerPlaying" object:nil userInfo:nil];
+}
+
 - (void)checkForOldAlarm
 {
-    [self.alarmsArray removeAllObjects];
     NSMutableArray *mArray = [[self getAlarmsFromUserDefaults] mutableCopy];
     
     for (AlarmModel *thisAlarm in mArray) {
         if ([thisAlarm.date isEarlierThan:[NSDate date]]){
             thisAlarm.switchState = NO;
         }
-        [self.alarmsArray addObject:thisAlarm];
     }
     
+    [self.alarmsArray removeAllObjects];
+    self.alarmsArray = mArray;
     [self saveAlarmsToUserDefaults];
 }
 
@@ -162,34 +211,40 @@
     NSString *filePath = [[NSBundle mainBundle] pathForResource:@"meow" ofType:@"wav"];
     NSURL *fileURL = [[NSURL alloc] initFileURLWithPath:filePath];
     
+    UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+    NSString *notificationBody = @"Meeeeoww!";
+    NSDictionary *info = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt: -1], @"ringCount", nil];
+    
     for (AlarmModel *firstAlarm in alarmsArray) {
+        NSDate * today = [NSDate date];
+        NSComparisonResult result = [today compare:firstAlarm.date];
         
-        if (firstAlarm.switchState == YES) {
-            
-            NSDate * today = [NSDate date];
-            NSComparisonResult result = [today compare:firstAlarm.date];
-            switch (result)
-            {
-                case NSOrderedAscending:
-                    NSLog(@"Future Date");
-                    
-                    [self startTimerWithDate:firstAlarm.date];
-                    self.alarmAudioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:fileURL error:nil];
-                    [self.alarmAudioPlayer prepareToPlay];
-                    self.alarmAudioPlayer.volume = 0.1;
-                    self.alarmAudioPlayer.numberOfLoops = -1;
-                    
-                    break;
-                case NSOrderedDescending:
-                    NSLog(@"Earlier Date");
-                    break;
-                case NSOrderedSame:
-                    NSLog(@"Today/Null Date Passed"); //Not sure why This is case when null/wrong date is passed
-                    break;
-                default:
-                    NSLog(@"Error Comparing Dates");
-                    break;
-            }
+        switch (result)
+        {
+            case NSOrderedAscending:
+                NSLog(@"Future Date: %@ - %@", firstAlarm.timeString, firstAlarm.date);
+                [localNotification setFireDate:firstAlarm.date];
+                [localNotification setTimeZone:[NSTimeZone defaultTimeZone]];
+                [localNotification setAlertBody: notificationBody];
+                [localNotification setAlertAction:@"Open App"];
+                [localNotification setHasAction:YES];
+                [localNotification setUserInfo:info];
+                [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+                [self startTimerWithDate:firstAlarm.date];
+                self.alarmAudioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:fileURL error:nil];
+                [self.alarmAudioPlayer prepareToPlay];
+                self.alarmAudioPlayer.volume = 0.1;
+                self.alarmAudioPlayer.numberOfLoops = -1;
+                break;
+            case NSOrderedDescending:
+                NSLog(@"Earlier Date: %@ - %@", firstAlarm.timeString,firstAlarm.date);
+                break;
+            case NSOrderedSame:
+                NSLog(@"Today/Null Date Passed %@ - %@", firstAlarm.timeString, firstAlarm.date); //Not sure why This is case when null/wrong date is passed
+                break;
+            default:
+                NSLog(@"Error Comparing Dates");
+                break;
         }
     }
 }

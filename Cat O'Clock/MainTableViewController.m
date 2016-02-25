@@ -59,6 +59,7 @@
     
     self.tableView.dataSource = self;
     self.tableView.allowsMultipleSelectionDuringEditing = NO;
+    self.tableView.backgroundColor = [UIColor flatBlackColor];
     
     self.view.backgroundColor = [UIColor flatBlackColor];
     self.navigationController.navigationBar.backgroundColor = [UIColor flatWhiteColor];
@@ -69,8 +70,6 @@
     
     self.alarmManager = [AlarmManager sharedAlarmDataStore];
     self.alarmsArray = [[self.alarmManager getAlarmsFromUserDefaults] mutableCopy];
-    
-    [self setTableviewColor];
 }
 
 - (void)viewDidLayoutSubviews
@@ -113,7 +112,6 @@
 - (void)reloadDataAndTableView
 {
     self.alarmsArray = [[self.alarmManager getAlarmsFromUserDefaults] mutableCopy];
-    [self setTableviewColor];
     [self.tableView reloadData];
     [self.alarmManager checkForValidAlarm];
 }
@@ -184,7 +182,7 @@
     return cell;
 }
 
-- (void) switchChanged:(id)sender
+- (void)switchChanged:(id)sender
 {
     /* GETS CELL ROW INFO*/
     CGPoint hitPoint = [sender convertPoint:CGPointZero toView:self.tableView];
@@ -241,15 +239,6 @@
     return [[UIColor flatBlueColor] colorWithAlphaComponent:val];
 }
 
-- (void)setTableviewColor
-{
-    if (self.alarmsArray.count == 0) {
-        self.tableView.backgroundColor = [UIColor clearColor];
-    } else {
-        self.tableView.backgroundColor = [UIColor flatBlackColor];
-    }
-}
-
 #pragma mark - ModalViewController Methods
 
 - (void)showModalVCWithImage:(NSNotification *)notification
@@ -295,6 +284,8 @@
                                     [UIView animateWithDuration:.5 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
                                         self.modalVC.view.alpha = 1;
                                     } completion:^(BOOL finished) {
+                                        [self.alarmManager checkForOldAlarm];
+                                        [self reloadDataAndTableView];
                                     }];
                                 })];
                             }];
@@ -334,6 +325,8 @@
                         [UIView animateWithDuration:.5 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
                             self.modalVC.view.alpha = 1;
                         } completion:^(BOOL finished) {
+                            [self.alarmManager checkForOldAlarm];
+                            [self reloadDataAndTableView];
                         }];
                     })];
                 }];
