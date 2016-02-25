@@ -8,10 +8,13 @@
 
 #import "AppDelegate.h"
 #import "AlarmManager.h"
+#import "AlarmModel.h"
 @import AVFoundation;
 
 @interface AppDelegate ()
+
 @property (nonatomic, strong) AlarmManager *alarmManager;
+@property (nonatomic, strong) NSMutableArray *alarmsArray;
 @end
 
 @implementation AppDelegate
@@ -73,6 +76,33 @@
     [[AVAudioSession sharedInstance] setActive:NO error:NULL];
     [[UIApplication sharedApplication] cancelAllLocalNotifications];
     [self.alarmManager stopAudioPlayer];
+    
+    self.alarmsArray = [[self.alarmManager getAlarmsFromUserDefaults] mutableCopy];
+    for (AlarmModel *alarm in self.alarmsArray) {
+        if (alarm.switchState == YES) {
+            NSDate * theDate = [[NSDate date] dateByAddingTimeInterval:10]; // set a localnotificaiton for 10 seconds
+            UIApplication *app = [UIApplication sharedApplication];
+            NSArray *oldNotifications = [app scheduledLocalNotifications];
+            
+            // Clear out the old notification before scheduling a new one.
+            if ([oldNotifications count] > 0)
+                [app cancelAllLocalNotifications];
+            
+            // Create a new notification.
+            UILocalNotification* alarm = [[UILocalNotification alloc] init];
+            if (alarm)
+            {
+                alarm.fireDate = theDate;
+                alarm.timeZone = [NSTimeZone defaultTimeZone];
+                alarm.repeatInterval = 0;
+                //alarm.soundName = @"sonar";
+                alarm.alertBody = @"Merrr... Exiting app disables alarms. Come back to re-activate them." ;
+                
+                [app scheduleLocalNotification:alarm];
+            }
+            break;
+        }
+    }
 }
 
 @end
