@@ -82,6 +82,16 @@
     [self saveAlarmsToUserDefaults];
 }
 
+- (void)updateAlarmInAlarmArray:(NSUInteger)alarmIndex andDate:(NSDate *)date
+{
+    self.alarmsArray = [[self getAlarmsFromUserDefaults] mutableCopy];
+    AlarmModel *updatedAlarm = [[AlarmModel alloc] initWithDate:date withSwitchState:YES];
+    
+    [self.alarmsArray removeObjectAtIndex:alarmIndex];
+    [self.alarmsArray insertObject:updatedAlarm atIndex:alarmIndex];
+    [self saveAlarmsToUserDefaults];
+}
+
 -(NSDate *)guaranteeTimeOfFutureDate:(NSDate *)date
 {
     NSDate *nextTime;
@@ -217,27 +227,33 @@
             
             NSDate * today = [NSDate date];
             NSComparisonResult result = [today compare:firstAlarm.date];
-            switch (result)
-            {
-                case NSOrderedAscending:
-                    NSLog(@"Future Date");
-                    
-                    [self startTimerWithDate:firstAlarm.date];
-                    self.alarmAudioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:fileURL error:nil];
-                    [self.alarmAudioPlayer prepareToPlay];
-                    self.alarmAudioPlayer.volume = 0.1;
-                    self.alarmAudioPlayer.numberOfLoops = -1;
-                    
-                    break;
-                case NSOrderedDescending:
-                    NSLog(@"Earlier Date");
-                    break;
-                case NSOrderedSame:
-                    NSLog(@"Today/Null Date Passed"); //Not sure why This is case when null/wrong date is passed
-                    break;
-                default:
-                    NSLog(@"Error Comparing Dates");
-                    break;
+            
+            if (result == NSOrderedAscending) {
+                NSLog(@"Future Date %@", firstAlarm.date);
+                
+                UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+                [localNotification setTimeZone:[NSTimeZone defaultTimeZone]];
+                [localNotification setAlertBody:@"Meeeeoww!"];
+                [localNotification setAlertAction:@"Open App"];
+                [localNotification setHasAction:YES];
+                [localNotification setFireDate:firstAlarm.date];
+                [localNotification setSoundName:@"filePath"];
+                [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+                [self startTimerWithDate:firstAlarm.date];
+                
+                [self startTimerWithDate:firstAlarm.date];
+                self.alarmAudioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:fileURL error:nil];
+                [self.alarmAudioPlayer prepareToPlay];
+                self.alarmAudioPlayer.volume = 0.1;
+                self.alarmAudioPlayer.numberOfLoops = -1;
+                
+                break;
+            } else if (result == NSOrderedDescending) {
+                NSLog(@"Earlier Date %@", firstAlarm.date);
+                break;
+            } else if (result == NSOrderedSame) {
+                NSLog(@"Today/Null Date Passed %@", firstAlarm.date);
+                break;
             }
         }
     }

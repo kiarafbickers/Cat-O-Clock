@@ -61,9 +61,15 @@
 
 - (IBAction)save:(id)sender
 {
-    AlarmModel *newAlarm = [[AlarmModel alloc] initWithDate:self.datePicker.date withSwitchState:YES];
-    [self.alarmManager addAlarmToAlarmArray:newAlarm];
-    [self dismissModal];
+    if (!self.alarmToEditAtIndex < 0.0f) {
+        [self.alarmManager updateAlarmInAlarmArray:self.alarmToEditAtIndex andDate:self.datePicker.date];
+        self.alarmToEditAtIndex = -1000;
+    }
+    else {
+        AlarmModel *newAlarm = [[AlarmModel alloc] initWithDate:self.datePicker.date withSwitchState:YES];
+        [self.alarmManager addAlarmToAlarmArray:newAlarm];
+        [self dismissModal];
+    }
 }
 
 - (void)dismissModal

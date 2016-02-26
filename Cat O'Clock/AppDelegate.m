@@ -6,6 +6,8 @@
 //  Copyright © 2016 kiaraRobles. All rights reserved.
 //
 
+#define IS_OS_8_OR_LATER ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
+
 #import "AppDelegate.h"
 #import "AlarmManager.h"
 #import "AlarmModel.h"
@@ -40,12 +42,42 @@
     [self.alarmManager checkForOldAlarm];
     [self.alarmManager checkForValidAlarm];
     
+    UILocalNotification *localNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
+    if (localNotification) {
+        NSLog(@"Recieved Notification %@", localNotification);
+    }
+    UILocalNotification *remoteNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+    if (remoteNotification) {
+        NSLog(@"Recieved Notification %@", remoteNotification);
+    }
+    
     return YES;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+    
+    self.alarmsArray = [[self.alarmManager getAlarmsFromUserDefaults] mutableCopy];
+    for (AlarmModel *alarm in self.alarmsArray) {
+        if (alarm.switchState == YES) {
+            
+            NSLog(@"Set alarm notification for: %@", alarm.date);
+            NSString *filePath = [[NSBundle mainBundle] pathForResource:@"meow" ofType:@"wav"];
+            UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+            [localNotification setTimeZone:[NSTimeZone defaultTimeZone]];
+            [localNotification setAlertBody:@"Meeeeoww!"];
+            [localNotification setAlertAction:@"Open App"];
+            [localNotification setHasAction:YES];
+            [localNotification setFireDate:alarm.date];
+            [localNotification setSoundName:filePath];
+            [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+            [self.alarmManager startTimerWithDate:alarm.date];
+            
+            break;
+        }
+    }
+    
     NSLog(@"WillResignActive");
 }
 
@@ -60,49 +92,58 @@
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    NSLog(@"WillEnterForeground");
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    NSLog(@"DidBecomeActive");
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-    NSLog(@"WillTerminate");
     
-    [self.alarmManager stopAlarmTimer];
-    [[AVAudioSession sharedInstance] setActive:NO error:NULL];
-    [[UIApplication sharedApplication] cancelAllLocalNotifications];
-    [self.alarmManager stopAudioPlayer];
+    if(IS_OS_8_OR_LATER)
+    {
+        UIUserNotificationType types = UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
+        UIUserNotificationSettings *mySettings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
+        [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
+    }
     
     self.alarmsArray = [[self.alarmManager getAlarmsFromUserDefaults] mutableCopy];
+    
     for (AlarmModel *alarm in self.alarmsArray) {
+        
         if (alarm.switchState == YES) {
-            NSDate * theDate = [[NSDate date] dateByAddingTimeInterval:10]; // set a localnotificaiton for 10 seconds
-            UIApplication *app = [UIApplication sharedApplication];
-            NSArray *oldNotifications = [app scheduledLocalNotifications];
             
-            // Clear out the old notification before scheduling a new one.
-            if ([oldNotifications count] > 0)
-                [app cancelAllLocalNotifications];
-            
-            // Create a new notification.
-            UILocalNotification* alarm = [[UILocalNotification alloc] init];
-            if (alarm)
-            {
-                alarm.fireDate = theDate;
-                alarm.timeZone = [NSTimeZone defaultTimeZone];
-                alarm.repeatInterval = 0;
-                //alarm.soundName = @"sonar";
-                alarm.alertBody = @"Merrr... Exiting app disables alarms. Come back to re-activate them." ;
-                
-                [app scheduleLocalNotification:alarm];
+            if (application.applicationIconBadgeNumber == 0) {
+                [application setApplicationIconBadgeNumber:1];
             }
+            
+            NSDate *warningNotificationTimeDelay = [NSDate dateWithTimeIntervalSinceNow:3.0];
+            UILocalNotification *warningNotification = [[UILocalNotification alloc] init];
+            [warningNotification setFireDate:warningNotificationTimeDelay];
+            [warningNotification setTimeZone:[NSTimeZone defaultTimeZone]];
+            [warningNotification setAlertBody:@"Exiting app disables alarms. Come back to re-activate them."];
+            [warningNotification setRepeatInterval:0];
+            [warningNotification setSoundName:UILocalNotificationDefaultSoundName];
+            [[UIApplication sharedApplication] scheduleLocalNotification:warningNotification];
+            
+            // Pausing the processor is necessary in order to make notification fire
+            [NSThread sleepForTimeInterval:2];
+            
+            NSLog(@"Set alarm warning!!");
             break;
         }
     }
+    
+    [self.alarmManager stopAlarmTimer];
+    [[AVAudioSession sharedInstance] setActive:NO error:NULL];
+    [self.alarmManager stopAudioPlayer];
+
+    NSLog(@"WillTerminate!");
 }
 
 @end

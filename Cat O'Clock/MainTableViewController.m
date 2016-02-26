@@ -35,7 +35,9 @@
 @property (nonatomic, strong) AlarmManager *alarmManager;
 
 @property (nonatomic, strong) NSMutableArray *alarmsArray;
-@property (strong, nonatomic) NSArray * giphyResults;
+@property (strong, nonatomic) NSArray *giphyResults;
+
+@property (nonatomic) NSInteger alarmToEditAtIndex;
 
 @end
 
@@ -50,6 +52,8 @@
     [self configureBackroundNilSound];
     [self setupRefreshControl];
 
+    self.alarmToEditAtIndex == -1000;
+    
     self.navigationController.navigationBar.hidden = YES;
     
     UIView *statusBackround = [[UIView alloc] init];
@@ -70,6 +74,29 @@
     
     self.alarmManager = [AlarmManager sharedAlarmDataStore];
     self.alarmsArray = [[self.alarmManager getAlarmsFromUserDefaults] mutableCopy];
+    
+    if ([UIApplication sharedApplication].applicationIconBadgeNumber >= 1) {
+        [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+        [self triggerWarningAlert];
+    }
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [self.alarmManager checkForOldAlarm];
+    [self reloadDataAndTableView];
+}
+
+- (void)triggerWarningAlert
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle: @"Turn off alarms or set them and press the hold Button." message: @"" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+    
+    UIImage *alertImage = [UIImage imageNamed:@"iphone"];
+    UIImageView *alertImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 300, 300)];
+    [alertImageView setImage:alertImage];
+    
+    [alertView  setValue:alertImageView forKey:@"accessoryView"];
+    [alertView  show];
 }
 
 - (void)viewDidLayoutSubviews
@@ -179,6 +206,9 @@
         [cell.contentView addSubview:lineView];
     }
 
+    UIButton *editAlarm = (UIButton *)[cell viewWithTag:3];
+    [editAlarm addTarget:self action:@selector(editAlarmPressed:) forControlEvents:UIControlEventValueChanged];
+    
     return cell;
 }
 
@@ -190,6 +220,20 @@
 
     [self.alarmManager updateAlarmInAlarmArray:hitIndex.row];
     [self reloadDataAndTableView];
+}
+
+- (void)editAlarmPressed:(id)sender
+{
+    CGPoint hitPoint = [sender convertPoint:CGPointZero toView:self.tableView];
+    NSIndexPath *hitIndex = [self.tableView indexPathForRowAtPoint:hitPoint];
+    self.alarmToEditAtIndex = hitIndex.row;
+    
+    self.alarmToEditAtIndex = (NSInteger)self.alarmsArray[hitIndex.row];
+    [self showAlarmTimeSelector];
+    
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"SecondViewControllerDismissed" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didDismissSecondViewController) name:@"SecondViewControllerDismissed" object:nil];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -244,10 +288,10 @@
 - (void)showModalVCWithImage:(NSNotification *)notification
 {
     if (!self.modalVC) {
-        NSUInteger randomNumber = [self getRandomNumberBetween:0 to:35488];
+        NSUInteger randomNumber = [self getRandomNumberBetween:0 to:2400];
         
         [AXCGiphy setGiphyAPIKey:@"dc6zaTOxFJmzC"];
-        [AXCGiphy searchGiphyWithTerm:@"cats" limit:1 offset:randomNumber completion:^(NSArray *results, NSError *error) {
+        [AXCGiphy searchGiphyWithTerm:@"cats-cute" limit:1 offset:randomNumber completion:^(NSArray *results, NSError *error) {
             
             if (!error){
                 AXCGiphy *gif = results[0];
@@ -346,6 +390,10 @@
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
             self.alarmSetController = [storyboard instantiateViewControllerWithIdentifier:@"timeSelect"];
             self.alarmSetController.delegate = self;
+            
+            if (self.alarmToEditAtIndex >= 0) {
+                self.alarmSetController.alarmToEditAtIndex = self.alarmToEditAtIndex;
+            }
         }
         [self addChildViewController:self.alarmSetController];
         [self.view addSubview:self.alarmSetController.view];
@@ -362,6 +410,7 @@
         } completion:^(BOOL finished) {
             if (finished) {
                 self.showingAlarmViewController = YES;
+                self.alarmToEditAtIndex = -1000;
             }
         }];
     }

@@ -17,10 +17,12 @@
 - (void)addAlarmToAlarmArray:(AlarmModel *)alarmModel;
 - (void)removeAlarmFromAlarmArrayAtIndex:(NSUInteger)alarmIndex;
 - (void)updateAlarmInAlarmArray:(NSUInteger)alarmIndex;
+- (void)updateAlarmInAlarmArray:(NSUInteger)alarmIndex andDate:(NSDate *)date;
 
 - (void)checkForOldAlarm;
 - (void)checkForValidAlarm;
 
+- (void)startTimerWithDate:(NSDate *)date;
 - (void)stopAlarmTimer;
 - (void)stopAudioPlayer;
 - (void)doTimer;
