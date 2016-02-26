@@ -20,24 +20,22 @@
 
 @interface MainTableViewController () <AddAlarmViewContollerDelegate>
 
-@property (nonatomic, strong) UIView *refreshLoadingView;
-@property (nonatomic, strong) UIView *refreshColorView;
-@property (nonatomic, strong) UIImageView *toastImageView;
-@property (nonatomic, strong) UIImageView *catImageView;
-
-@property (assign) BOOL isRefreshIconsOverlap;
-@property (assign) BOOL isRefreshAnimating;
-@property (nonatomic, assign) BOOL showingAlarmViewController;
+@property (nonatomic, strong) AlarmManager *alarmManager;
 
 @property (nonatomic, strong) AddAlarmViewContoller *alarmSetController;
 @property (nonatomic, strong) ModalViewController *modalVC;
 
-@property (nonatomic, strong) AlarmManager *alarmManager;
+@property (nonatomic, strong) UIImageView *toastImageView;
+@property (nonatomic, strong) UIImageView *catImageView;
+@property (nonatomic, strong) UIView *refreshLoadingView;
+@property (nonatomic, strong) UIView *refreshColorView;
+
+@property (nonatomic, assign) BOOL showingAlarmViewController;
+@property (assign) BOOL isRefreshIconsOverlap;
+@property (assign) BOOL isRefreshAnimating;
 
 @property (nonatomic, strong) NSMutableArray *alarmsArray;
 @property (strong, nonatomic) NSArray *giphyResults;
-
-@property (nonatomic) NSInteger alarmToEditAtIndex;
 
 @end
 
@@ -52,7 +50,8 @@
     [self configureBackroundNilSound];
     [self setupRefreshControl];
 
-    self.alarmToEditAtIndex == -1000;
+    self.alarmManager = [AlarmManager sharedAlarmDataStore];
+    self.alarmsArray = [[self.alarmManager getAlarmsFromUserDefaults] mutableCopy];
     
     self.navigationController.navigationBar.hidden = YES;
     
@@ -72,8 +71,13 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"timerPlaying" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showModalVCWithImage:) name:@"timerPlaying" object:nil];
     
-    self.alarmManager = [AlarmManager sharedAlarmDataStore];
-    self.alarmsArray = [[self.alarmManager getAlarmsFromUserDefaults] mutableCopy];
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSInteger appLaunchCount = [userDefaults integerForKey:@"LaunchAmounts"];
+    if (appLaunchCount == 0) {
+        [userDefaults setInteger:appLaunchCount + 1 forKey:@"LaunchAmounts"];
+        [self triggerFirstWarningAlert];
+    }
     
     if ([UIApplication sharedApplication].applicationIconBadgeNumber >= 1) {
         [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
@@ -81,22 +85,16 @@
     }
 }
 
--(void)viewWillAppear:(BOOL)animated
+- (void)viewWillAppear:(BOOL)animated
 {
-    [self.alarmManager checkForOldAlarm];
-    [self reloadDataAndTableView];
+    [super viewWillAppear:animated];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(reloadDataAndTableView) name:UIApplicationDidBecomeActiveNotification object:nil];
 }
 
-- (void)triggerWarningAlert
+- (void)viewWillDisappear:(BOOL)animated
 {
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle: @"Turn off alarms or set them and press the hold Button." message: @"" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-    
-    UIImage *alertImage = [UIImage imageNamed:@"iphone"];
-    UIImageView *alertImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 300, 300)];
-    [alertImageView setImage:alertImage];
-    
-    [alertView  setValue:alertImageView forKey:@"accessoryView"];
-    [alertView  show];
+    [super viewWillDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
 }
 
 - (void)viewDidLayoutSubviews
@@ -108,6 +106,24 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
+}
+
+#pragma mark - Reload Data Methods
+
+- (void)didDismissSecondViewController
+{
+    [self reloadDataAndTableView];
+    [self hideAlarmTimeSelector];
+}
+
+- (void)reloadDataAndTableView
+{
+    NSLog(@"Reloaded Data");
+    self.alarmsArray = [[self.alarmManager getAlarmsFromUserDefaults] mutableCopy];
+    [self.alarmManager checkForOldAlarm];
+    [self.alarmManager checkForValidAlarm];
+    [self.tableView reloadData];
+    NSLog(@"____________");
 }
 
 #pragma mark - Action Methods
@@ -130,17 +146,31 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didDismissSecondViewController) name:@"SecondViewControllerDismissed" object:nil];
 }
 
-- (void)didDismissSecondViewController
+- (void)switchChanged:(id)sender
 {
+    /* GETS CELL ROW INFO*/
+    CGPoint hitPoint = [sender convertPoint:CGPointZero toView:self.tableView];
+    NSIndexPath *hitIndex = [self.tableView indexPathForRowAtPoint:hitPoint];
+    
+    [self.alarmManager updateAlarmInAlarmArray:hitIndex.row];
     [self reloadDataAndTableView];
-    [self hideAlarmTimeSelector];
 }
 
-- (void)reloadDataAndTableView
+- (void)editAlarmPressed:(id)sender
 {
-    self.alarmsArray = [[self.alarmManager getAlarmsFromUserDefaults] mutableCopy];
-    [self.tableView reloadData];
-    [self.alarmManager checkForValidAlarm];
+    CGPoint hitPoint = [sender convertPoint:CGPointZero toView:self.tableView];
+    NSIndexPath *hitIndex = [self.tableView indexPathForRowAtPoint:hitPoint];
+
+    NSLog(@"hitIndex %@", hitIndex);
+    NSLog(@"index Path: %ld", hitIndex.row);
+    
+    self.alarmManager.alarmToEditNSNumber = [NSNumber numberWithInteger:hitIndex.row];
+    self.alarmManager.alarmToEditBool = YES;
+    [self showAlarmTimeSelector];
+    
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"SecondViewControllerDismissed" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didDismissSecondViewController) name:@"SecondViewControllerDismissed" object:nil];
 }
 
 #pragma mark - Tableview Methods
@@ -206,34 +236,10 @@
         [cell.contentView addSubview:lineView];
     }
 
-    UIButton *editAlarm = (UIButton *)[cell viewWithTag:3];
-    [editAlarm addTarget:self action:@selector(editAlarmPressed:) forControlEvents:UIControlEventValueChanged];
+    UIButton *editAlarm = (UIButton *)[cell viewWithTag:4];
+    [editAlarm addTarget:self action:@selector(editAlarmPressed:) forControlEvents:UIControlEventTouchUpInside];
     
     return cell;
-}
-
-- (void)switchChanged:(id)sender
-{
-    /* GETS CELL ROW INFO*/
-    CGPoint hitPoint = [sender convertPoint:CGPointZero toView:self.tableView];
-    NSIndexPath *hitIndex = [self.tableView indexPathForRowAtPoint:hitPoint];
-
-    [self.alarmManager updateAlarmInAlarmArray:hitIndex.row];
-    [self reloadDataAndTableView];
-}
-
-- (void)editAlarmPressed:(id)sender
-{
-    CGPoint hitPoint = [sender convertPoint:CGPointZero toView:self.tableView];
-    NSIndexPath *hitIndex = [self.tableView indexPathForRowAtPoint:hitPoint];
-    self.alarmToEditAtIndex = hitIndex.row;
-    
-    self.alarmToEditAtIndex = (NSInteger)self.alarmsArray[hitIndex.row];
-    [self showAlarmTimeSelector];
-    
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"SecondViewControllerDismissed" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didDismissSecondViewController) name:@"SecondViewControllerDismissed" object:nil];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -263,6 +269,11 @@
         
         [self reloadDataAndTableView];
     }
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 }
 
 - (UIColor *)colorForIndex:(NSInteger)index
@@ -328,7 +339,6 @@
                                     [UIView animateWithDuration:.5 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
                                         self.modalVC.view.alpha = 1;
                                     } completion:^(BOOL finished) {
-                                        [self.alarmManager checkForOldAlarm];
                                         [self reloadDataAndTableView];
                                     }];
                                 })];
@@ -369,7 +379,6 @@
                         [UIView animateWithDuration:.5 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
                             self.modalVC.view.alpha = 1;
                         } completion:^(BOOL finished) {
-                            [self.alarmManager checkForOldAlarm];
                             [self reloadDataAndTableView];
                         }];
                     })];
@@ -389,11 +398,8 @@
         if (!self.alarmSetController) {
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
             self.alarmSetController = [storyboard instantiateViewControllerWithIdentifier:@"timeSelect"];
-            self.alarmSetController.delegate = self;
             
-            if (self.alarmToEditAtIndex >= 0) {
-                self.alarmSetController.alarmToEditAtIndex = self.alarmToEditAtIndex;
-            }
+            self.alarmSetController.delegate = self;
         }
         [self addChildViewController:self.alarmSetController];
         [self.view addSubview:self.alarmSetController.view];
@@ -410,7 +416,6 @@
         } completion:^(BOOL finished) {
             if (finished) {
                 self.showingAlarmViewController = YES;
-                self.alarmToEditAtIndex = -1000;
             }
         }];
     }
@@ -428,6 +433,7 @@
             [self.alarmSetController.view removeFromSuperview];
             [self.alarmSetController removeFromParentViewController];
             self.showingAlarmViewController = NO;
+            self.alarmManager.alarmToEditBool = NO;
         }
     }];
 }
@@ -555,6 +561,32 @@
 - (int)getRandomNumberBetween:(int)from to:(int)to
 {
     return (int)from + arc4random() % (to-from+1);
+}
+
+#pragma mark - Alert Methods
+
+- (void)triggerFirstWarningAlert
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle: @"To create an alarm set them to on, and press the hold button." message: @"" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+    
+    UIImage *alertImage = [UIImage imageNamed:@"iphone"];
+    UIImageView *alertImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 300, 300)];
+    [alertImageView setImage:alertImage];
+    
+    [alertView  setValue:alertImageView forKey:@"accessoryView"];
+    [alertView  show];
+}
+
+- (void)triggerWarningAlert
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle: @"Turn off alarms or set them and press the hold button." message: @"" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+    
+    UIImage *alertImage = [UIImage imageNamed:@"iphone"];
+    UIImageView *alertImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 300, 300)];
+    [alertImageView setImage:alertImage];
+    
+    [alertView  setValue:alertImageView forKey:@"accessoryView"];
+    [alertView  show];
 }
 
 #pragma mark - Override Methods

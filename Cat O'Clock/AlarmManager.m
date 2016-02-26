@@ -82,14 +82,27 @@
     [self saveAlarmsToUserDefaults];
 }
 
-- (void)updateAlarmInAlarmArray:(NSUInteger)alarmIndex andDate:(NSDate *)date
+- (void)updateAlarmInAlarmArray:(NSUInteger)alarmIndex andAlarm:(AlarmModel *)newAlarm
 {
     self.alarmsArray = [[self getAlarmsFromUserDefaults] mutableCopy];
-    AlarmModel *updatedAlarm = [[AlarmModel alloc] initWithDate:date withSwitchState:YES];
     
+    if (self.alarmsArray == nil) {
+        self.alarmsArray = [[NSMutableArray alloc] init];
+    }
+    
+    NSDate *nextTime = [self guaranteeTimeOfFutureDate:newAlarm.date];
+    AlarmModel *updatedAlarm = [[AlarmModel alloc] initWithDate:nextTime WithString:newAlarm.timeString withSwitchState:newAlarm.switchState];
+
     [self.alarmsArray removeObjectAtIndex:alarmIndex];
     [self.alarmsArray insertObject:updatedAlarm atIndex:alarmIndex];
     [self saveAlarmsToUserDefaults];
+    
+//    self.alarmsArray = [[self getAlarmsFromUserDefaults] mutableCopy];
+//    AlarmModel *updatedAlarm = [[AlarmModel alloc] initWithDate:date withSwitchState:YES];
+//    
+//    [self.alarmsArray removeObjectAtIndex:alarmIndex];
+//    [self.alarmsArray insertObject:updatedAlarm atIndex:alarmIndex];
+//    [self saveAlarmsToUserDefaults];
 }
 
 -(NSDate *)guaranteeTimeOfFutureDate:(NSDate *)date

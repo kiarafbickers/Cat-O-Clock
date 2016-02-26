@@ -32,22 +32,22 @@
                                             <rect key="frame" x="310" y="31" width="51" height="31"/>
                                         </switch>
                                         <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00 AM" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nHZ-zi-fgV">
-                                            <rect key="frame" x="17" y="31" width="168" height="39"/>
+                                            <rect key="frame" x="17" y="31" width="168" height="60"/>
                                             <fontDescription key="fontDescription" name="Code-Pro-Demo" family="Code Pro Demo" pointSize="39"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZPh-fH-9ce">
-                                            <rect key="frame" x="-25" y="17" width="252" height="59"/>
+                                        <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZPh-fH-9ce">
+                                            <rect key="frame" x="38" y="32" width="126" height="30"/>
                                         </button>
                                     </subviews>
                                     <constraints>
                                         <constraint firstAttribute="trailing" secondItem="Qup-lt-g55" secondAttribute="trailing" constant="16" id="54s-na-jIi"/>
                                         <constraint firstItem="Qup-lt-g55" firstAttribute="centerY" secondItem="UIC-Aq-AeC" secondAttribute="centerY" id="9UL-Lc-8FB"/>
-                                        <constraint firstItem="ZPh-fH-9ce" firstAttribute="height" secondItem="nHZ-zi-fgV" secondAttribute="height" multiplier="1.5" id="RKW-lT-uhh"/>
+                                        <constraint firstItem="ZPh-fH-9ce" firstAttribute="height" secondItem="nHZ-zi-fgV" secondAttribute="height" multiplier="0.5" id="RKW-lT-uhh"/>
                                         <constraint firstItem="nHZ-zi-fgV" firstAttribute="top" secondItem="Qup-lt-g55" secondAttribute="top" id="Vr8-cJ-jB6"/>
                                         <constraint firstItem="ZPh-fH-9ce" firstAttribute="centerY" secondItem="UIC-Aq-AeC" secondAttribute="centerY" id="gXL-Ig-RAq"/>
-                                        <constraint firstItem="ZPh-fH-9ce" firstAttribute="width" secondItem="nHZ-zi-fgV" secondAttribute="width" multiplier="1.5" id="kmh-er-z3g"/>
+                                        <constraint firstItem="ZPh-fH-9ce" firstAttribute="width" secondItem="nHZ-zi-fgV" secondAttribute="width" multiplier="0.75" id="kmh-er-z3g"/>
                                         <constraint firstItem="ZPh-fH-9ce" firstAttribute="centerX" secondItem="nHZ-zi-fgV" secondAttribute="centerX" id="mte-PM-Oa9"/>
                                         <constraint firstItem="nHZ-zi-fgV" firstAttribute="leading" secondItem="UIC-Aq-AeC" secondAttribute="leading" constant="17" id="xIk-Wh-gta"/>
                                     </constraints>

@@ -78,6 +78,8 @@
         }
     }
     
+    //[self performSelector:@selector(applicationDidFinishLaunching:) withObject:nil afterDelay:1.0];
+    
     NSLog(@"WillResignActive");
 }
 

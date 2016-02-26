@@ -14,7 +14,6 @@
 
 @property (nonatomic, assign) id <AddAlarmViewContollerDelegate> delegate;
 @property (weak, nonatomic) NSLayoutConstraint *pickerViewVerticalSpaceConstraint;
-@property (nonatomic) NSInteger alarmToEditAtIndex;
 
 @end
 
@@ -24,5 +23,6 @@
 @optional
 - (void)timeChanged:(NSDate *)date;
 - (void)dismissTapped:(AddAlarmViewContoller *)controller;
+
 
 @end

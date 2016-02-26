@@ -12,12 +12,15 @@
 @interface AlarmManager : NSObject
 
 @property (nonatomic, strong) NSMutableArray *alarmsArray;
+@property (nonatomic) NSNumber *alarmToEditNSNumber;
+@property (nonatomic) NSInteger alarmToEditAtIndex;
+@property (nonatomic) BOOL alarmToEditBool;
 
 + (instancetype)sharedAlarmDataStore;
 - (void)addAlarmToAlarmArray:(AlarmModel *)alarmModel;
 - (void)removeAlarmFromAlarmArrayAtIndex:(NSUInteger)alarmIndex;
 - (void)updateAlarmInAlarmArray:(NSUInteger)alarmIndex;
-- (void)updateAlarmInAlarmArray:(NSUInteger)alarmIndex andDate:(NSDate *)date;
+- (void)updateAlarmInAlarmArray:(NSUInteger)alarmIndex andAlarm:(AlarmModel *)newAlarm;
 
 - (void)checkForOldAlarm;
 - (void)checkForValidAlarm;

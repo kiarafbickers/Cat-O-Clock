@@ -23,10 +23,10 @@
 
 @end
 
-#pragma mark - View Lifecyle Methods
+
+#pragma mark - View Lifecycle Methods
 
 @implementation AddAlarmViewContoller
-
 
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -61,15 +61,16 @@
 
 - (IBAction)save:(id)sender
 {
-    if (!self.alarmToEditAtIndex < 0.0f) {
-        [self.alarmManager updateAlarmInAlarmArray:self.alarmToEditAtIndex andDate:self.datePicker.date];
-        self.alarmToEditAtIndex = -1000;
+    if (self.alarmManager.alarmToEditBool == YES) {
+        NSInteger index = [self.alarmManager.alarmToEditNSNumber integerValue];
+        AlarmModel *newAlarm = [[AlarmModel alloc] initWithDate:self.datePicker.date withSwitchState:YES];
+        [self.alarmManager updateAlarmInAlarmArray:index andAlarm:newAlarm];
     }
     else {
         AlarmModel *newAlarm = [[AlarmModel alloc] initWithDate:self.datePicker.date withSwitchState:YES];
         [self.alarmManager addAlarmToAlarmArray:newAlarm];
-        [self dismissModal];
     }
+    [self dismissModal];
 }
 
 - (void)dismissModal
