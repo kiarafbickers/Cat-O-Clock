@@ -17,6 +17,7 @@
 		E93A27541C7EB731008730EA /* NSDate+Comparison.m in Sources */ = {isa = PBXBuildFile; fileRef = E93A27531C7EB731008730EA /* NSDate+Comparison.m */; settings = {ASSET_TAGS = (); }; };
 		E93A27651C80009E008730EA /* MainTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E93A27641C80009D008730EA /* MainTableViewController.m */; settings = {ASSET_TAGS = (); }; };
 		E93A27681C824FD3008730EA /* MMPDeepSleepPreventer.m in Sources */ = {isa = PBXBuildFile; fileRef = E93A27671C824FD3008730EA /* MMPDeepSleepPreventer.m */; settings = {ASSET_TAGS = (); }; };
+		E93A276C1C82529E008730EA /* MMPSilence.wav in Resources */ = {isa = PBXBuildFile; fileRef = E93A276B1C82529E008730EA /* MMPSilence.wav */; settings = {ASSET_TAGS = (); }; };
 		E959C0551C75515000B0878D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E959C0541C75515000B0878D /* main.m */; };
 		E959C0581C75515200B0878D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E959C0571C75515200B0878D /* AppDelegate.m */; };
 		E959C05E1C75515500B0878D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E959C05C1C75515500B0878D /* Main.storyboard */; };
@@ -45,6 +46,7 @@
 		E93A27641C80009D008730EA /* MainTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainTableViewController.m; sourceTree = "<group>"; };
 		E93A27661C824FD3008730EA /* MMPDeepSleepPreventer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MMPDeepSleepPreventer.h; path = "../../Downloads/MMPDeepSleepPreventer-master/MMPDeepSleepPreventer.h"; sourceTree = "<group>"; };
 		E93A27671C824FD3008730EA /* MMPDeepSleepPreventer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MMPDeepSleepPreventer.m; path = "../../Downloads/MMPDeepSleepPreventer-master/MMPDeepSleepPreventer.m"; sourceTree = "<group>"; };
+		E93A276B1C82529E008730EA /* MMPSilence.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = MMPSilence.wav; sourceTree = "<group>"; };
 		E94B07AE1C75618C00CF05C7 /* MainTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainTableViewController.h; sourceTree = "<group>"; };
 		E959C0501C75514B00B0878D /* Cat O'Clock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cat O'Clock.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E959C0541C75515000B0878D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -137,6 +139,7 @@
 			children = (
 				E906CA071C7AB66000DC535F /* Code_Pro_Demo.otf */,
 				E906CA021C77B3CE00DC535F /* meow.wav */,
+				E93A276B1C82529E008730EA /* MMPSilence.wav */,
 				E959C0541C75515000B0878D /* main.m */,
 				E93A27661C824FD3008730EA /* MMPDeepSleepPreventer.h */,
 				E93A27671C824FD3008730EA /* MMPDeepSleepPreventer.m */,
@@ -213,6 +216,7 @@
 				E959C0631C75515700B0878D /* LaunchScreen.storyboard in Resources */,
 				E959C0601C75515700B0878D /* Assets.xcassets in Resources */,
 				E959C05E1C75515500B0878D /* Main.storyboard in Resources */,
+				E93A276C1C82529E008730EA /* MMPSilence.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
