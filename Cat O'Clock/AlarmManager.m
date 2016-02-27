@@ -96,13 +96,6 @@
     [self.alarmsArray removeObjectAtIndex:alarmIndex];
     [self.alarmsArray insertObject:updatedAlarm atIndex:alarmIndex];
     [self saveAlarmsToUserDefaults];
-    
-//    self.alarmsArray = [[self getAlarmsFromUserDefaults] mutableCopy];
-//    AlarmModel *updatedAlarm = [[AlarmModel alloc] initWithDate:date withSwitchState:YES];
-//    
-//    [self.alarmsArray removeObjectAtIndex:alarmIndex];
-//    [self.alarmsArray insertObject:updatedAlarm atIndex:alarmIndex];
-//    [self saveAlarmsToUserDefaults];
 }
 
 -(NSDate *)guaranteeTimeOfFutureDate:(NSDate *)date
@@ -164,16 +157,14 @@
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSData *myEncodedObject = [NSKeyedArchiver archivedDataWithRootObject:mSortedArray];
-    [userDefaults setObject:myEncodedObject forKey:[NSString stringWithFormat:@"sample"]];
+    [userDefaults setObject:myEncodedObject forKey:[NSString stringWithFormat:@"alarmsArray"]];
     [userDefaults synchronize];
 }
-
-
 
 - (NSArray *)getAlarmsFromUserDefaults
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSData *myDecodedObject = [userDefaults objectForKey: [NSString stringWithFormat:@"sample"]];
+    NSData *myDecodedObject = [userDefaults objectForKey: [NSString stringWithFormat:@"alarmsArray"]];
     NSArray *decodedArray =[NSKeyedUnarchiver unarchiveObjectWithData: myDecodedObject];
     
     return decodedArray;
