@@ -107,6 +107,13 @@
                                     <action selector="endGifAlarm:" destination="Zgp-BW-T6H" eventType="touchUpInside" id="eE4-tf-Gz7"/>
                                 </connections>
                             </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="giphy_logo" translatesAutoresizingMaskIntoConstraints="NO" id="NT2-89-YMp">
+                                <rect key="frame" x="88" y="529" width="200" height="22"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="EzI-vf-hHm"/>
+                                    <constraint firstAttribute="height" constant="22" id="vsc-59-SEr"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.5" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -114,11 +121,13 @@
                             <constraint firstItem="53b-Gb-2Qg" firstAttribute="height" secondItem="xsF-qO-56X" secondAttribute="height" priority="750" id="Gvk-42-ss1"/>
                             <constraint firstItem="53b-Gb-2Qg" firstAttribute="height" relation="lessThanOrEqual" secondItem="xsF-qO-56X" secondAttribute="height" id="H6s-7q-5Jn"/>
                             <constraint firstItem="adu-gm-0ks" firstAttribute="height" secondItem="xsF-qO-56X" secondAttribute="height" id="HtQ-pZ-pKb"/>
+                            <constraint firstItem="NT2-89-YMp" firstAttribute="centerX" secondItem="xsF-qO-56X" secondAttribute="centerX" id="IX6-az-LcS"/>
                             <constraint firstItem="53b-Gb-2Qg" firstAttribute="width" secondItem="xsF-qO-56X" secondAttribute="width" priority="750" id="Kml-GM-NXU"/>
                             <constraint firstItem="adu-gm-0ks" firstAttribute="centerY" secondItem="xsF-qO-56X" secondAttribute="centerY" id="fUG-lz-eVh"/>
                             <constraint firstItem="53b-Gb-2Qg" firstAttribute="width" relation="lessThanOrEqual" secondItem="xsF-qO-56X" secondAttribute="width" id="kLq-qK-aP7"/>
                             <constraint firstItem="53b-Gb-2Qg" firstAttribute="centerX" secondItem="xsF-qO-56X" secondAttribute="centerX" id="ngW-Rj-R24"/>
                             <constraint firstItem="adu-gm-0ks" firstAttribute="centerX" secondItem="xsF-qO-56X" secondAttribute="centerX" id="pfJ-Bb-MgA"/>
+                            <constraint firstItem="NT2-89-YMp" firstAttribute="top" secondItem="53b-Gb-2Qg" secondAttribute="bottom" constant="8" id="qhj-g8-2w5"/>
                             <constraint firstItem="53b-Gb-2Qg" firstAttribute="centerY" secondItem="xsF-qO-56X" secondAttribute="centerY" id="wcO-E0-EWL"/>
                         </constraints>
                         <connections>
@@ -270,4 +279,7 @@
             <point key="canvasLocation" x="1528.5" y="384.5"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="giphy_logo" width="100" height="11"/>
+    </resources>
 </document>

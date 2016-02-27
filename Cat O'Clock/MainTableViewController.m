@@ -76,7 +76,7 @@
     NSInteger appLaunchCount = [userDefaults integerForKey:@"LaunchAmounts"];
     if (appLaunchCount == 0) {
         [userDefaults setInteger:appLaunchCount + 1 forKey:@"LaunchAmounts"];
-        [self triggerFirstWarningAlert];
+        [self triggerWarningAlert];
     }
     
     if ([UIApplication sharedApplication].applicationIconBadgeNumber >= 1) {
