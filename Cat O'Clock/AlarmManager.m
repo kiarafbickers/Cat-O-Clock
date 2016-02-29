@@ -39,7 +39,7 @@
 {
     self = [super init];
     if (self) {
-        self.alarmsArray  = [[NSMutableArray alloc] init];
+        _alarmsArray  = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -48,6 +48,8 @@
 
 - (void)addAlarmToAlarmArray:(AlarmModel *)newAlarm
 {
+    NSLog(@"addAlarmToAlarmArray");
+    
     self.alarmsArray = [[self getAlarmsFromUserDefaults] mutableCopy];
     
     if (self.alarmsArray == nil) {
@@ -61,16 +63,28 @@
     [self saveAlarmsToUserDefaults];
 }
 
-- (void)removeAlarmFromAlarmArrayAtIndex:(NSUInteger)alarmIndex
+- (void)updateAlarmInAlarmArray:(NSUInteger)alarmIndex andAlarm:(AlarmModel *)newAlarm
 {
+    NSLog(@"updateAlarmInAlarmArray andAlarm");
+    
     self.alarmsArray = [[self getAlarmsFromUserDefaults] mutableCopy];
     
+    if (self.alarmsArray == nil) {
+        self.alarmsArray = [[NSMutableArray alloc] init];
+    }
+    
+    NSDate *nextTime = [self guaranteeTimeOfFutureDate:newAlarm.date];
+    AlarmModel *updatedAlarm = [[AlarmModel alloc] initWithDate:nextTime WithString:newAlarm.timeString withSwitchState:newAlarm.switchState];
+    
     [self.alarmsArray removeObjectAtIndex:alarmIndex];
+    [self.alarmsArray insertObject:updatedAlarm atIndex:alarmIndex];
     [self saveAlarmsToUserDefaults];
 }
 
 - (void)updateAlarmInAlarmArray:(NSUInteger)alarmIndex
 {
+    NSLog(@"updateAlarmInAlarmArray");
+    
     self.alarmsArray = [[self getAlarmsFromUserDefaults] mutableCopy];
     AlarmModel *oldAlarm = self.alarmsArray[alarmIndex];
     
@@ -82,144 +96,20 @@
     [self saveAlarmsToUserDefaults];
 }
 
-- (void)updateAlarmInAlarmArray:(NSUInteger)alarmIndex andAlarm:(AlarmModel *)newAlarm
+- (void)removeAlarmFromAlarmArrayAtIndex:(NSUInteger)alarmIndex
 {
+    NSLog(@"removeAlarmFromAlarmArrayAtIndex");
+    
     self.alarmsArray = [[self getAlarmsFromUserDefaults] mutableCopy];
     
-    if (self.alarmsArray == nil) {
-        self.alarmsArray = [[NSMutableArray alloc] init];
-    }
-    
-    NSDate *nextTime = [self guaranteeTimeOfFutureDate:newAlarm.date];
-    AlarmModel *updatedAlarm = [[AlarmModel alloc] initWithDate:nextTime WithString:newAlarm.timeString withSwitchState:newAlarm.switchState];
-
     [self.alarmsArray removeObjectAtIndex:alarmIndex];
-    [self.alarmsArray insertObject:updatedAlarm atIndex:alarmIndex];
-    [self saveAlarmsToUserDefaults];
-}
-
--(NSDate *)guaranteeTimeOfFutureDate:(NSDate *)date
-{
-    NSDate *nextTime;
-    
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSCalendarUnit calendarUnits = NSCalendarUnitTimeZone | NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond;
-    NSDateComponents *components = [calendar components:calendarUnits fromDate:[NSDate date]];
-    components.day += 1;
-    NSDate *oneDayFromNow = [calendar dateFromComponents:components];
-    
-    NSCalendarOptions options = NSCalendarMatchNextTime;
-    if ([date isEarlierThan:[NSDate date]]){
-        NSDateComponents *oldComponents = [calendar components:(NSCalendarUnitHour | NSCalendarUnitMinute) fromDate:date];
-        NSInteger hour = [oldComponents hour];
-        NSInteger minute = [oldComponents minute];
-
-        nextTime = [calendar nextDateAfterDate:date matchingHour:hour minute:minute second:0 options:options];
-    } else if ([date isLaterThan:oneDayFromNow]) {
-        NSDateComponents *oldComponents = [calendar components:(NSCalendarUnitHour | NSCalendarUnitMinute) fromDate:date];
-        NSInteger hour = [oldComponents hour];
-        NSInteger minute = [oldComponents minute];
-        
-        nextTime = [calendar dateBySettingHour:hour minute:minute second:0 ofDate:[NSDate date] options:options];
-    }
-    else {
-        nextTime = date;
-    }
-    
-    return nextTime;
-}
-
-#pragma mark - User Defaults Methods
-
-- (void)saveAlarmsToUserDefaults
-{
-    NSMutableArray *mSortedArray = [[NSMutableArray alloc] init];
-    NSArray *array = self.alarmsArray;
-    
-    /*SORT ARRAY IN ORDER OF MOST RESENT*/
-    NSMutableArray *onAlarms = [[NSMutableArray alloc] init];
-    NSMutableArray *offAlarms = [[NSMutableArray alloc] init];
-    for (AlarmModel *alarm in array) {
-        if (alarm.switchState == YES) {
-            [onAlarms addObject:alarm];
-            [onAlarms sortUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"date" ascending:YES]]];
-        } else {
-            [offAlarms addObject:alarm];
-            [onAlarms sortUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"date" ascending:YES]]];
-        }
-    }
-    for (AlarmModel *alarm in onAlarms) {
-        [mSortedArray addObject:alarm];
-    }
-    for (AlarmModel *alarm in offAlarms) {
-        [mSortedArray addObject:alarm];
-    }
-    
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSData *myEncodedObject = [NSKeyedArchiver archivedDataWithRootObject:mSortedArray];
-    [userDefaults setObject:myEncodedObject forKey:[NSString stringWithFormat:@"alarmsArray"]];
-    [userDefaults synchronize];
-}
-
-- (NSArray *)getAlarmsFromUserDefaults
-{
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSData *myDecodedObject = [userDefaults objectForKey: [NSString stringWithFormat:@"alarmsArray"]];
-    NSArray *decodedArray =[NSKeyedUnarchiver unarchiveObjectWithData: myDecodedObject];
-    
-    return decodedArray;
-}
-
-#pragma mark - Timer Methods
-
-- (void)startTimerWithDate:(NSDate *)date
-{
-    if (!self.alarmTimer || !self.alarmTimer.valid) {
-        self.alarmTimer = [[NSTimer alloc] initWithFireDate:date interval:5.0 target:self selector:@selector(doTimer) userInfo:nil repeats:YES];
-        [[NSRunLoop currentRunLoop] addTimer:self.alarmTimer forMode:NSDefaultRunLoopMode];
-    }
-}
-
-- (void)stopAudioPlayer
-{
-    if (self.alarmAudioPlayer) {
-        [self.alarmTimer invalidate];
-        self.alarmAudioPlayer = nil;
-    }
-}
-
-- (void)stopAlarmTimer
-{
-    if (self.alarmTimer) {
-        [self.alarmTimer invalidate];
-        self.alarmTimer = nil;
-    }
-}
-
-- (void)doTimer
-{
-    NSLog(@"Alarm Fired from Manager");
-    [self.alarmAudioPlayer play];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"timerPlaying" object:nil userInfo:nil];
-}
-
-- (void)checkForOldAlarm
-{
-    NSMutableArray *mArray = [[self getAlarmsFromUserDefaults] mutableCopy];
-    
-    for (AlarmModel *thisAlarm in mArray) {
-        if ([thisAlarm.date isEarlierThan:[NSDate date]]){
-            thisAlarm.switchState = NO;
-        }
-    }
-    
-    [self.alarmsArray removeAllObjects];
-    self.alarmsArray = mArray;
     [self saveAlarmsToUserDefaults];
 }
 
 - (void)checkForValidAlarm
 {
+    NSLog(@"checkForValidAlarm");
+    
     NSMutableArray *alarmsArray = [[self getAlarmsFromUserDefaults] mutableCopy];
     
     NSString *filePath = [[NSBundle mainBundle] pathForResource:@"meow" ofType:@"wav"];
@@ -260,6 +150,145 @@
                 break;
             }
         }
+    }
+}
+
+#pragma mark - Helper Methods
+
+- (void)checkForOldAlarm
+{
+    NSLog(@"checkForOldAlarm");
+    NSMutableArray *mArray = [[self getAlarmsFromUserDefaults] mutableCopy];
+    
+    for (AlarmModel *thisAlarm in mArray) {
+        if ([thisAlarm.date isEarlierThan:[NSDate date]]){
+            thisAlarm.switchState = NO;
+        }
+    }
+    
+    [self.alarmsArray removeAllObjects];
+    self.alarmsArray = mArray;
+    [self saveAlarmsToUserDefaults];
+}
+
+-(NSDate *)guaranteeTimeOfFutureDate:(NSDate *)date
+{
+    NSDate *nextTime;
+    
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSCalendarUnit calendarUnits = NSCalendarUnitTimeZone | NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond;
+    NSDateComponents *components = [calendar components:calendarUnits fromDate:[NSDate date]];
+    components.day += 1;
+    NSDate *oneDayFromNow = [calendar dateFromComponents:components];
+    
+    NSCalendarOptions options = NSCalendarMatchNextTime;
+    if ([date isEarlierThan:[NSDate date]]){
+        NSDateComponents *oldComponents = [calendar components:(NSCalendarUnitHour | NSCalendarUnitMinute) fromDate:date];
+        NSInteger hour = [oldComponents hour];
+        NSInteger minute = [oldComponents minute];
+
+        nextTime = [calendar nextDateAfterDate:date matchingHour:hour minute:minute second:0 options:options];
+    } else if ([date isLaterThan:oneDayFromNow]) {
+        NSDateComponents *oldComponents = [calendar components:(NSCalendarUnitHour | NSCalendarUnitMinute) fromDate:date];
+        NSInteger hour = [oldComponents hour];
+        NSInteger minute = [oldComponents minute];
+        
+        nextTime = [calendar dateBySettingHour:hour minute:minute second:0 ofDate:[NSDate date] options:options];
+    }
+    else {
+        nextTime = date;
+    }
+    
+    NSLog(@"guaranteeTime %@, OfFutureDate %@", date, nextTime);
+    
+    return nextTime;
+}
+
+#pragma mark - User Defaults Methods
+
+- (void)saveAlarmsToUserDefaults
+{
+    NSLog(@"saveAlarmsToUserDefaults %@", self.alarmsArray);
+    
+    NSMutableArray *mSortedArray = [[NSMutableArray alloc] init];
+    NSArray *array = self.alarmsArray;
+    
+    /*SORT ARRAY IN ORDER OF MOST RESENT*/
+    NSMutableArray *onAlarms = [[NSMutableArray alloc] init];
+    NSMutableArray *offAlarms = [[NSMutableArray alloc] init];
+    for (AlarmModel *alarm in array) {
+        if (alarm.switchState == YES) {
+            [onAlarms addObject:alarm];
+            [onAlarms sortUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"date" ascending:YES]]];
+        } else {
+            [offAlarms addObject:alarm];
+            [onAlarms sortUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"date" ascending:YES]]];
+        }
+    }
+    for (AlarmModel *alarm in onAlarms) {
+        [mSortedArray addObject:alarm];
+    }
+    for (AlarmModel *alarm in offAlarms) {
+        [mSortedArray addObject:alarm];
+    }
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSData *myEncodedObject = [NSKeyedArchiver archivedDataWithRootObject:mSortedArray];
+    [userDefaults setObject:myEncodedObject forKey:[NSString stringWithFormat:@"alarmsArray"]];
+    [userDefaults synchronize];
+}
+
+- (NSArray *)getAlarmsFromUserDefaults
+{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSData *myDecodedObject = [userDefaults objectForKey: [NSString stringWithFormat:@"alarmsArray"]];
+    NSArray *decodedArray =[NSKeyedUnarchiver unarchiveObjectWithData: myDecodedObject];
+    
+    NSLog(@"getAlarmsFromUserDefaults %@", decodedArray);
+    
+    return decodedArray;
+}
+
+#pragma mark - Timer Methods
+
+- (void)startTimerWithDate:(NSDate *)date
+{
+    NSLog(@"startTimerWithDate %@", date);
+    NSLog(@"if !self.alarmTimer = %d || !self.alarmTimer.valid = %d", !self.alarmTimer, !self.alarmTimer.valid);
+    
+    if (!self.alarmTimer || !self.alarmTimer.valid) {
+        self.alarmTimer = [[NSTimer alloc] initWithFireDate:date interval:5.0 target:self selector:@selector(startAudioPlayer) userInfo:nil repeats:YES];
+        [[NSRunLoop currentRunLoop] addTimer:self.alarmTimer forMode:NSDefaultRunLoopMode];
+    }
+}
+
+- (void)stopTimer
+{
+    NSLog(@"stopTimer");
+    
+    if (self.alarmTimer) {
+        [self.alarmTimer invalidate];
+        self.alarmTimer = nil;
+    }
+}
+
+#pragma mark - Audio Player Methods
+
+- (void)startAudioPlayer
+{
+    NSLog(@"startAudioPlayer");
+    
+    [self.alarmAudioPlayer play];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"alarmPlaying" object:nil userInfo:nil];
+}
+
+- (void)stopAudioPlayer
+{
+    NSLog(@"stopAudioPlayer");
+    
+    if (self.alarmAudioPlayer) {
+        [self.alarmTimer invalidate];
+        self.alarmAudioPlayer = nil;
     }
 }
 

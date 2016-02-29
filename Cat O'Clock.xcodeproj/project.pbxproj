@@ -47,6 +47,7 @@
 		E93A27661C824FD3008730EA /* MMPDeepSleepPreventer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MMPDeepSleepPreventer.h; path = "../../Downloads/MMPDeepSleepPreventer-master/MMPDeepSleepPreventer.h"; sourceTree = "<group>"; };
 		E93A27671C824FD3008730EA /* MMPDeepSleepPreventer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MMPDeepSleepPreventer.m; path = "../../Downloads/MMPDeepSleepPreventer-master/MMPDeepSleepPreventer.m"; sourceTree = "<group>"; };
 		E93A276B1C82529E008730EA /* MMPSilence.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = MMPSilence.wav; sourceTree = "<group>"; };
+		E93A27711C828EB9008730EA /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		E94B07AE1C75618C00CF05C7 /* MainTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainTableViewController.h; sourceTree = "<group>"; };
 		E959C0501C75514B00B0878D /* Cat O'Clock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cat O'Clock.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E959C0541C75515000B0878D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -113,6 +114,7 @@
 		E959C0521C75514C00B0878D /* Cat O'Clock */ = {
 			isa = PBXGroup;
 			children = (
+				E93A27711C828EB9008730EA /* Constants.h */,
 				E959C0561C75515100B0878D /* AppDelegate.h */,
 				E959C0571C75515200B0878D /* AppDelegate.m */,
 				E94B07AE1C75618C00CF05C7 /* MainTableViewController.h */,

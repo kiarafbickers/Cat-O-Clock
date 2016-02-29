@@ -152,7 +152,7 @@
         }
     }
     
-    [self.alarmManager stopAlarmTimer];
+    [self.alarmManager stopTimer];
     [[AVAudioSession sharedInstance] setActive:NO error:NULL];
     [self.alarmManager stopAudioPlayer];
 
