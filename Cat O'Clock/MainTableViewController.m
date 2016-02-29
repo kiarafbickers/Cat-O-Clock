@@ -10,6 +10,7 @@
 #import "AlarmManager.h"
 #import "AlarmModel.h"
 #import "ModalViewController.h"
+#import "Constants.h"
 #import "AddAlarmViewContoller.h"
 #import <ChameleonFramework/Chameleon.h>
 #import <Giphy-iOS/AXCGiphy.h>
@@ -47,7 +48,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self configureBackroundNilSound];
+    //[self configureBackroundNilSound];
     [self setupRefreshControl];
 
     self.alarmManager = [AlarmManager sharedAlarmDataStore];
@@ -56,7 +57,7 @@
     self.navigationController.navigationBar.hidden = YES;
     
     UIView *statusBackround = [[UIView alloc] init];
-    statusBackround.frame =  CGRectMake(0, 0, self.view.frame.size.width, 20);
+    statusBackround.frame = CGRectMake(0, 0, self.view.frame.size.width, 20);
     statusBackround.backgroundColor = [UIColor flatBlackColor];
     [self.navigationController.view addSubview:statusBackround];
     
@@ -68,14 +69,14 @@
     self.navigationController.navigationBar.backgroundColor = [UIColor flatWhiteColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"timerPlaying" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showModalVCWithImage:) name:@"timerPlaying" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"alarmPlaying" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showModalVCWithImage:) name:@"alarmPlaying" object:nil];
     
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSInteger appLaunchCount = [userDefaults integerForKey:@"LaunchAmounts"];
+    NSInteger appLaunchCount = [userDefaults integerForKey:@"launchAmounts"];
     if (appLaunchCount == 0) {
-        [userDefaults setInteger:appLaunchCount + 1 forKey:@"LaunchAmounts"];
+        [userDefaults setInteger:appLaunchCount + 1 forKey:@"launchAmounts"];
         [self triggerWarningAlert];
     }
     
@@ -298,11 +299,13 @@
 
 - (void)showModalVCWithImage:(NSNotification *)notification
 {
+    NSLog(@"Received notification %@", [notification name]);
+    
     if (!self.modalVC) {
         NSUInteger randomNumber = [self getRandomNumberBetween:0 to:2400];
         
-        [AXCGiphy setGiphyAPIKey:@"dc6zaTOxFJmzC"];
-        [AXCGiphy searchGiphyWithTerm:@"cats-cute" limit:1 offset:randomNumber completion:^(NSArray *results, NSError *error) {
+        [AXCGiphy setGiphyAPIKey:kGiphyApiKey];
+        [AXCGiphy searchGiphyWithTerm:kGiphyQuery limit:1 offset:randomNumber completion:^(NSArray *results, NSError *error) {
             
             if (!error){
                 AXCGiphy *gif = results[0];
@@ -315,10 +318,6 @@
                         double gifRatio = gifImage.size.height/gifImage.size.width;
                         NSUInteger gifNewWidth = self.view.frame.size.width - 36;
                         NSUInteger gifNewHeight = gifRatio * gifNewWidth;
-                        
-                        
-                        NSLog(@"width: %f", gifImage.size.width);
-                        NSLog(@"height: %f", gifImage.size.height);
                         
                         if(!error){
                             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
@@ -520,23 +519,20 @@
     static int colorIndex = 0;
     self.isRefreshAnimating = YES;
     
-    [UIView animateWithDuration:0.3
-                          delay:0
-                        options:UIViewAnimationOptionCurveLinear
-                     animations:^{
+    [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveLinear animations:^{
                          
-                         [self.toastImageView setTransform:CGAffineTransformRotate(self.toastImageView.transform, M_PI_2)];
-                         self.refreshColorView.backgroundColor = [colorArray objectAtIndex:colorIndex];
-                         colorIndex = (colorIndex + 1) % colorArray.count;
-                     }
-                     completion:^(BOOL finished) {
-                         
-                         if (self.refreshControl.isRefreshing) {
-                             [self animateRefreshView];
-                         }else{
-                             [self resetAnimation];
-                         }
-                     }];
+         [self.toastImageView setTransform:CGAffineTransformRotate(self.toastImageView.transform, M_PI_2)];
+         self.refreshColorView.backgroundColor = [colorArray objectAtIndex:colorIndex];
+         colorIndex = (colorIndex + 1) % colorArray.count;
+     }
+     completion:^(BOOL finished) {
+         
+         if (self.refreshControl.isRefreshing) {
+             [self animateRefreshView];
+         }else{
+             [self resetAnimation];
+         }
+    }];
 }
 
 - (void)resetAnimation
@@ -548,15 +544,15 @@
 
 #pragma mark - Helper Methods
 
-- (void)configureBackroundNilSound
-{
-    /* THREAD ISSUE? - ALARM WILL CRASH UNLESS BACKROUND SOUND IS CONFIGURED*/
-    NSString *backgroundNilPath = [[NSBundle mainBundle] pathForResource:@"meow" ofType:@"wav"];
-    NSURL *backgroundNilURL = [NSURL fileURLWithPath:backgroundNilPath];
-    AVAudioPlayer *backgroundNilPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:backgroundNilURL error:nil];
-    backgroundNilPlayer.numberOfLoops = 0;	// Never Plays
-    backgroundNilPlayer.volume = 1;
-}
+//- (void)configureBackroundNilSound
+//{
+//    /* THREAD ISSUE? - ALARM WILL CRASH UNLESS BACKROUND SOUND IS CONFIGURED*/
+//    NSString *backgroundNilPath = [[NSBundle mainBundle] pathForResource:@"meow" ofType:@"wav"];
+//    NSURL *backgroundNilURL = [NSURL fileURLWithPath:backgroundNilPath];
+//    AVAudioPlayer *backgroundNilPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:backgroundNilURL error:nil];
+//    backgroundNilPlayer.numberOfLoops = 0;	// Never Plays
+//    backgroundNilPlayer.volume = 1;
+//}
 
 - (int)getRandomNumberBetween:(int)from to:(int)to
 {

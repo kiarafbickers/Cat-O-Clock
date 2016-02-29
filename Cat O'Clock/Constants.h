@@ -9,5 +9,7 @@
 #ifndef Constants_h
 #define Constants_h
 
+#define kGiphyApiKey @"dc6zaTOxFJmzC"
+#define kGiphyQuery @"cute-cats"
 
-#endif /* Constants_h */
+#endif

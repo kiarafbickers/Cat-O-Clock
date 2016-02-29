@@ -17,18 +17,21 @@
 @property (nonatomic) BOOL alarmToEditBool;
 
 + (instancetype)sharedAlarmDataStore;
+
 - (void)addAlarmToAlarmArray:(AlarmModel *)alarmModel;
+- (void)updateAlarmInAlarmArray:(NSUInteger)alarmIndex andAlarm:(AlarmModel *)newAlarm;
+
 - (void)removeAlarmFromAlarmArrayAtIndex:(NSUInteger)alarmIndex;
 - (void)updateAlarmInAlarmArray:(NSUInteger)alarmIndex;
-- (void)updateAlarmInAlarmArray:(NSUInteger)alarmIndex andAlarm:(AlarmModel *)newAlarm;
 
 - (void)checkForOldAlarm;
 - (void)checkForValidAlarm;
 
 - (void)startTimerWithDate:(NSDate *)date;
-- (void)stopAlarmTimer;
+- (void)stopTimer;
+
 - (void)stopAudioPlayer;
-- (void)doTimer;
+- (void)startAudioPlayer;
 
 - (NSArray *)getAlarmsFromUserDefaults;
 
