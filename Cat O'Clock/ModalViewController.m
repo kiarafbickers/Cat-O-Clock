@@ -45,7 +45,4 @@
     [self performSegueWithIdentifier:@"showMainView" sender:self];
 }
 
-#pragma mark - Overrides Methods
-
-
 @end

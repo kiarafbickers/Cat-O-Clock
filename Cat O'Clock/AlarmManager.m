@@ -39,7 +39,7 @@
 {
     self = [super init];
     if (self) {
-        _alarmsArray  = [[NSMutableArray alloc] init];
+        
     }
     return self;
 }
@@ -48,8 +48,6 @@
 
 - (void)addAlarmToAlarmArray:(AlarmModel *)newAlarm
 {
-    NSLog(@"addAlarmToAlarmArray");
-    
     self.alarmsArray = [[self getAlarmsFromUserDefaults] mutableCopy];
     
     if (self.alarmsArray == nil) {
@@ -65,8 +63,6 @@
 
 - (void)updateAlarmInAlarmArray:(NSUInteger)alarmIndex andAlarm:(AlarmModel *)newAlarm
 {
-    NSLog(@"updateAlarmInAlarmArray andAlarm");
-    
     self.alarmsArray = [[self getAlarmsFromUserDefaults] mutableCopy];
     
     if (self.alarmsArray == nil) {
@@ -83,8 +79,6 @@
 
 - (void)updateAlarmInAlarmArray:(NSUInteger)alarmIndex
 {
-    NSLog(@"updateAlarmInAlarmArray");
-    
     self.alarmsArray = [[self getAlarmsFromUserDefaults] mutableCopy];
     AlarmModel *oldAlarm = self.alarmsArray[alarmIndex];
     
@@ -98,8 +92,6 @@
 
 - (void)removeAlarmFromAlarmArrayAtIndex:(NSUInteger)alarmIndex
 {
-    NSLog(@"removeAlarmFromAlarmArrayAtIndex");
-    
     self.alarmsArray = [[self getAlarmsFromUserDefaults] mutableCopy];
     
     [self.alarmsArray removeObjectAtIndex:alarmIndex];
@@ -108,8 +100,6 @@
 
 - (void)checkForValidAlarm
 {
-    NSLog(@"checkForValidAlarm");
-    
     NSMutableArray *alarmsArray = [[self getAlarmsFromUserDefaults] mutableCopy];
     
     NSString *filePath = [[NSBundle mainBundle] pathForResource:@"meow" ofType:@"wav"];
@@ -157,7 +147,6 @@
 
 - (void)checkForOldAlarm
 {
-    NSLog(@"checkForOldAlarm");
     NSMutableArray *mArray = [[self getAlarmsFromUserDefaults] mutableCopy];
     
     for (AlarmModel *thisAlarm in mArray) {
@@ -199,8 +188,6 @@
         nextTime = date;
     }
     
-    NSLog(@"guaranteeTime %@, OfFutureDate %@", date, nextTime);
-    
     return nextTime;
 }
 
@@ -208,8 +195,6 @@
 
 - (void)saveAlarmsToUserDefaults
 {
-    NSLog(@"saveAlarmsToUserDefaults %@", self.alarmsArray);
-    
     NSMutableArray *mSortedArray = [[NSMutableArray alloc] init];
     NSArray *array = self.alarmsArray;
     
@@ -243,9 +228,7 @@
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSData *myDecodedObject = [userDefaults objectForKey: [NSString stringWithFormat:@"alarmsArray"]];
     NSArray *decodedArray =[NSKeyedUnarchiver unarchiveObjectWithData: myDecodedObject];
-    
-    NSLog(@"getAlarmsFromUserDefaults %@", decodedArray);
-    
+
     return decodedArray;
 }
 
@@ -276,18 +259,14 @@
 
 - (void)startAudioPlayer
 {
-    NSLog(@"startAudioPlayer");
-    
     [self.alarmAudioPlayer play];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"alarmPlaying" object:nil userInfo:nil];
 }
 
 - (void)stopAudioPlayer
 {
-    NSLog(@"stopAudioPlayer");
-    
     if (self.alarmAudioPlayer) {
-        [self.alarmTimer invalidate];
+        [self.alarmAudioPlayer stop];
         self.alarmAudioPlayer = nil;
     }
 }

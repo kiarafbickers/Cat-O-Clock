@@ -12,6 +12,8 @@
 #import "ModalViewController.h"
 #import "Constants.h"
 #import "AddAlarmViewContoller.h"
+
+#import "MMPDeepSleepPreventer.h"
 #import <ChameleonFramework/Chameleon.h>
 #import <Giphy-iOS/AXCGiphy.h>
 #import <AnimatedGIFImageSerialization/AnimatedGIFImageSerialization.h>
@@ -48,9 +50,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    //[self configureBackroundNilSound];
     [self setupRefreshControl];
-
+    
     self.alarmManager = [AlarmManager sharedAlarmDataStore];
     self.alarmsArray = [[self.alarmManager getAlarmsFromUserDefaults] mutableCopy];
     
@@ -77,7 +78,7 @@
     NSInteger appLaunchCount = [userDefaults integerForKey:@"launchAmounts"];
     if (appLaunchCount == 0) {
         [userDefaults setInteger:appLaunchCount + 1 forKey:@"launchAmounts"];
-        [self triggerWarningAlert];
+        [self triggerFirstWarningAlert];
     }
     
     if ([UIApplication sharedApplication].applicationIconBadgeNumber >= 1) {
