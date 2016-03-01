@@ -37,7 +37,6 @@
 @property (assign) BOOL isRefreshIconsOverlap;
 @property (assign) BOOL isRefreshAnimating;
 
-@property (nonatomic, strong) NSMutableArray *alarmsArray;
 @property (strong, nonatomic) NSArray *giphyResults;
 
 @end
@@ -46,6 +45,13 @@
 @implementation MainTableViewController
 
 #pragma mark - View Lifecyle Methods
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(reloadDataAndTableView) name:UIApplicationDidBecomeActiveNotification object:nil];
+}
 
 - (void)viewDidLoad
 {
@@ -73,7 +79,6 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"alarmPlaying" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showModalVCWithImage:) name:@"alarmPlaying" object:nil];
     
-    
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSInteger appLaunchCount = [userDefaults integerForKey:@"launchAmounts"];
     if (appLaunchCount == 0) {
@@ -85,12 +90,6 @@
         [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
         [self triggerWarningAlert];
     }
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(reloadDataAndTableView) name:UIApplicationDidBecomeActiveNotification object:nil];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -126,6 +125,23 @@
     [self.alarmManager checkForValidAlarm];
     [self.tableView reloadData];
     NSLog(@"____________");
+    
+    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+    for (AlarmModel *alarm in self.alarmsArray) {
+        if (alarm.switchState == YES) {
+            NSLog(@"Set alarm notification for: %@", alarm.date);
+            NSString *filePath = [[NSBundle mainBundle] pathForResource:@"meow" ofType:@"wav"];
+            UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+            [localNotification setTimeZone:[NSTimeZone defaultTimeZone]];
+            [localNotification setAlertBody:@"Meeeeoww!"];
+            [localNotification setAlertAction:@"Open App"];
+            [localNotification setHasAction:YES];
+            [localNotification setFireDate:alarm.date];
+            [localNotification setSoundName:filePath];
+            [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+            [self.alarmManager startTimerWithDate:alarm.date];
+        }
+    }
 }
 
 #pragma mark - Action Methods
@@ -162,10 +178,7 @@
 {
     CGPoint hitPoint = [sender convertPoint:CGPointZero toView:self.tableView];
     NSIndexPath *hitIndex = [self.tableView indexPathForRowAtPoint:hitPoint];
-
-    NSLog(@"hitIndex %@", hitIndex);
-    NSLog(@"index Path: %ld", hitIndex.row);
-    
+ 
     self.alarmManager.alarmToEditNSNumber = [NSNumber numberWithInteger:hitIndex.row];
     self.alarmManager.alarmToEditBool = YES;
     [self showAlarmTimeSelector];

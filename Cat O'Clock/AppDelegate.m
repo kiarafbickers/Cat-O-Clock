@@ -12,6 +12,7 @@
 #import "AlarmManager.h"
 #import "AlarmModel.h"
 #import "MMPDeepSleepPreventer.h"
+#import "MainTableViewController.h"
 @import AVFoundation;
 
 @interface AppDelegate ()
@@ -65,8 +66,8 @@
     
     [self.sleepPreventer startPreventSleep];
     
-    self.alarmsArray = [[self.alarmManager getAlarmsFromUserDefaults] mutableCopy];
-    for (AlarmModel *alarm in self.alarmsArray) {
+    //self.alarmsArray = [[self.alarmManager getAlarmsFromUserDefaults] mutableCopy];
+    for (AlarmModel *alarm in self.alarmManager.alarmsArray) {
         if (alarm.switchState == YES) {
             
             NSLog(@"Set alarm notification for: %@", alarm.date);
@@ -93,8 +94,8 @@
 {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits
-    NSLog(@"DidEnterBackground");
     
+    NSLog(@"DidEnterBackground");
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
@@ -125,9 +126,9 @@
         [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
     }
     
-    self.alarmsArray = [[self.alarmManager getAlarmsFromUserDefaults] mutableCopy];
+    //self.alarmsArray = [[self.alarmManager getAlarmsFromUserDefaults] mutableCopy];
     
-    for (AlarmModel *alarm in self.alarmsArray) {
+    for (AlarmModel *alarm in self.alarmManager.alarmsArray) {
         
         if (alarm.switchState == YES) {
             
@@ -151,6 +152,8 @@
             break;
         }
     }
+    
+    [self.alarmManager.alarmsArray removeAllObjects];
     
     [self.alarmManager stopTimer];
     [[AVAudioSession sharedInstance] setActive:NO error:NULL];

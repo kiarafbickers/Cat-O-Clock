@@ -39,7 +39,7 @@
 {
     self = [super init];
     if (self) {
-        
+        _alarmsArray = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -48,11 +48,11 @@
 
 - (void)addAlarmToAlarmArray:(AlarmModel *)newAlarm
 {
-    self.alarmsArray = [[self getAlarmsFromUserDefaults] mutableCopy];
-    
-    if (self.alarmsArray == nil) {
-        self.alarmsArray = [[NSMutableArray alloc] init];
-    }
+//    self.alarmsArray = [[self getAlarmsFromUserDefaults] mutableCopy];
+//    
+//    if (self.alarmsArray == nil) {
+//        self.alarmsArray = [[NSMutableArray alloc] init];
+//    }
     
     NSDate *nextTime = [self guaranteeTimeOfFutureDate:newAlarm.date];
     AlarmModel *updatedAlarm = [[AlarmModel alloc] initWithDate:nextTime WithString:newAlarm.timeString withSwitchState:newAlarm.switchState];
@@ -63,11 +63,11 @@
 
 - (void)updateAlarmInAlarmArray:(NSUInteger)alarmIndex andAlarm:(AlarmModel *)newAlarm
 {
-    self.alarmsArray = [[self getAlarmsFromUserDefaults] mutableCopy];
-    
-    if (self.alarmsArray == nil) {
-        self.alarmsArray = [[NSMutableArray alloc] init];
-    }
+//    self.alarmsArray = [[self getAlarmsFromUserDefaults] mutableCopy];
+//    
+//    if (self.alarmsArray == nil) {
+//        self.alarmsArray = [[NSMutableArray alloc] init];
+//    }
     
     NSDate *nextTime = [self guaranteeTimeOfFutureDate:newAlarm.date];
     AlarmModel *updatedAlarm = [[AlarmModel alloc] initWithDate:nextTime WithString:newAlarm.timeString withSwitchState:newAlarm.switchState];
@@ -79,7 +79,7 @@
 
 - (void)updateAlarmInAlarmArray:(NSUInteger)alarmIndex
 {
-    self.alarmsArray = [[self getAlarmsFromUserDefaults] mutableCopy];
+//    self.alarmsArray = [[self getAlarmsFromUserDefaults] mutableCopy];
     AlarmModel *oldAlarm = self.alarmsArray[alarmIndex];
     
     NSDate *nextTime = [self guaranteeTimeOfFutureDate:oldAlarm.date];
@@ -92,7 +92,7 @@
 
 - (void)removeAlarmFromAlarmArrayAtIndex:(NSUInteger)alarmIndex
 {
-    self.alarmsArray = [[self getAlarmsFromUserDefaults] mutableCopy];
+//    self.alarmsArray = [[self getAlarmsFromUserDefaults] mutableCopy];
     
     [self.alarmsArray removeObjectAtIndex:alarmIndex];
     [self saveAlarmsToUserDefaults];
@@ -100,12 +100,12 @@
 
 - (void)checkForValidAlarm
 {
-    NSMutableArray *alarmsArray = [[self getAlarmsFromUserDefaults] mutableCopy];
+//    NSMutableArray *alarmsArray = [[self getAlarmsFromUserDefaults] mutableCopy];
     
     NSString *filePath = [[NSBundle mainBundle] pathForResource:@"meow" ofType:@"wav"];
     NSURL *fileURL = [[NSURL alloc] initFileURLWithPath:filePath];
     
-    for (AlarmModel *firstAlarm in alarmsArray) {
+    for (AlarmModel *firstAlarm in self.alarmsArray) {
         
         if (firstAlarm.switchState == YES) {
             
@@ -220,7 +220,6 @@
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSData *myEncodedObject = [NSKeyedArchiver archivedDataWithRootObject:mSortedArray];
     [userDefaults setObject:myEncodedObject forKey:[NSString stringWithFormat:@"alarmsArray"]];
-    [userDefaults synchronize];
 }
 
 - (NSArray *)getAlarmsFromUserDefaults
@@ -236,9 +235,6 @@
 
 - (void)startTimerWithDate:(NSDate *)date
 {
-    NSLog(@"startTimerWithDate %@", date);
-    NSLog(@"if !self.alarmTimer = %d || !self.alarmTimer.valid = %d", !self.alarmTimer, !self.alarmTimer.valid);
-    
     if (!self.alarmTimer || !self.alarmTimer.valid) {
         self.alarmTimer = [[NSTimer alloc] initWithFireDate:date interval:5.0 target:self selector:@selector(startAudioPlayer) userInfo:nil repeats:YES];
         [[NSRunLoop currentRunLoop] addTimer:self.alarmTimer forMode:NSDefaultRunLoopMode];
@@ -247,8 +243,6 @@
 
 - (void)stopTimer
 {
-    NSLog(@"stopTimer");
-    
     if (self.alarmTimer) {
         [self.alarmTimer invalidate];
         self.alarmTimer = nil;
