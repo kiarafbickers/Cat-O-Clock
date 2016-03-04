@@ -11,7 +11,9 @@
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+
 @property (nonatomic) UIBackgroundTaskIdentifier backgroundUploadTask;
+@property (nonatomic) UIBackgroundTaskIdentifier bgTask;
 
 @end
 

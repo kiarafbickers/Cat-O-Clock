@@ -11,6 +11,9 @@
 
 #define kGiphyApiKey @"dc6zaTOxFJmzC"
 #define kGiphyQuery @"cute-cats"
+
 #define kTypeFace @"Code-Pro-Demo"
+
+#define kImageSpacing 36
 
 #endif

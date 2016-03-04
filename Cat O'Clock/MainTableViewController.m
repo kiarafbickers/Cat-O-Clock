@@ -84,7 +84,7 @@
     
     // Remove any potential alarm observers than set one
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"alarmPlaying" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showModalVCWithImage:) name:@"alarmPlaying" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkForModalViewController:) name:@"alarmPlaying" object:nil];
     
     // Push local notification if it is the first time loading the app
     NSInteger appLaunchCount = [[NSUserDefaults standardUserDefaults] integerForKey:@"launchAmounts"];
@@ -328,95 +328,141 @@
 
 #pragma mark - ModalViewController Methods
 
-- (void)showModalVCWithImage:(NSNotification *)notification
+- (void)checkForModalViewController:(NSNotification *)notification
 {
     NSLog(@"Received notification %@", [notification name]);
     
+    // Present GIF view controller if one does not already exist
     if (!self.gifViewController) {
-        NSUInteger randomNumber = [self getRandomNumberBetween:0 to:2400];
-        
-        [AXCGiphy setGiphyAPIKey:kGiphyApiKey];
-        [AXCGiphy searchGiphyWithTerm:kGiphyQuery limit:1 offset:randomNumber completion:^(NSArray *results, NSError *error) {
+        [self callGiphyApiForGifImage];
+    }
+}
+
+- (void)callGiphyApiForGifImage
+{
+    // Random number corresponds to the maximum possible return values from giphy in the search/kGiphyQuery
+    NSUInteger randomNumber = [self getRandomNumberBetween:0 to:2400];
+    
+    // Set the Giphy API Key
+    [AXCGiphy setGiphyAPIKey:kGiphyApiKey];
+    
+    // Set the search term with a limit and random offset to return a random GIF each time
+    [AXCGiphy searchGiphyWithTerm:kGiphyQuery limit:1 offset:randomNumber completion:^(NSArray *results, NSError *error) {
+        if (!error) {
             
-            if (!error){
-                AXCGiphy *gif = results[0];
+            // Get the GIF from Giphy results index array
+            AXCGiphy *gif = results[0];
+            
+            // *Some images do not have URLs
+            if (gif.originalImage.url) {
                 
-                if(gif.originalImage.url){
-                    NSURLRequest *request = [NSURLRequest requestWithURL:gif.originalImage.url];
-                    [[[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                // Create NSURLRequest from GIF URL
+                NSURLRequest *request = [NSURLRequest requestWithURL:gif.originalImage.url];
+                [[[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                    if (!error) {
                         
+                        // Get image size parameters from data
+                        // TODO: Change the way this is done to use autolayout instead of frames
                         UIImage *gifImage = [UIImage imageWithData:data];
                         double gifRatio = gifImage.size.height/gifImage.size.width;
-                        NSUInteger gifNewWidth = self.view.frame.size.width - 36;
+                        
+                        // Create new GIF width & height for to fit on screen
+                        NSUInteger gifNewWidth = self.view.frame.size.width;
                         NSUInteger gifNewHeight = gifRatio * gifNewWidth;
                         
-                        if(!error){
-                            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                                UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-                                self.gifViewController = (ModalViewController *)[storyboard instantiateViewControllerWithIdentifier:@"modalViewController"];
-                                
-                                self.gifViewController.view.alpha = 0;
-                                [self presentViewController:self.gifViewController animated:YES completion:(^{
-                                    FLAnimatedImage *image = [FLAnimatedImage animatedImageWithGIFData:data];
-                                    FLAnimatedImageView *imageView = [[FLAnimatedImageView alloc] init];
-                                    imageView.animatedImage = image;
-                                    
-                                    imageView.contentMode = UIViewContentModeScaleAspectFit;
-                                    imageView.frame = CGRectMake((self.gifViewController.gifImageView.frame.size.width - gifNewWidth)/2, (self.gifViewController.gifImageView.frame.size.width - gifNewHeight)/2, gifNewWidth, gifNewHeight);
-                                    
-                                    [self.gifViewController.gifImageView addSubview:imageView];
-                                    
-                                    [UIView animateWithDuration:.5 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
-                                        self.gifViewController.view.alpha = 1;
-                                    } completion:^(BOOL finished) {
-                                        [self reloadDataAndTableView];
-                                    }];
-                                })];
-                            }];
-                        }
-                    }] resume];
-                }
+                        // Update UI on mainQueue
+                        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                            
+                            // Creates a storyboard object for the specified storyboard resource file
+                            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                            
+                            // Instantiates and creates the 0 alpha view controller frome the specified identifier.
+                            self.gifViewController = (ModalViewController *)[storyboard instantiateViewControllerWithIdentifier:@"modalViewController"];
+                            self.gifViewController.view.alpha = 0;
+                            
+                            // Create GIF from data and set it to the image view
+                            FLAnimatedImage *image = [FLAnimatedImage animatedImageWithGIFData:data];
+                            FLAnimatedImageView *imageView = [[FLAnimatedImageView alloc] init];
+                            imageView.animatedImage = image;
+                            
+                            // Ensure the image keep its ratio in the view
+                            imageView.contentMode = UIViewContentModeScaleAspectFit;
+                            
+                            // Set the image view frame x and y coordinate to half of the space around the GIF width and height
+                            NSInteger gifX = (self.gifViewController.gifImageView.frame.size.width - gifNewWidth)/2;
+                            NSInteger gifY = (self.gifViewController.gifImageView.frame.size.height - gifNewHeight)/2;
+                            imageView.frame = CGRectMake(gifX, gifY, gifNewWidth, gifNewHeight);
+                            
+                            [self presentAndAnimateModalGifViewControllerWithImageView:imageView];
+                        }];
+                    }
+                }] resume];
             }
             else {
-                NSLog(@"%@", error);
-                
-                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-                    self.gifViewController = (ModalViewController *)[storyboard instantiateViewControllerWithIdentifier:@"modalViewController"];
-                    
-                    self.gifViewController.view.alpha = 0;
-                    [self presentViewController:self.gifViewController animated:YES completion:(^{
-                        
-                        UIImage *image;
-                        if ([error.localizedDescription isEqualToString:@"The Internet connection appears to be offline."]){
-                            image = [UIImage imageNamed:@"cat_nointernet"];
-                        } else {
-                            image = [UIImage imageNamed:@"cat_api"];
-                        }
-                        
-                        UIImageView *imageView = [[UIImageView alloc] init];
-                        imageView.image = image;
-                        
-                        double gifRatio = image.size.height/image.size.width;
-                        NSUInteger imageNewWidth = self.view.frame.size.width - 36;
-                        NSUInteger imageNewHeight = gifRatio * imageNewWidth;
-                        
-                        imageView.contentMode = UIViewContentModeScaleAspectFit;
-                        imageView.frame = CGRectMake((self.gifViewController.gifImageView.frame.size.width - imageNewWidth)/2, (self.gifViewController.gifImageView.frame.size.width - imageNewHeight)/2, imageNewWidth, imageNewHeight);
-                        
-                        [self.gifViewController.gifImageView addSubview:imageView];
-                        
-                        [UIView animateWithDuration:.5 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
-                            self.gifViewController.view.alpha = 1;
-                        } completion:^(BOOL finished) {
-                            [self reloadDataAndTableView];
-                        }];
-                    })];
-                }];
-
+                // If there is no gif.originalImage.url call the method again
+                [self callGiphyApiForGifImage];
             }
+        }
+        else {
+            NSLog(@"%@", error);
+            
+            // Update UI on mainQueue
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                
+                // Creates a storyboard object for the specified storyboard resource file
+                UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                
+                // Instantiates and creates the 0 alpha view controller frome the specified identifier.
+                self.gifViewController = (ModalViewController *)[storyboard instantiateViewControllerWithIdentifier:@"modalViewController"];
+                self.gifViewController.view.alpha = 0;
+                
+                // Set cat image based on error localized description
+                UIImage *image;
+                if ([error.localizedDescription isEqualToString:@"The Internet connection appears to be offline."]){
+                    image = [UIImage imageNamed:@"cat_nointernet"];
+                } else {
+                    image = [UIImage imageNamed:@"cat_api"];
+                }
+                
+                // Add image to image view
+                UIImageView *imageView = [[UIImageView alloc] init];
+                imageView.image = image;
+                
+                // Get image size parameters from data
+                // TODO: Change the way this is done to use autolayout instead of frames
+                double gifRatio = image.size.height/image.size.width;
+                NSUInteger imageNewWidth = self.view.frame.size.width;
+                NSUInteger imageNewHeight = gifRatio * imageNewWidth;
+                
+                // Ensure the image keep its ratio in the view
+                imageView.contentMode = UIViewContentModeScaleAspectFit;
+                
+                // Set the image view frame x and y coordinate to half of the space around the image width and height
+                NSInteger imageX = (self.gifViewController.gifImageView.frame.size.width - imageNewWidth)/2;
+                NSInteger imageY = (self.gifViewController.gifImageView.frame.size.width - imageNewHeight)/2;
+                imageView.frame = CGRectMake(imageX, imageY, imageNewWidth, imageNewHeight);
+                
+                [self presentAndAnimateModalGifViewControllerWithImageView:imageView];
+            }];
+        }
+    }];
+}
+
+- (void)presentAndAnimateModalGifViewControllerWithImageView:(UIImageView *)imageView
+{
+    // Add the image view to the gif image view
+    [self.gifViewController.gifImageView addSubview:imageView];
+    
+    // Present the GIF view controller
+    [self presentViewController:self.gifViewController animated:YES completion:(^{
+        
+        // Animate its alpha for a fade in effect
+        [UIView animateWithDuration:.5 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
+            self.gifViewController.view.alpha = 1;
+        } completion:^(BOOL finished) {
+            [self reloadDataAndTableView];
         }];
-    }
+    })];
 }
 
 #pragma mark - AddAlarmViewContoller Methods
