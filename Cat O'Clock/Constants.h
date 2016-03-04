@@ -11,5 +11,6 @@
 
 #define kGiphyApiKey @"dc6zaTOxFJmzC"
 #define kGiphyQuery @"cute-cats"
+#define kTypeFace @"Code-Pro-Demo"
 
 #endif

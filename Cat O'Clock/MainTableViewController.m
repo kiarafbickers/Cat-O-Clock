@@ -74,7 +74,7 @@
     statusBackround.backgroundColor = [UIColor flatBlackColor];
     [self.navigationController.view addSubview:statusBackround];
     
-    // Set the view and table view color
+    // Set the view and tableview color
     self.view.backgroundColor = [UIColor flatBlackColor];
     self.tableView.backgroundColor = [UIColor flatBlackColor];
     
@@ -105,6 +105,7 @@
     [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
 }
+
 
 #pragma mark - Reload Data Methods
 
@@ -140,6 +141,7 @@
         }
     }
 }
+
 
 #pragma mark - Action Methods
 
@@ -192,73 +194,106 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    NSInteger numOfSections = 0;
+    // Set 1 or 0 sections in tableview depending on alarm array count
+    
     if (self.alarmsArray.count > 0)
     {
-        numOfSections = 1;
-        self.tableView.backgroundView = nil;
+        return 1;
     }
     else
     {
+        // Configure background view with instructional label if there are no alarms
+        
         UILabel *noDataLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
-        noDataLabel.font = [UIFont fontWithName:@"Code-Pro-Demo" size:15.0f];
+        noDataLabel.font = [UIFont fontWithName:kTypeFace size:15.0f];
         noDataLabel.textColor = [[UIColor flatWhiteColor] colorWithAlphaComponent:0.3f];
         noDataLabel.text = @"Pull to set an alarm";
         noDataLabel.textAlignment = NSTextAlignmentCenter;
         self.tableView.backgroundView = noDataLabel;
+        
+        return 0;
     }
-    
-    return numOfSections;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    // Set the number of tableview cells equal to the alarms in the alarm array count
     return self.alarmsArray.count;
-}
-
--(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    cell.backgroundColor = [self colorForIndex:indexPath.row];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    // WARNING: Views below are referenced with tags, this is a quick and dirty approach.
+    // TODO: Refactor, subclass UITableViewCell and add properties to it.
+    
+    // Get a reusable table-view cell object for the specified reuse identifier and add it to the table
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"alarmCell" forIndexPath:indexPath];
+    
+    // Set cell style
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.backgroundColor = [self colorForIndex:indexPath.row];
     
-    AlarmModel *currentAlarm = self.alarmsArray[indexPath.row];
+    // Get the alarm from alarm array that corresponds to the indexpath row
+    AlarmModel *alarmAtIndexRow = self.alarmsArray[indexPath.row];
     
-    UISwitch *switchOutlet = (UISwitch *)[cell viewWithTag:2];
-    [switchOutlet setThumbTintColor:[UIColor whiteColor]];
-    [switchOutlet setTintColor:[[UIColor clearColor] colorWithAlphaComponent:0.2f]];
     
-    BOOL switchState = currentAlarm.switchState;
-    [switchOutlet setOn:switchState animated:YES];
-    [switchOutlet addTarget:self action:@selector(switchChanged:) forControlEvents:UIControlEventValueChanged];
+    // Create an alarm on/off switch from tag, and set its UI values
+    UISwitch *alarmSwitch = (UISwitch *)[cell viewWithTag:1];
+    [alarmSwitch setThumbTintColor:[UIColor whiteColor]];
+    [alarmSwitch setTintColor:[[UIColor clearColor] colorWithAlphaComponent:0.2f]];
     
-    UILabel *timeLabel = (UILabel *)[cell viewWithTag:1];
-    timeLabel.text = currentAlarm.timeString;
-    if (switchOutlet.on) {
+    // Set the UI switch on/off state from the corresponding property on the alarm model
+    BOOL switchState = alarmAtIndexRow.switchState;
+    [alarmSwitch setOn:switchState animated:YES];
+    
+    // Set a selector method to execute when switch changes
+    [alarmSwitch  addTarget:self action:@selector(switchChanged:) forControlEvents:UIControlEventValueChanged];
+    
+    
+    // Create the time display label from tag,
+    UILabel *timeLabel = (UILabel *)[cell viewWithTag:2];
+    
+    // Set labels UI values to to correspond with timeString from alarm model
+    // ON == Full Alpha, OFF == Dim
+    timeLabel.text = alarmAtIndexRow.timeString;
+    if (alarmSwitch.on) {
         timeLabel.textColor = [[UIColor flatWhiteColor] colorWithAlphaComponent:1.0f];
     }
     else {
         timeLabel.textColor = [[UIColor flatBlackColor] colorWithAlphaComponent:0.25f];
     }
     
-    UIView *lineView;
-    if (![lineView isDescendantOfView:cell.contentView]) {
-        lineView = [[UIView alloc] initWithFrame:CGRectMake(0, cell.contentView.frame.size.height - 1, cell.contentView.frame.size.width, 1)];
-        lineView.backgroundColor = [[UIColor clearColor] colorWithAlphaComponent:0.025f];
-        [cell.contentView addSubview:lineView];
-    }
-
-    UIButton *editAlarm = (UIButton *)[cell viewWithTag:4];
+    
+    // Create a button over the time label to allow for editing the time
+    UIButton *editAlarm = (UIButton *)[cell viewWithTag:3];
+    
+    // Set a selector method to execute when button is pressed
     [editAlarm addTarget:self action:@selector(editAlarmPressed:) forControlEvents:UIControlEventTouchUpInside];
     
+    
+    
+    // Create view to add slight seperation between the cells
+    UIView *cellSeparatorLineView;
+    
+    // IF statement checks if line exists to guarantee only one line is created on reusable cells
+    if (![cellSeparatorLineView isDescendantOfView:cell.contentView]) {
+        
+        // Set view to x = 0, y = 1 up from the bottom of the cell, width = to the cells, with a height of 1
+        cellSeparatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, cell.contentView.frame.size.height - 1, cell.contentView.frame.size.width, 1)];
+        
+        // Set the view to a clear color with low alpha for dim effect
+        cellSeparatorLineView.backgroundColor = [[UIColor clearColor] colorWithAlphaComponent:0.025f];
+        
+        // Add line view to the cell
+        [cell.contentView addSubview:cellSeparatorLineView];
+    }
+
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    // Set 4 cells to fill the view
     CGFloat viewHeight = self.view.frame.size.height;
     CGFloat customTableCellHeight = viewHeight/4;
     
@@ -267,15 +302,19 @@
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    // Return YES to enable swipe to delete
     return YES;
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    /*CODE IN IF STATEMENT WILL DELETE*/
+    // Code in if statement will execute on delete
     if (editingStyle == UITableViewCellEditingStyleDelete){
+    
+        // Remove alarm from alarm array at index path row
         [self.alarmManager removeAlarmFromAlarmArrayAtIndex:indexPath.row];
         
+        // Animate alarm/cell delete
         NSArray* paths = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:indexPath.row inSection:0]];
         [self.tableView beginUpdates];
         [self.tableView insertRowsAtIndexPaths:paths withRowAnimation:UITableViewRowAnimationFade];
@@ -286,10 +325,6 @@
     }
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-}
 
 #pragma mark - ModalViewController Methods
 

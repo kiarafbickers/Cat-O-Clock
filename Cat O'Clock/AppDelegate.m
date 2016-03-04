@@ -102,12 +102,51 @@
     longTask = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
         
         // If you’re worried about exceeding 10 minutes, handle it here
-        NSTimer *alarmTimer = [NSTimer scheduledTimerWithTimeInterval:self.timeDifference target:self selector:@selector(functionYouWantToRunInTheBackground) userInfo:nil repeats:YES];
+        NSTimer *alarmTimer = [NSTimer scheduledTimerWithTimeInterval:self.timeDifference target:self selector:@selector(functionYouWantToRunInTheBackground) userInfo:nil repeats:NO];
         if (alarmTimer) {
-            NSLog(@"alarmTimer set");
+            NSLog(@"alarmTimer set to timer %@", alarmTimer.fireDate);
         }
     }];
 }
+
+-(void) functionYouWantToRunInTheBackground
+{
+    NSLog(@"functionYouWantToRunInTheBackground");
+    self.backgroundUploadTask = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+        [self endBackgroundUpdateTask];
+    }];
+    
+    for (AlarmModel *alarm in self.alarmManager.alarmsArray) {
+        if (alarm.switchState == YES) {
+            
+            NSLog(@"Set alarm notification for: %@", alarm.timeString);
+            NSString *filePath = [[NSBundle mainBundle] pathForResource:@"meow" ofType:@"wav"];
+            UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+            [localNotification setTimeZone:[NSTimeZone defaultTimeZone]];
+            [localNotification setAlertBody:@"Meeeeoww!"];
+            [localNotification setAlertAction:@"Open App"];
+            [localNotification setHasAction:YES];
+            [localNotification setFireDate:alarm.date];
+            [localNotification setSoundName:filePath];
+            [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+            [self.alarmManager startTimerWithDate:alarm.date];
+            
+            self.timeDifference = [alarm.date timeIntervalSinceDate:[NSDate date]];
+            NSLog(@"diff %fs", self.timeDifference);
+        }
+    }
+}
+
+-(void) endBackgroundUpdateTask
+{
+    NSLog(@"endBackgroundUpdateTask");
+    
+    [[UIApplication sharedApplication] endBackgroundTask: self.backgroundUploadTask];
+    self.backgroundUploadTask = UIBackgroundTaskInvalid;
+}
+
+
+
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
@@ -177,21 +216,5 @@
     backgroundNilPlayer.volume = 0.1;
 }
 
--(void) functionYouWantToRunInTheBackground
-{
-    NSLog(@"functionYouWantToRunInTheBackground");
-    self.backgroundUploadTask = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
-        [self endBackgroundUpdateTask];
-    }];
-    // Code to do something
-}
-
--(void) endBackgroundUpdateTask
-{
-    NSLog(@"endBackgroundUpdateTask");
-    
-    [[UIApplication sharedApplication] endBackgroundTask: self.backgroundUploadTask];
-    self.backgroundUploadTask = UIBackgroundTaskInvalid;
-}
 
 @end
