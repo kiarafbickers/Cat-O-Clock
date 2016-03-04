@@ -7,17 +7,17 @@
 //
 
 #import "MainTableViewController.h"
-#import "AlarmManager.h"
-#import "AlarmModel.h"
-#import "ModalViewController.h"
+
 #import "Constants.h"
+#import "AlarmModel.h"
+#import "AlarmManager.h"
+#import "ModalViewController.h"
 #import "AddAlarmViewContoller.h"
 
+#import <Giphy-iOS/AXCGiphy.h>
 #import "MMPDeepSleepPreventer.h"
 #import <ChameleonFramework/Chameleon.h>
-#import <Giphy-iOS/AXCGiphy.h>
-#import <AnimatedGIFImageSerialization/AnimatedGIFImageSerialization.h>
-#import <FLAnimatedImage/FLAnimatedImage.h>
+
 @import AVFoundation;
 
 
@@ -25,17 +25,17 @@
 
 @property (nonatomic, strong) AlarmManager *alarmManager;
 
-@property (nonatomic, strong) AddAlarmViewContoller *alarmSetController;
 @property (nonatomic, strong) ModalViewController *modalVC;
+@property (nonatomic, strong) AddAlarmViewContoller *alarmSetController;
 
-@property (nonatomic, strong) UIImageView *toastImageView;
-@property (nonatomic, strong) UIImageView *catImageView;
-@property (nonatomic, strong) UIView *refreshLoadingView;
 @property (nonatomic, strong) UIView *refreshColorView;
+@property (nonatomic, strong) UIImageView *catImageView;
+@property (nonatomic, strong) UIImageView *toastImageView;
+@property (nonatomic, strong) UIView *refreshLoadingView;
 
-@property (nonatomic, assign) BOOL showingAlarmViewController;
-@property (assign) BOOL isRefreshIconsOverlap;
 @property (assign) BOOL isRefreshAnimating;
+@property (assign) BOOL isRefreshIconsOverlap;
+@property (nonatomic, assign) BOOL showingAlarmViewController;
 
 @property (strong, nonatomic) NSArray *giphyResults;
 
@@ -43,6 +43,7 @@
 
 
 @implementation MainTableViewController
+
 
 #pragma mark - View Lifecyle Methods
 
@@ -56,36 +57,43 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    // Setup the custom refesh control animation
     [self setupRefreshControl];
     
+    // Get alarms from alarm Manager data store
     self.alarmManager = [AlarmManager sharedAlarmDataStore];
     self.alarmsArray = [[self.alarmManager getAlarmsFromUserDefaults] mutableCopy];
     
+    // Hide the navigation controller
     self.navigationController.navigationBar.hidden = YES;
     
+    // Set a backround color behind the status bar
     UIView *statusBackround = [[UIView alloc] init];
     statusBackround.frame = CGRectMake(0, 0, self.view.frame.size.width, 20);
     statusBackround.backgroundColor = [UIColor flatBlackColor];
     [self.navigationController.view addSubview:statusBackround];
     
-    self.tableView.dataSource = self;
-    self.tableView.allowsMultipleSelectionDuringEditing = NO;
+    // Set the view and table view color
+    self.view.backgroundColor = [UIColor flatBlackColor];
     self.tableView.backgroundColor = [UIColor flatBlackColor];
     
-    self.view.backgroundColor = [UIColor flatBlackColor];
-    self.navigationController.navigationBar.backgroundColor = [UIColor flatWhiteColor];
+    // Set the table view style
+    self.tableView.allowsMultipleSelectionDuringEditing = NO;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
+    // Remove any potential alarm observers than set one
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"alarmPlaying" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showModalVCWithImage:) name:@"alarmPlaying" object:nil];
     
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSInteger appLaunchCount = [userDefaults integerForKey:@"launchAmounts"];
+    // Push local notification if it is the first time loading the app
+    NSInteger appLaunchCount = [[NSUserDefaults standardUserDefaults] integerForKey:@"launchAmounts"];
     if (appLaunchCount == 0) {
-        [userDefaults setInteger:appLaunchCount + 1 forKey:@"launchAmounts"];
+        [[NSUserDefaults standardUserDefaults] setInteger:appLaunchCount + 1 forKey:@"launchAmounts"];
         [self triggerFirstWarningAlert];
     }
     
+    // Push local notification if the app is entered after applicationWillTerminate with alarms on
     if ([UIApplication sharedApplication].applicationIconBadgeNumber >= 1) {
         [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
         [self triggerWarningAlert];
@@ -96,17 +104,6 @@
 {
     [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
-}
-
-- (void)viewDidLayoutSubviews
-{
-    [super viewDidLayoutSubviews];
-    [self.refreshControl.superview sendSubviewToBack:self.refreshControl];
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
 }
 
 #pragma mark - Reload Data Methods
