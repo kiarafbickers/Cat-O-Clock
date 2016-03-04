@@ -129,7 +129,7 @@
     [[UIApplication sharedApplication] cancelAllLocalNotifications];
     for (AlarmModel *alarm in self.alarmsArray) {
         if (alarm.switchState == YES) {
-            NSLog(@"Set alarm notification for: %@", alarm.date);
+            NSLog(@"Set alarm notification for: %@", alarm.timeString);
             NSString *filePath = [[NSBundle mainBundle] pathForResource:@"meow" ofType:@"wav"];
             UILocalNotification *localNotification = [[UILocalNotification alloc] init];
             [localNotification setTimeZone:[NSTimeZone defaultTimeZone]];
@@ -557,16 +557,6 @@
 }
 
 #pragma mark - Helper Methods
-
-//- (void)configureBackroundNilSound
-//{
-//    /* THREAD ISSUE? - ALARM WILL CRASH UNLESS BACKROUND SOUND IS CONFIGURED*/
-//    NSString *backgroundNilPath = [[NSBundle mainBundle] pathForResource:@"meow" ofType:@"wav"];
-//    NSURL *backgroundNilURL = [NSURL fileURLWithPath:backgroundNilPath];
-//    AVAudioPlayer *backgroundNilPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:backgroundNilURL error:nil];
-//    backgroundNilPlayer.numberOfLoops = 0;	// Never Plays
-//    backgroundNilPlayer.volume = 1;
-//}
 
 - (int)getRandomNumberBetween:(int)from to:(int)to
 {

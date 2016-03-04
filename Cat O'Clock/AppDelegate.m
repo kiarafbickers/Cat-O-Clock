@@ -17,9 +17,11 @@
 
 @interface AppDelegate ()
 
+@property (strong, nonatomic) AVAudioPlayer *alarmAudioPlayer;
 @property (nonatomic, strong) AlarmManager *alarmManager;
 @property (nonatomic, strong) NSMutableArray *alarmsArray;
 @property (nonatomic, strong) MMPDeepSleepPreventer *sleepPreventer;
+@property (nonatomic) NSTimeInterval timeDifference;
 
 @end
 
@@ -58,19 +60,21 @@
     return YES;
 }
 
-- (void)applicationWillResignActive:(UIApplication *)application {
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
-    
-    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+- (void)applicationWillResignActive:(UIApplication *)application
+{
+    NSLog(@"WillResignActive");
     
     [self.sleepPreventer startPreventSleep];
+    [self configureBackroundSoundWithNoVolume];
+    
+    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+    NSLog(@"Canceled all notications to create new ones.");
     
     //self.alarmsArray = [[self.alarmManager getAlarmsFromUserDefaults] mutableCopy];
     for (AlarmModel *alarm in self.alarmManager.alarmsArray) {
         if (alarm.switchState == YES) {
             
-            NSLog(@"Set alarm notification for: %@", alarm.date);
+            NSLog(@"Set alarm notification for: %@", alarm.timeString);
             NSString *filePath = [[NSBundle mainBundle] pathForResource:@"meow" ofType:@"wav"];
             UILocalNotification *localNotification = [[UILocalNotification alloc] init];
             [localNotification setTimeZone:[NSTimeZone defaultTimeZone]];
@@ -81,41 +85,45 @@
             [localNotification setSoundName:filePath];
             [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
             [self.alarmManager startTimerWithDate:alarm.date];
-
+            
+            self.timeDifference = [alarm.date timeIntervalSinceDate:[NSDate date]];
+            NSLog(@"diff %fs", self.timeDifference);
         }
     }
-    
-    //[self performSelector:@selector(applicationDidFinishLaunching:) withObject:nil afterDelay:1.0];
-    
-    NSLog(@"WillResignActive");
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits
+    NSLog(@"applicationDidEnterBackground");
     
-    NSLog(@"DidEnterBackground");
+
+    // Not sure what about this is making it work but the below code is necessary for alarm to play in backround.
+    UIBackgroundTaskIdentifier longTask;
+    longTask = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+        
+        // If you’re worried about exceeding 10 minutes, handle it here
+        NSTimer *alarmTimer = [NSTimer scheduledTimerWithTimeInterval:self.timeDifference target:self selector:@selector(functionYouWantToRunInTheBackground) userInfo:nil repeats:YES];
+        if (alarmTimer) {
+            NSLog(@"alarmTimer set");
+        }
+    }];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     NSLog(@"WillEnterForeground");
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    NSLog(@"DidBecomeActive, disabled sleep preventer");
     
     [self.sleepPreventer stopPreventSleep];
-    
-    NSLog(@"DidBecomeActive");
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    NSLog(@"WillTerminate!");
     
     [[UIApplication sharedApplication] cancelAllLocalNotifications];
     
@@ -125,8 +133,6 @@
         UIUserNotificationSettings *mySettings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
         [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
     }
-    
-    //self.alarmsArray = [[self.alarmManager getAlarmsFromUserDefaults] mutableCopy];
     
     for (AlarmModel *alarm in self.alarmManager.alarmsArray) {
         
@@ -158,8 +164,34 @@
     [self.alarmManager stopTimer];
     [[AVAudioSession sharedInstance] setActive:NO error:NULL];
     [self.alarmManager stopAudioPlayer];
+}
 
-    NSLog(@"WillTerminate!");
+#pragma mark - Helper Methods
+
+- (void)configureBackroundSoundWithNoVolume
+{
+    NSString *backgroundNilPath = [[NSBundle mainBundle] pathForResource:@"meow" ofType:@"wav"];
+    NSURL *backgroundNilURL = [NSURL fileURLWithPath:backgroundNilPath];
+    AVAudioPlayer *backgroundNilPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:backgroundNilURL error:nil];
+    backgroundNilPlayer.numberOfLoops = -1;
+    backgroundNilPlayer.volume = 0.1;
+}
+
+-(void) functionYouWantToRunInTheBackground
+{
+    NSLog(@"functionYouWantToRunInTheBackground");
+    self.backgroundUploadTask = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+        [self endBackgroundUpdateTask];
+    }];
+    // Code to do something
+}
+
+-(void) endBackgroundUpdateTask
+{
+    NSLog(@"endBackgroundUpdateTask");
+    
+    [[UIApplication sharedApplication] endBackgroundTask: self.backgroundUploadTask];
+    self.backgroundUploadTask = UIBackgroundTaskInvalid;
 }
 
 @end
