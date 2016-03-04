@@ -13,6 +13,14 @@ Cat O'Clock is iOS alarm clock designed to push alarms notifications to the user
 
 Cat O'Clock requires iOS 9.0 or higher.
 
+## Features
+
+[X] Infinte alarms
+[ ] Save and copy GIFs
+[ ] Special Birthday Alarms
+[X] Cat GIFs powered by Giphy
+[ ] Scroll though GIFs when alarm is presented
+
 ## Installation & Usage
 
 The CocoaPods are already installed. To make improvements to this application, fork the project on GitHub and ```open "Cat O'Clock.xcworkspace"```.

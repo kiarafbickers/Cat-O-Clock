@@ -11,7 +11,6 @@
 #import "AppDelegate.h"
 #import "AlarmManager.h"
 #import "AlarmModel.h"
-#import "MMPDeepSleepPreventer.h"
 #import "MainTableViewController.h"
 @import AVFoundation;
 
@@ -20,7 +19,6 @@
 @property (strong, nonatomic) AVAudioPlayer *alarmAudioPlayer;
 @property (nonatomic, strong) AlarmManager *alarmManager;
 @property (nonatomic, strong) NSMutableArray *alarmsArray;
-@property (nonatomic, strong) MMPDeepSleepPreventer *sleepPreventer;
 @property (nonatomic) NSTimeInterval timeDifference;
 
 @end
@@ -30,6 +28,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    NSLog(@"application didFinishLaunchingWithOptions");
+    
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent];
     
     /* CHECK PERMISSIONS */
@@ -57,107 +57,39 @@
         NSLog(@"Recieved Notification %@", remoteNotification);
     }
     
+    NSLog(@"stopBackgroundTask");
+    [self stopBackgroundTask];
+    
     return YES;
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application
+{
+    NSLog(@"DidBecomeActive");
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     NSLog(@"WillResignActive");
-    
-    [self.sleepPreventer startPreventSleep];
-    [self configureBackroundSoundWithNoVolume];
-    
-    [[UIApplication sharedApplication] cancelAllLocalNotifications];
-    NSLog(@"Canceled all notications to create new ones.");
-    
-    //self.alarmsArray = [[self.alarmManager getAlarmsFromUserDefaults] mutableCopy];
-    for (AlarmModel *alarm in self.alarmManager.alarmsArray) {
-        if (alarm.switchState == YES) {
-            
-            NSLog(@"Set alarm notification for: %@", alarm.timeString);
-            NSString *filePath = [[NSBundle mainBundle] pathForResource:@"meow" ofType:@"wav"];
-            UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-            [localNotification setTimeZone:[NSTimeZone defaultTimeZone]];
-            [localNotification setAlertBody:@"Meeeeoww!"];
-            [localNotification setAlertAction:@"Open App"];
-            [localNotification setHasAction:YES];
-            [localNotification setFireDate:alarm.date];
-            [localNotification setSoundName:filePath];
-            [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
-            [self.alarmManager startTimerWithDate:alarm.date];
-            
-            self.timeDifference = [alarm.date timeIntervalSinceDate:[NSDate date]];
-            NSLog(@"diff %fs", self.timeDifference);
-        }
-    }
 }
-
-- (void)applicationDidEnterBackground:(UIApplication *)application
-{
-    NSLog(@"applicationDidEnterBackground");
-    
-
-    // Not sure what about this is making it work but the below code is necessary for alarm to play in backround.
-    UIBackgroundTaskIdentifier longTask;
-    longTask = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
-        
-        // If you’re worried about exceeding 10 minutes, handle it here
-        NSTimer *alarmTimer = [NSTimer scheduledTimerWithTimeInterval:self.timeDifference target:self selector:@selector(functionYouWantToRunInTheBackground) userInfo:nil repeats:NO];
-        if (alarmTimer) {
-            NSLog(@"alarmTimer set to timer %@", alarmTimer.fireDate);
-        }
-    }];
-}
-
--(void) functionYouWantToRunInTheBackground
-{
-    NSLog(@"functionYouWantToRunInTheBackground");
-    self.backgroundUploadTask = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
-        [self endBackgroundUpdateTask];
-    }];
-    
-    for (AlarmModel *alarm in self.alarmManager.alarmsArray) {
-        if (alarm.switchState == YES) {
-            
-            NSLog(@"Set alarm notification for: %@", alarm.timeString);
-            NSString *filePath = [[NSBundle mainBundle] pathForResource:@"meow" ofType:@"wav"];
-            UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-            [localNotification setTimeZone:[NSTimeZone defaultTimeZone]];
-            [localNotification setAlertBody:@"Meeeeoww!"];
-            [localNotification setAlertAction:@"Open App"];
-            [localNotification setHasAction:YES];
-            [localNotification setFireDate:alarm.date];
-            [localNotification setSoundName:filePath];
-            [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
-            [self.alarmManager startTimerWithDate:alarm.date];
-            
-            self.timeDifference = [alarm.date timeIntervalSinceDate:[NSDate date]];
-            NSLog(@"diff %fs", self.timeDifference);
-        }
-    }
-}
-
--(void) endBackgroundUpdateTask
-{
-    NSLog(@"endBackgroundUpdateTask");
-    
-    [[UIApplication sharedApplication] endBackgroundTask: self.backgroundUploadTask];
-    self.backgroundUploadTask = UIBackgroundTaskInvalid;
-}
-
-
-
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
     NSLog(@"WillEnterForeground");
 }
 
-- (void)applicationDidBecomeActive:(UIApplication *)application
+- (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    NSLog(@"DidBecomeActive, disabled sleep preventer");
+    NSLog(@"applicationDidEnterBackground");
+
+    self.backgroundTask = [[BackgroundTask alloc] init];
+    NSLog(@"self.backgroundTask %@", self.backgroundTask);
     
-    [self.sleepPreventer stopPreventSleep];
+    // Handle events exceeding 3-10 minutes here
+    NSLog(@"########");
+    [self functionYouWantToRunInTheBackground];
+    
+    [self startBackgroundTask];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -205,16 +137,51 @@
     [self.alarmManager stopAudioPlayer];
 }
 
-#pragma mark - Helper Methods
+#pragma mark - Backround Methods
 
-- (void)configureBackroundSoundWithNoVolume
+-(void) backgroundCallback:(id)info
 {
-    NSString *backgroundNilPath = [[NSBundle mainBundle] pathForResource:@"meow" ofType:@"wav"];
-    NSURL *backgroundNilURL = [NSURL fileURLWithPath:backgroundNilPath];
-    AVAudioPlayer *backgroundNilPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:backgroundNilURL error:nil];
-    backgroundNilPlayer.numberOfLoops = -1;
-    backgroundNilPlayer.volume = 0.1;
+    //NSLog(@"########");
+    //NSLog(@"###### BG TASK RUNNING:%f", [UIApplication sharedApplication].backgroundTimeRemaining);
 }
 
+-(void) startBackgroundTask
+{
+    NSLog(@"startBackgroundTask");
+    [self.backgroundTask startBackgroundTasks:2 target:self selector:@selector(backgroundCallback:)];
+}
+
+-(void) stopBackgroundTask
+{
+    [self.backgroundTask stopBackgroundTask];
+}
+
+-(void) functionYouWantToRunInTheBackground
+{
+    NSLog(@"functionYouWantToRunInTheBackground");
+    
+    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+    NSLog(@"Canceled all notications to create new ones.");
+    
+    for (AlarmModel *alarm in self.alarmManager.alarmsArray) {
+        if (alarm.switchState == YES) {
+            
+            NSLog(@"Set alarm notification for: %@", alarm.timeString);
+            NSString *filePath = [[NSBundle mainBundle] pathForResource:@"meow" ofType:@"wav"];
+            UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+            [localNotification setTimeZone:[NSTimeZone defaultTimeZone]];
+            [localNotification setAlertBody:@"Meeeeoww!"];
+            [localNotification setAlertAction:@"Open App"];
+            [localNotification setHasAction:YES];
+            [localNotification setFireDate:alarm.date];
+            [localNotification setSoundName:filePath];
+            [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+            [self.alarmManager startTimerWithDate:alarm.date];
+            
+            self.timeDifference = [alarm.date timeIntervalSinceDate:[NSDate date]];
+            NSLog(@"diff %fs", self.timeDifference);
+        }
+    }
+}
 
 @end

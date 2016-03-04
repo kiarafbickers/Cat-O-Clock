@@ -9,21 +9,21 @@
 /* Begin PBXBuildFile section */
 		88634FCD3FF4AF6744A412BF /* libPods-Cat O'Clock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 55B41402EF673F798B7EFDF9 /* libPods-Cat O'Clock.a */; };
 		E906CA031C77B3CE00DC535F /* meow.wav in Resources */ = {isa = PBXBuildFile; fileRef = E906CA021C77B3CE00DC535F /* meow.wav */; };
-		E906CA061C7A7A4500DC535F /* AlarmManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E906CA051C7A7A4500DC535F /* AlarmManager.m */; settings = {ASSET_TAGS = (); }; };
-		E906CA081C7AB66B00DC535F /* Code_Pro_Demo.otf in Resources */ = {isa = PBXBuildFile; fileRef = E906CA071C7AB66000DC535F /* Code_Pro_Demo.otf */; settings = {ASSET_TAGS = (); }; };
-		E906CA0B1C7AC76700DC535F /* ModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E906CA0A1C7AC76700DC535F /* ModalViewController.m */; settings = {ASSET_TAGS = (); }; };
-		E93A27481C7D9036008730EA /* AddAlarmViewContoller.m in Sources */ = {isa = PBXBuildFile; fileRef = E93A27471C7D9036008730EA /* AddAlarmViewContoller.m */; settings = {ASSET_TAGS = (); }; };
-		E93A274B1C7DAD65008730EA /* UINavigationController+UIInterfaceOrientation.m in Sources */ = {isa = PBXBuildFile; fileRef = E93A274A1C7DAD65008730EA /* UINavigationController+UIInterfaceOrientation.m */; settings = {ASSET_TAGS = (); }; };
-		E93A27541C7EB731008730EA /* NSDate+Comparison.m in Sources */ = {isa = PBXBuildFile; fileRef = E93A27531C7EB731008730EA /* NSDate+Comparison.m */; settings = {ASSET_TAGS = (); }; };
-		E93A27651C80009E008730EA /* MainTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E93A27641C80009D008730EA /* MainTableViewController.m */; settings = {ASSET_TAGS = (); }; };
-		E93A27681C824FD3008730EA /* MMPDeepSleepPreventer.m in Sources */ = {isa = PBXBuildFile; fileRef = E93A27671C824FD3008730EA /* MMPDeepSleepPreventer.m */; settings = {ASSET_TAGS = (); }; };
-		E93A276C1C82529E008730EA /* MMPSilence.wav in Resources */ = {isa = PBXBuildFile; fileRef = E93A276B1C82529E008730EA /* MMPSilence.wav */; settings = {ASSET_TAGS = (); }; };
+		E906CA061C7A7A4500DC535F /* AlarmManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E906CA051C7A7A4500DC535F /* AlarmManager.m */; };
+		E906CA081C7AB66B00DC535F /* Code_Pro_Demo.otf in Resources */ = {isa = PBXBuildFile; fileRef = E906CA071C7AB66000DC535F /* Code_Pro_Demo.otf */; };
+		E906CA0B1C7AC76700DC535F /* ModalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E906CA0A1C7AC76700DC535F /* ModalViewController.m */; };
+		E93A27481C7D9036008730EA /* AddAlarmViewContoller.m in Sources */ = {isa = PBXBuildFile; fileRef = E93A27471C7D9036008730EA /* AddAlarmViewContoller.m */; };
+		E93A274B1C7DAD65008730EA /* UINavigationController+UIInterfaceOrientation.m in Sources */ = {isa = PBXBuildFile; fileRef = E93A274A1C7DAD65008730EA /* UINavigationController+UIInterfaceOrientation.m */; };
+		E93A27541C7EB731008730EA /* NSDate+Comparison.m in Sources */ = {isa = PBXBuildFile; fileRef = E93A27531C7EB731008730EA /* NSDate+Comparison.m */; };
+		E93A27651C80009E008730EA /* MainTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E93A27641C80009D008730EA /* MainTableViewController.m */; };
+		E93A276C1C82529E008730EA /* MMPSilence.wav in Resources */ = {isa = PBXBuildFile; fileRef = E93A276B1C82529E008730EA /* MMPSilence.wav */; };
 		E959C0551C75515000B0878D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E959C0541C75515000B0878D /* main.m */; };
 		E959C0581C75515200B0878D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E959C0571C75515200B0878D /* AppDelegate.m */; };
 		E959C05E1C75515500B0878D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E959C05C1C75515500B0878D /* Main.storyboard */; };
 		E959C0601C75515700B0878D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E959C05F1C75515700B0878D /* Assets.xcassets */; };
 		E959C0631C75515700B0878D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E959C0611C75515700B0878D /* LaunchScreen.storyboard */; };
-		E9F9F25F1C7620C0001067FF /* AlarmModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F9F25E1C7620C0001067FF /* AlarmModel.m */; settings = {ASSET_TAGS = (); }; };
+		E9F4DDE81C8A1CEA006C5A26 /* BackgroundTask.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F4DDE71C8A1CEA006C5A26 /* BackgroundTask.m */; };
+		E9F9F25F1C7620C0001067FF /* AlarmModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F9F25E1C7620C0001067FF /* AlarmModel.m */; };
 		E9F9F2611C776E04001067FF /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9F9F2601C776E04001067FF /* EventKit.framework */; };
 /* End PBXBuildFile section */
 
@@ -44,8 +44,6 @@
 		E93A27521C7EB731008730EA /* NSDate+Comparison.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Comparison.h"; sourceTree = "<group>"; };
 		E93A27531C7EB731008730EA /* NSDate+Comparison.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Comparison.m"; sourceTree = "<group>"; };
 		E93A27641C80009D008730EA /* MainTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainTableViewController.m; sourceTree = "<group>"; };
-		E93A27661C824FD3008730EA /* MMPDeepSleepPreventer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MMPDeepSleepPreventer.h; path = "../../Downloads/MMPDeepSleepPreventer-master/MMPDeepSleepPreventer.h"; sourceTree = "<group>"; };
-		E93A27671C824FD3008730EA /* MMPDeepSleepPreventer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MMPDeepSleepPreventer.m; path = "../../Downloads/MMPDeepSleepPreventer-master/MMPDeepSleepPreventer.m"; sourceTree = "<group>"; };
 		E93A276B1C82529E008730EA /* MMPSilence.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = MMPSilence.wav; sourceTree = "<group>"; };
 		E93A27711C828EB9008730EA /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		E94B07AE1C75618C00CF05C7 /* MainTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainTableViewController.h; sourceTree = "<group>"; };
@@ -57,6 +55,8 @@
 		E959C05F1C75515700B0878D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E959C0621C75515700B0878D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E959C0641C75515800B0878D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E9F4DDE61C8A1CEA006C5A26 /* BackgroundTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BackgroundTask.h; sourceTree = "<group>"; };
+		E9F4DDE71C8A1CEA006C5A26 /* BackgroundTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BackgroundTask.m; sourceTree = "<group>"; };
 		E9F9F25D1C7620C0001067FF /* AlarmModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlarmModel.h; sourceTree = "<group>"; };
 		E9F9F25E1C7620C0001067FF /* AlarmModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlarmModel.m; sourceTree = "<group>"; };
 		E9F9F2601C776E04001067FF /* EventKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKit.framework; path = System/Library/Frameworks/EventKit.framework; sourceTree = SDKROOT; };
@@ -143,8 +143,8 @@
 				E906CA021C77B3CE00DC535F /* meow.wav */,
 				E93A276B1C82529E008730EA /* MMPSilence.wav */,
 				E959C0541C75515000B0878D /* main.m */,
-				E93A27661C824FD3008730EA /* MMPDeepSleepPreventer.h */,
-				E93A27671C824FD3008730EA /* MMPDeepSleepPreventer.m */,
+				E9F4DDE61C8A1CEA006C5A26 /* BackgroundTask.h */,
+				E9F4DDE71C8A1CEA006C5A26 /* BackgroundTask.m */,
 				E93A27521C7EB731008730EA /* NSDate+Comparison.h */,
 				E93A27531C7EB731008730EA /* NSDate+Comparison.m */,
 				E93A27491C7DAD65008730EA /* UINavigationController+UIInterfaceOrientation.h */,
@@ -283,9 +283,9 @@
 				E959C0581C75515200B0878D /* AppDelegate.m in Sources */,
 				E93A27481C7D9036008730EA /* AddAlarmViewContoller.m in Sources */,
 				E959C0551C75515000B0878D /* main.m in Sources */,
+				E9F4DDE81C8A1CEA006C5A26 /* BackgroundTask.m in Sources */,
 				E9F9F25F1C7620C0001067FF /* AlarmModel.m in Sources */,
 				E906CA061C7A7A4500DC535F /* AlarmManager.m in Sources */,
-				E93A27681C824FD3008730EA /* MMPDeepSleepPreventer.m in Sources */,
 				E93A27651C80009E008730EA /* MainTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -329,6 +329,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -351,6 +352,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.blockchainme.catoclock;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -372,6 +374,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -387,6 +390,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.blockchainme.catoclock;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -397,10 +401,11 @@
 			baseConfigurationReference = 6E164FAC2668DCAC1555453E /* Pods-Cat O'Clock.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				INFOPLIST_FILE = "Cat O'Clock/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "kiaraRobles.Cat-O-Clock";
+				PRODUCT_BUNDLE_IDENTIFIER = com.blockchainme.catoclock;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -410,10 +415,11 @@
 			baseConfigurationReference = 809544C4A72099B8C070B09D /* Pods-Cat O'Clock.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				INFOPLIST_FILE = "Cat O'Clock/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "kiaraRobles.Cat-O-Clock";
+				PRODUCT_BUNDLE_IDENTIFIER = com.blockchainme.catoclock;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

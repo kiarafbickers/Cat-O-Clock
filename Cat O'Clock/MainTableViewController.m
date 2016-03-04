@@ -15,7 +15,6 @@
 #import "AddAlarmViewContoller.h"
 
 #import <Giphy-iOS/AXCGiphy.h>
-#import "MMPDeepSleepPreventer.h"
 #import <ChameleonFramework/Chameleon.h>
 
 @import AVFoundation;
