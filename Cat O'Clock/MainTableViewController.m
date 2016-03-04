@@ -85,13 +85,6 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"alarmPlaying" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkForModalViewController:) name:@"alarmPlaying" object:nil];
     
-    // Push local notification if it is the first time loading the app
-    NSInteger appLaunchCount = [[NSUserDefaults standardUserDefaults] integerForKey:@"launchAmounts"];
-    if (appLaunchCount == 0) {
-        [[NSUserDefaults standardUserDefaults] setInteger:appLaunchCount + 1 forKey:@"launchAmounts"];
-        [self triggerFirstWarningAlert];
-    }
-    
     // Push local notification if the app is entered after applicationWillTerminate with alarms on
     if ([UIApplication sharedApplication].applicationIconBadgeNumber >= 1) {
         [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
@@ -194,7 +187,6 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Set 1 or 0 sections in tableview depending on alarm array count
-    
     if (self.alarmsArray.count > 0)
     {
         return 1;
@@ -387,10 +379,14 @@
                             // Ensure the image keep its ratio in the view
                             imageView.contentMode = UIViewContentModeScaleAspectFit;
                             
-                            // Set the image view frame x and y coordinate to half of the space around the GIF width and height
-                            NSInteger gifX = (self.gifViewController.gifImageView.frame.size.width - gifNewWidth)/2;
-                            NSInteger gifY = (self.gifViewController.gifImageView.frame.size.height - gifNewHeight)/2;
-                            imageView.frame = CGRectMake(gifX, gifY, gifNewWidth, gifNewHeight);
+                            NSUInteger gifY = 0;
+                            if (gifNewHeight < self.view.bounds.size.width) {
+                                gifY = (self.view.bounds.size.width - gifNewHeight)/2;
+                                NSLog(@"gifY %lu", (long)gifY);
+                            }
+                            
+                            // Set new size to image
+                            imageView.frame = CGRectMake(0, gifY, gifNewWidth, gifNewHeight);
                             
                             [self presentAndAnimateModalGifViewControllerWithImageView:imageView];
                         }];
@@ -468,28 +464,41 @@
 
 - (void)showAlarmTimeSelector
 {
+    // Check if showingAlarmViewController BOOL == NO
     if (!self.showingAlarmViewController) {
 
+        // Check if there is not a alarmSetViewController in view hierarchy
         if (!self.alarmSetViewController) {
+            
+            // Creates a storyboard object for the specified storyboard resource file
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            
+            // Instantiates and creates the view controller frome the specified identifier
             self.alarmSetViewController = [storyboard instantiateViewControllerWithIdentifier:@"timeSelect"];
             
+            // Set this view controller as the delegate of alarmSetViewControllerVC
             self.alarmSetViewController.delegate = self;
         }
+
+        // Add view and bring it to front
         [self addChildViewController:self.alarmSetViewController];
         [self.view addSubview:self.alarmSetViewController.view];
         [self.alarmSetViewController didMoveToParentViewController:self];
         
+        // Set view alpha and constraint to animate
         self.alarmSetViewController.view.alpha = 0;
-        self.alarmSetViewController.pickerViewVerticalSpaceConstraint.constant = -250;
+        self.alarmSetViewController.pickerViewVerticalSpaceConstraint.constant = kVerticalSpaceConstraint;
         [self.view layoutIfNeeded];
         
+        // Animate view alpha and constraint
         [UIView animateWithDuration:.3 delay:0 options:UIViewAnimationOptionAllowUserInteraction|UIViewAnimationOptionBeginFromCurrentState animations:^{
             self.alarmSetViewController.view.alpha = 1;
             self.alarmSetViewController.pickerViewVerticalSpaceConstraint.constant = 0;
             [self.view layoutIfNeeded];
         } completion:^(BOOL finished) {
             if (finished) {
+                
+                // Reset showingAlarmViewController BOOL
                 self.showingAlarmViewController = YES;
             }
         }];
@@ -498,9 +507,9 @@
 
 - (void)hideAlarmTimeSelector
 {
-    [UIView animateWithDuration:.3 delay:0 options:UIViewAnimationOptionAllowUserInteraction|UIViewAnimationOptionBeginFromCurrentState animations:^{
+    [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionAllowUserInteraction|UIViewAnimationOptionBeginFromCurrentState animations:^{
         self.alarmSetViewController.view.alpha = 0;
-        self.alarmSetViewController.pickerViewVerticalSpaceConstraint.constant = -250;
+        self.alarmSetViewController.pickerViewVerticalSpaceConstraint.constant = kVerticalSpaceConstraint;
         [self.view layoutIfNeeded];
     } completion:^(BOOL finished) {
         if (finished) {

@@ -24,6 +24,17 @@
 {
     [super viewDidLoad];
     self.alarmManager = [AlarmManager sharedAlarmDataStore];
+    
+//    for (UIView *subview in self.view.subviews) {
+//        [subview removeConstraints: subview.constraints];
+//        subview.translatesAutoresizingMaskIntoConstraints = NO;
+//    }
+
+    //[self.gifImageView.heightAnchor constraintEqualToAnchor:self.view.].active = YES;
+//    [self.gifImageView.widthAnchor constraintEqualToAnchor:self.view.widthAnchor].active = YES;
+//    [self.gifImageView.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor].active = YES;
+//    [self.gifImageView.centerYAnchor constraintEqualToAnchor:self.view.centerYAnchor].active = YES;
+//    
 }
 
 - (void)viewWillAppear:(BOOL)animated

@@ -15,5 +15,6 @@
 #define kTypeFace @"Code-Pro-Demo"
 
 #define kImageSpacing 36
+#define kVerticalSpaceConstraint -250
 
 #endif
