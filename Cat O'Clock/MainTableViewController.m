@@ -25,19 +25,19 @@
 
 @property (nonatomic, strong) AlarmManager *alarmManager;
 
-@property (nonatomic, strong) ModalViewController *modalVC;
-@property (nonatomic, strong) AddAlarmViewContoller *alarmSetController;
+@property (nonatomic, strong) ModalViewController *gifViewController;
+@property (nonatomic, strong) AddAlarmViewContoller *alarmSetViewController;
 
 @property (nonatomic, strong) UIView *refreshColorView;
 @property (nonatomic, strong) UIImageView *catImageView;
 @property (nonatomic, strong) UIImageView *toastImageView;
 @property (nonatomic, strong) UIView *refreshLoadingView;
 
-@property (assign) BOOL isRefreshAnimating;
-@property (assign) BOOL isRefreshIconsOverlap;
+@property (nonatomic, assign) BOOL isRefreshAnimating;
+@property (nonatomic, assign) BOOL isRefreshIconsOverlap;
 @property (nonatomic, assign) BOOL showingAlarmViewController;
 
-@property (strong, nonatomic) NSArray *giphyResults;
+@property (nonatomic, strong) NSArray *giphyResults;
 
 @end
 
@@ -145,10 +145,10 @@
 
 - (void)refresh:(id)sender
 {
+    // Let UI refresh control spin for effect
     double delayInSeconds = 1.0f;
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        
         [self newAlarmPull];
         [self.refreshControl endRefreshing];
     });
@@ -156,6 +156,22 @@
 
 - (void)newAlarmPull
 {
+    // Show alarmSetViewController and set observer for its dismissal
+    [self showAlarmTimeSelector];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"SecondViewControllerDismissed" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didDismissSecondViewController) name:@"SecondViewControllerDismissed" object:nil];
+}
+
+- (void)editAlarmPressed:(id)sender
+{
+    // Get touched indexpath from tableview
+    NSIndexPath *hitIndex = [self getIndexPathFromSender:sender];
+    
+    // Set properties in alarm manager to indicate which alarm in the array to edit
+    self.alarmManager.alarmToEditNSNumber = [NSNumber numberWithInteger:hitIndex.row];
+    self.alarmManager.alarmToEditBool = YES;
+    
+    // Show alarmSetViewController and set observer for its dismissal
     [self showAlarmTimeSelector];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"SecondViewControllerDismissed" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didDismissSecondViewController) name:@"SecondViewControllerDismissed" object:nil];
@@ -163,27 +179,14 @@
 
 - (void)switchChanged:(id)sender
 {
-    /* GETS CELL ROW INFO*/
-    CGPoint hitPoint = [sender convertPoint:CGPointZero toView:self.tableView];
-    NSIndexPath *hitIndex = [self.tableView indexPathForRowAtPoint:hitPoint];
+    // Get touched indexpath from tableview
+    NSIndexPath *hitIndex = [self getIndexPathFromSender:sender];
     
+    // Update the alarm in alarm array from that corresponds to the indexpath row
     [self.alarmManager updateAlarmInAlarmArray:hitIndex.row];
     [self reloadDataAndTableView];
 }
 
-- (void)editAlarmPressed:(id)sender
-{
-    CGPoint hitPoint = [sender convertPoint:CGPointZero toView:self.tableView];
-    NSIndexPath *hitIndex = [self.tableView indexPathForRowAtPoint:hitPoint];
- 
-    self.alarmManager.alarmToEditNSNumber = [NSNumber numberWithInteger:hitIndex.row];
-    self.alarmManager.alarmToEditBool = YES;
-    [self showAlarmTimeSelector];
-    
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"SecondViewControllerDismissed" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didDismissSecondViewController) name:@"SecondViewControllerDismissed" object:nil];
-}
 
 #pragma mark - Tableview Methods
 
@@ -288,31 +291,13 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 }
 
-- (UIColor *)colorForIndex:(NSInteger)index
-{
-    NSUInteger itemCount = self.alarmsArray.count - 1;
-    float val = 1.0f - (((float)index / (float)itemCount) * 0.99);
-    
-    if (index == 0) {
-        val = 1.0f;
-    }
-    if (index == 1 && self.alarmsArray.count == 2) {
-        val = 0.5f;
-    }
-    if (val < 0.15f) {
-        val = 0.15f;
-    }
-    
-    return [[UIColor flatBlueColor] colorWithAlphaComponent:val];
-}
-
 #pragma mark - ModalViewController Methods
 
 - (void)showModalVCWithImage:(NSNotification *)notification
 {
     NSLog(@"Received notification %@", [notification name]);
     
-    if (!self.modalVC) {
+    if (!self.gifViewController) {
         NSUInteger randomNumber = [self getRandomNumberBetween:0 to:2400];
         
         [AXCGiphy setGiphyAPIKey:kGiphyApiKey];
@@ -333,21 +318,21 @@
                         if(!error){
                             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                                 UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-                                self.modalVC = (ModalViewController *)[storyboard instantiateViewControllerWithIdentifier:@"modalViewController"];
+                                self.gifViewController = (ModalViewController *)[storyboard instantiateViewControllerWithIdentifier:@"modalViewController"];
                                 
-                                self.modalVC.view.alpha = 0;
-                                [self presentViewController:self.modalVC animated:YES completion:(^{
+                                self.gifViewController.view.alpha = 0;
+                                [self presentViewController:self.gifViewController animated:YES completion:(^{
                                     FLAnimatedImage *image = [FLAnimatedImage animatedImageWithGIFData:data];
                                     FLAnimatedImageView *imageView = [[FLAnimatedImageView alloc] init];
                                     imageView.animatedImage = image;
                                     
                                     imageView.contentMode = UIViewContentModeScaleAspectFit;
-                                    imageView.frame = CGRectMake((self.modalVC.gifImageView.frame.size.width - gifNewWidth)/2, (self.modalVC.gifImageView.frame.size.width - gifNewHeight)/2, gifNewWidth, gifNewHeight);
+                                    imageView.frame = CGRectMake((self.gifViewController.gifImageView.frame.size.width - gifNewWidth)/2, (self.gifViewController.gifImageView.frame.size.width - gifNewHeight)/2, gifNewWidth, gifNewHeight);
                                     
-                                    [self.modalVC.gifImageView addSubview:imageView];
+                                    [self.gifViewController.gifImageView addSubview:imageView];
                                     
                                     [UIView animateWithDuration:.5 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
-                                        self.modalVC.view.alpha = 1;
+                                        self.gifViewController.view.alpha = 1;
                                     } completion:^(BOOL finished) {
                                         [self reloadDataAndTableView];
                                     }];
@@ -362,10 +347,10 @@
                 
                 [[NSOperationQueue mainQueue] addOperationWithBlock:^{
                     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-                    self.modalVC = (ModalViewController *)[storyboard instantiateViewControllerWithIdentifier:@"modalViewController"];
+                    self.gifViewController = (ModalViewController *)[storyboard instantiateViewControllerWithIdentifier:@"modalViewController"];
                     
-                    self.modalVC.view.alpha = 0;
-                    [self presentViewController:self.modalVC animated:YES completion:(^{
+                    self.gifViewController.view.alpha = 0;
+                    [self presentViewController:self.gifViewController animated:YES completion:(^{
                         
                         UIImage *image;
                         if ([error.localizedDescription isEqualToString:@"The Internet connection appears to be offline."]){
@@ -382,12 +367,12 @@
                         NSUInteger imageNewHeight = gifRatio * imageNewWidth;
                         
                         imageView.contentMode = UIViewContentModeScaleAspectFit;
-                        imageView.frame = CGRectMake((self.modalVC.gifImageView.frame.size.width - imageNewWidth)/2, (self.modalVC.gifImageView.frame.size.width - imageNewHeight)/2, imageNewWidth, imageNewHeight);
+                        imageView.frame = CGRectMake((self.gifViewController.gifImageView.frame.size.width - imageNewWidth)/2, (self.gifViewController.gifImageView.frame.size.width - imageNewHeight)/2, imageNewWidth, imageNewHeight);
                         
-                        [self.modalVC.gifImageView addSubview:imageView];
+                        [self.gifViewController.gifImageView addSubview:imageView];
                         
                         [UIView animateWithDuration:.5 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
-                            self.modalVC.view.alpha = 1;
+                            self.gifViewController.view.alpha = 1;
                         } completion:^(BOOL finished) {
                             [self reloadDataAndTableView];
                         }];
@@ -405,23 +390,23 @@
 {
     if (!self.showingAlarmViewController) {
 
-        if (!self.alarmSetController) {
+        if (!self.alarmSetViewController) {
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-            self.alarmSetController = [storyboard instantiateViewControllerWithIdentifier:@"timeSelect"];
+            self.alarmSetViewController = [storyboard instantiateViewControllerWithIdentifier:@"timeSelect"];
             
-            self.alarmSetController.delegate = self;
+            self.alarmSetViewController.delegate = self;
         }
-        [self addChildViewController:self.alarmSetController];
-        [self.view addSubview:self.alarmSetController.view];
-        [self.alarmSetController didMoveToParentViewController:self];
+        [self addChildViewController:self.alarmSetViewController];
+        [self.view addSubview:self.alarmSetViewController.view];
+        [self.alarmSetViewController didMoveToParentViewController:self];
         
-        self.alarmSetController.view.alpha = 0;
-        self.alarmSetController.pickerViewVerticalSpaceConstraint.constant = -250;
+        self.alarmSetViewController.view.alpha = 0;
+        self.alarmSetViewController.pickerViewVerticalSpaceConstraint.constant = -250;
         [self.view layoutIfNeeded];
         
         [UIView animateWithDuration:.3 delay:0 options:UIViewAnimationOptionAllowUserInteraction|UIViewAnimationOptionBeginFromCurrentState animations:^{
-            self.alarmSetController.view.alpha = 1;
-            self.alarmSetController.pickerViewVerticalSpaceConstraint.constant = 0;
+            self.alarmSetViewController.view.alpha = 1;
+            self.alarmSetViewController.pickerViewVerticalSpaceConstraint.constant = 0;
             [self.view layoutIfNeeded];
         } completion:^(BOOL finished) {
             if (finished) {
@@ -434,14 +419,14 @@
 - (void)hideAlarmTimeSelector
 {
     [UIView animateWithDuration:.3 delay:0 options:UIViewAnimationOptionAllowUserInteraction|UIViewAnimationOptionBeginFromCurrentState animations:^{
-        self.alarmSetController.view.alpha = 0;
-        self.alarmSetController.pickerViewVerticalSpaceConstraint.constant = -250;
+        self.alarmSetViewController.view.alpha = 0;
+        self.alarmSetViewController.pickerViewVerticalSpaceConstraint.constant = -250;
         [self.view layoutIfNeeded];
     } completion:^(BOOL finished) {
         if (finished) {
-            [self.alarmSetController willMoveToParentViewController:nil];
-            [self.alarmSetController.view removeFromSuperview];
-            [self.alarmSetController removeFromParentViewController];
+            [self.alarmSetViewController willMoveToParentViewController:nil];
+            [self.alarmSetViewController.view removeFromSuperview];
+            [self.alarmSetViewController removeFromParentViewController];
             self.showingAlarmViewController = NO;
             self.alarmManager.alarmToEditBool = NO;
         }
@@ -558,6 +543,32 @@
 - (int)getRandomNumberBetween:(int)from to:(int)to
 {
     return (int)from + arc4random() % (to-from+1);
+}
+
+-(NSIndexPath *)getIndexPathFromSender:(id)sender
+{
+    CGPoint hitPoint = [sender convertPoint:CGPointZero toView:self.tableView];
+    NSIndexPath *hitIndex = [self.tableView indexPathForRowAtPoint:hitPoint];
+    
+    return hitIndex;
+}
+
+- (UIColor *)colorForIndex:(NSInteger)index
+{
+    NSUInteger itemCount = self.alarmsArray.count - 1;
+    float val = 1.0f - (((float)index / (float)itemCount) * 0.99);
+    
+    if (index == 0) {
+        val = 1.0f;
+    }
+    if (index == 1 && self.alarmsArray.count == 2) {
+        val = 0.5f;
+    }
+    if (val < 0.15f) {
+        val = 0.15f;
+    }
+    
+    return [[UIColor flatBlueColor] colorWithAlphaComponent:val];
 }
 
 #pragma mark - Alert Methods
