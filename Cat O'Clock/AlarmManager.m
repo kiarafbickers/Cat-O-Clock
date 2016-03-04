@@ -48,11 +48,11 @@
 
 - (void)addAlarmToAlarmArray:(AlarmModel *)newAlarm
 {
-//    self.alarmsArray = [[self getAlarmsFromUserDefaults] mutableCopy];
-//    
-//    if (self.alarmsArray == nil) {
-//        self.alarmsArray = [[NSMutableArray alloc] init];
-//    }
+    self.alarmsArray = [[self getAlarmsFromUserDefaults] mutableCopy];
+    
+    if (self.alarmsArray == nil) {
+        self.alarmsArray = [[NSMutableArray alloc] init];
+    }
     
     NSDate *nextTime = [self guaranteeTimeOfFutureDate:newAlarm.date];
     AlarmModel *updatedAlarm = [[AlarmModel alloc] initWithDate:nextTime WithString:newAlarm.timeString withSwitchState:newAlarm.switchState];
@@ -63,11 +63,11 @@
 
 - (void)updateAlarmInAlarmArray:(NSUInteger)alarmIndex andAlarm:(AlarmModel *)newAlarm
 {
-//    self.alarmsArray = [[self getAlarmsFromUserDefaults] mutableCopy];
-//    
-//    if (self.alarmsArray == nil) {
-//        self.alarmsArray = [[NSMutableArray alloc] init];
-//    }
+    self.alarmsArray = [[self getAlarmsFromUserDefaults] mutableCopy];
+    
+    if (self.alarmsArray == nil) {
+        self.alarmsArray = [[NSMutableArray alloc] init];
+    }
     
     NSDate *nextTime = [self guaranteeTimeOfFutureDate:newAlarm.date];
     AlarmModel *updatedAlarm = [[AlarmModel alloc] initWithDate:nextTime WithString:newAlarm.timeString withSwitchState:newAlarm.switchState];
