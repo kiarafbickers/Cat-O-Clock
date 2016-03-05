@@ -18,7 +18,7 @@ Docs
 *.ipa
 *.xcuserstate
 
-"Cat O'Clock"/NetworkKey.h
+Cat\ O'Clock/NetworkKey.h
 
 # CocoaPods
 #
