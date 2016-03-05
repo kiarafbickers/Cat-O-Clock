@@ -187,23 +187,24 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Set 1 or 0 sections in tableview depending on alarm array count
+    NSInteger numOfSections = 0;
     if (self.alarmsArray.count > 0)
     {
-        return 1;
+        numOfSections = 1;
+        self.tableView.backgroundView = nil;
     }
     else
     {
         // Configure background view with instructional label if there are no alarms
-        
         UILabel *noDataLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
-        noDataLabel.font = [UIFont fontWithName:kTypeFace size:15.0f];
+        noDataLabel.font = [UIFont fontWithName:@"Code-Pro-Demo" size:15.0f];
         noDataLabel.textColor = [[UIColor flatWhiteColor] colorWithAlphaComponent:0.3f];
         noDataLabel.text = @"Pull to set an alarm";
         noDataLabel.textAlignment = NSTextAlignmentCenter;
         self.tableView.backgroundView = noDataLabel;
-        
-        return 0;
     }
+    
+    return numOfSections;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
