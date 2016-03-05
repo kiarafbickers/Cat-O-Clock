@@ -667,7 +667,7 @@
 {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"" message:@"Alarms wont run if the app is closed. Leave the app running or turn off alarms." preferredStyle:UIAlertControllerStyleActionSheet];
     UIAlertAction *okayAction = [UIAlertAction actionWithTitle:@"Okay" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
-        [self dismissViewControllerAnimated:okayAction completion:nil];
+        [self dismissViewControllerAnimated:YES completion:nil];
     }];
     
     [alert addAction:okayAction];
