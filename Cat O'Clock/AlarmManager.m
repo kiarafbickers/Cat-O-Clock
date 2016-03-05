@@ -150,11 +150,11 @@
         if (firstAlarm.switchState == YES) {
             
             NSDate *today = [NSDate date];
-            NSLog(@"Compare today:%@, to Alarm date: %@", today, firstAlarm.date);
+            //NSLog(@"Compare today:%@, to Alarm date: %@", today, firstAlarm.date);
             NSComparisonResult result = [today compare:firstAlarm.date];
             
             if (result == NSOrderedAscending) {
-                NSLog(@"Future Date %@, Time: %@", firstAlarm.date, firstAlarm.timeString);
+                //NSLog(@"Future Date %@, Time: %@", firstAlarm.date, firstAlarm.timeString);
                 
                 UILocalNotification *localNotification = [[UILocalNotification alloc] init];
                 [localNotification setTimeZone:[NSTimeZone defaultTimeZone]];
@@ -171,10 +171,10 @@
                 
                 break;
             } else if (result == NSOrderedDescending) {
-                NSLog(@"Earlier Date %@, Time: %@", firstAlarm.date, firstAlarm.timeString);
+                //NSLog(@"Earlier Date %@, Time: %@", firstAlarm.date, firstAlarm.timeString);
                 break;
             } else if (result == NSOrderedSame) {
-                NSLog(@"Today/Null Date Passed %@", firstAlarm.date);
+                //NSLog(@"Today/Null Date Passed %@", firstAlarm.date);
                 break;
             }
         }

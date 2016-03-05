@@ -9,6 +9,7 @@
 #import "MainTableViewController.h"
 
 #import "Constants.h"
+#import "NetworkKey.h"
 #import "AlarmModel.h"
 #import "AlarmManager.h"
 #import "ModalViewController.h"
@@ -143,11 +144,11 @@
 {
     // Get touched indexpath from tableview
     NSIndexPath *hitIndex = [self getIndexPathFromSender:sender];
-    NSLog(@"hitIndex.row %ld",(long)hitIndex.row);
+    //NSLog(@"hitIndex.row %ld",(long)hitIndex.row);
     
     // Set properties in alarm manager to indicate which alarm in the array to edit
     self.alarmManager.alarmToEditNSNumber = [NSNumber numberWithInteger:hitIndex.row];
-    NSLog(@"hitIndex.row %@", self.alarmManager.alarmToEditNSNumber);
+    //NSLog(@"hitIndex.row %@", self.alarmManager.alarmToEditNSNumber);
     
     self.alarmManager.alarmToEditBool = YES;
     

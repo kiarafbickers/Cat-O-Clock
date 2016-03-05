@@ -55,6 +55,7 @@
 		E959C05F1C75515700B0878D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E959C0621C75515700B0878D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E959C0641C75515800B0878D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E9BF4D0E1C8B5F2A002DBCC1 /* NetworkKey.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetworkKey.h; sourceTree = "<group>"; };
 		E9F4DDE61C8A1CEA006C5A26 /* BackgroundTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BackgroundTask.h; sourceTree = "<group>"; };
 		E9F4DDE71C8A1CEA006C5A26 /* BackgroundTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BackgroundTask.m; sourceTree = "<group>"; };
 		E9F9F25D1C7620C0001067FF /* AlarmModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlarmModel.h; sourceTree = "<group>"; };
@@ -115,6 +116,7 @@
 			isa = PBXGroup;
 			children = (
 				E93A27711C828EB9008730EA /* Constants.h */,
+				E9BF4D0E1C8B5F2A002DBCC1 /* NetworkKey.h */,
 				E959C0561C75515100B0878D /* AppDelegate.h */,
 				E959C0571C75515200B0878D /* AppDelegate.m */,
 				E94B07AE1C75618C00CF05C7 /* MainTableViewController.h */,
