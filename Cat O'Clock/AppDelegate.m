@@ -154,11 +154,14 @@
     [[UIApplication sharedApplication] cancelAllLocalNotifications];
     //NSLog(@"Canceled all notications to create new ones.");
     
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"meow" ofType:@"wav"];
+    NSURL *fileURL = [[NSURL alloc] initFileURLWithPath:filePath];
+    
     for (AlarmModel *alarm in self.alarmManager.alarmsArray) {
         if (alarm.switchState == YES) {
             
             //NSLog(@"Set alarm notification for: %@", alarm.timeString);
-            NSString *filePath = [[NSBundle mainBundle] pathForResource:@"meow" ofType:@"wav"];
+            
             UILocalNotification *localNotification = [[UILocalNotification alloc] init];
             [localNotification setTimeZone:[NSTimeZone defaultTimeZone]];
             [localNotification setAlertBody:@"Meeeeoww!"];
@@ -169,8 +172,8 @@
             [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
             [self.alarmManager startTimerWithDate:alarm.date];
             
-            self.timeDifference = [alarm.date timeIntervalSinceDate:[NSDate date]];
-            //NSLog(@"diff %fs", self.timeDifference);
+            self.alarmAudioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:fileURL error:nil];
+            [self.alarmAudioPlayer prepareToPlay];
         }
     }
 }
