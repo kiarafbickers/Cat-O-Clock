@@ -663,28 +663,15 @@
 
 #pragma mark - Alert Methods
 
-- (void)triggerFirstWarningAlert
-{
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle: @"To create an alarm set them to on, and press the hold button." message: @"" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
-    
-    UIImage *alertImage = [UIImage imageNamed:@"iphone"];
-    UIImageView *alertImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 300, 300)];
-    [alertImageView setImage:alertImage];
-    
-    [alertView  setValue:alertImageView forKey:@"accessoryView"];
-    [alertView  show];
-}
-
 - (void)triggerWarningAlert
 {
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle: @"Turn off alarms or set them and press the hold button." message: @"" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"" message:@"Alarms wont run if the app is closed. Leave the app running or turn off alarms." preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction *okayAction = [UIAlertAction actionWithTitle:@"Okay" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+        [self dismissViewControllerAnimated:okayAction completion:nil];
+    }];
     
-    UIImage *alertImage = [UIImage imageNamed:@"iphone"];
-    UIImageView *alertImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 300, 300)];
-    [alertImageView setImage:alertImage];
-    
-    [alertView  setValue:alertImageView forKey:@"accessoryView"];
-    [alertView  show];
+    [alert addAction:okayAction];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 #pragma mark - Override Methods

@@ -48,15 +48,6 @@
     [self.alarmManager checkForOldAlarm];
     [self.alarmManager checkForValidAlarm];
     
-    UILocalNotification *localNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
-    if (localNotification) {
-        NSLog(@"Recieved Notification %@", localNotification);
-    }
-    UILocalNotification *remoteNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
-    if (remoteNotification) {
-        NSLog(@"Recieved Notification %@", remoteNotification);
-    }
-    
     NSLog(@"stopBackgroundTask");
     [self stopBackgroundTask];
     
@@ -96,6 +87,10 @@
 {
     NSLog(@"WillTerminate!");
     
+    [self.alarmManager stopTimer];
+    [[AVAudioSession sharedInstance] setActive:NO error:NULL];
+    [self.alarmManager stopAudioPlayer];
+    
     [[UIApplication sharedApplication] cancelAllLocalNotifications];
     
     if(IS_OS_8_OR_LATER)
@@ -131,10 +126,6 @@
     }
     
     [self.alarmManager.alarmsArray removeAllObjects];
-    
-    [self.alarmManager stopTimer];
-    [[AVAudioSession sharedInstance] setActive:NO error:NULL];
-    [self.alarmManager stopAudioPlayer];
 }
 
 #pragma mark - Backround Methods
