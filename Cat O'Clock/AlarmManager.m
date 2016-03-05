@@ -9,12 +9,10 @@
 #import "AlarmManager.h"
 #import "NSDate+Comparison.h"
 #import "AppDelegate.h"
-@import AVFoundation;
 
 @interface AlarmManager ()
 
 @property (nonatomic, strong) NSTimer *alarmTimer;
-@property (strong, nonatomic) AVAudioPlayer *alarmAudioPlayer;
 
 @end
 
@@ -102,7 +100,6 @@
 {
     NSMutableArray *updatedAlarmsArray = [self.alarmsArray mutableCopy];
     
-    // Why? would this ever be nil?
     if (updatedAlarmsArray == nil) {
         updatedAlarmsArray = [[NSMutableArray alloc] init];
     }
@@ -140,11 +137,6 @@
 {
     NSMutableArray *updatedAlarmsArray = [self.alarmsArray mutableCopy];
     
-    [[UIApplication sharedApplication] cancelAllLocalNotifications];
-    
-    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"meow" ofType:@"wav"];
-    NSURL *fileURL = [[NSURL alloc] initFileURLWithPath:filePath];
-    
     for (AlarmModel *firstAlarm in updatedAlarmsArray) {
         
         if (firstAlarm.switchState == YES) {
@@ -156,17 +148,7 @@
             if (result == NSOrderedAscending) {
                 //NSLog(@"Future Date %@, Time: %@", firstAlarm.date, firstAlarm.timeString);
                 
-                UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-                [localNotification setTimeZone:[NSTimeZone defaultTimeZone]];
-                [localNotification setAlertBody:@"Meeeeoww!"];
-                [localNotification setAlertAction:@"Open App"];
-                [localNotification setHasAction:YES];
-                [localNotification setFireDate:firstAlarm.date];
-                [localNotification setSoundName:@"filePath"];
-                [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
                 [self startTimerWithDate:firstAlarm.date];
-                
-                self.alarmAudioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:fileURL error:nil];
                 [self.alarmAudioPlayer prepareToPlay];
                 
                 break;
@@ -228,12 +210,33 @@
     return nextTime;
 }
 
+#pragma mark - Audio Player Methods
+
+- (void)startAudioPlayer
+{
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"meow" ofType:@"wav"];
+    NSURL *fileURL = [NSURL fileURLWithPath:filePath];
+    self.alarmAudioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:fileURL error:nil];
+    self.alarmAudioPlayer.numberOfLoops = -1;
+    self.alarmAudioPlayer.volume = 1;
+    
+    [self.alarmAudioPlayer play];
+}
+
+- (void)stopAudioPlayer
+{
+    if (self.alarmAudioPlayer) {
+        [self.alarmAudioPlayer stop];
+        self.alarmAudioPlayer = nil;
+    }
+}
+
 #pragma mark - Timer Methods
 
 - (void)startTimerWithDate:(NSDate *)date
 {
     if (!self.alarmTimer || !self.alarmTimer.valid) {
-        self.alarmTimer = [[NSTimer alloc] initWithFireDate:date interval:5.0 target:self selector:@selector(startAudioPlayer) userInfo:nil repeats:YES];
+        self.alarmTimer = [[NSTimer alloc] initWithFireDate:date interval:5.0 target:self selector:@selector(postGifModalViewNotification) userInfo:nil repeats:YES];
         [[NSRunLoop currentRunLoop] addTimer:self.alarmTimer forMode:NSDefaultRunLoopMode];
     }
 }
@@ -246,20 +249,52 @@
     }
 }
 
-#pragma mark - Audio Player Methods
+#pragma mark - Notification Methods
 
-- (void)startAudioPlayer
+- (void)postGifModalViewNotification
 {
-    [self.alarmAudioPlayer play];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"alarmPlaying" object:nil userInfo:nil];
+    NSLog(@"postGifModalViewNotification");
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"alarmPlaying" object:nil userInfo:nil];;
 }
 
-- (void)stopAudioPlayer
+- (void)sendNoticationInAppBackgroundAndInactiveState
 {
-    if (self.alarmAudioPlayer) {
-        [self.alarmAudioPlayer stop];
-        self.alarmAudioPlayer = nil;
+    UIApplicationState state = [[UIApplication sharedApplication] applicationState];
+    if (state == UIApplicationStateBackground || state == UIApplicationStateInactive)
+    {
+        NSDate *notificationTimeDelay = [NSDate dateWithTimeIntervalSinceNow:1.0];
+        [self setupMeowNoticationWithDate:notificationTimeDelay];
     }
+}
+
+- (void)setupMeowNoticationWithDate:(NSDate *)date
+{
+    UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+    [localNotification setTimeZone:[NSTimeZone defaultTimeZone]];
+    [localNotification setAlertBody:@"Meeeeoww!"];
+    [localNotification setAlertAction:@"Open App"];
+    [localNotification setHasAction:YES];
+    [localNotification setFireDate:date];
+    
+    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+}
+
+- (void)setupWarningNotificationWithDate:(NSDate *)date
+{
+    UILocalNotification *warningNotification = [[UILocalNotification alloc] init];
+    [warningNotification setFireDate:date];
+    [warningNotification setTimeZone:[NSTimeZone defaultTimeZone]];
+    [warningNotification setAlertBody:@"Exiting app disables alarms. Come back to re-activate them."];
+    [warningNotification setRepeatInterval:0];
+    [warningNotification setSoundName:UILocalNotificationDefaultSoundName];
+    
+    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+    [[UIApplication sharedApplication] scheduleLocalNotification:warningNotification];
+    
+    // Pausing the processor is necessary in order to make notification fire
+    [NSThread sleepForTimeInterval:2];
 }
 
 @end

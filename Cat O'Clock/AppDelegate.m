@@ -16,10 +16,7 @@
 
 @interface AppDelegate ()
 
-@property (strong, nonatomic) AVAudioPlayer *alarmAudioPlayer;
 @property (nonatomic, strong) AlarmManager *alarmManager;
-@property (nonatomic, strong) NSMutableArray *alarmsArray;
-@property (nonatomic) NSTimeInterval timeDifference;
 
 @end
 
@@ -74,12 +71,9 @@
     //NSLog(@"applicationDidEnterBackground");
 
     self.backgroundTask = [[BackgroundTask alloc] init];
-    //NSLog(@"self.backgroundTask %@", self.backgroundTask);
     
     // Handle events exceeding 3-10 minutes here
-    //NSLog(@"########");
     [self functionYouWantToRunInTheBackground];
-    
     [self startBackgroundTask];
 }
 
@@ -90,37 +84,15 @@
     [self.alarmManager stopTimer];
     [[AVAudioSession sharedInstance] setActive:NO error:NULL];
     [self.alarmManager stopAudioPlayer];
-    
-    [[UIApplication sharedApplication] cancelAllLocalNotifications];
-    
-    if(IS_OS_8_OR_LATER)
-    {
-        UIUserNotificationType types = UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
-        UIUserNotificationSettings *mySettings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
-        [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
-    }
-    
+
     for (AlarmModel *alarm in self.alarmManager.alarmsArray) {
-        
         if (alarm.switchState == YES) {
-            
             if (application.applicationIconBadgeNumber == 0) {
                 [application setApplicationIconBadgeNumber:1];
             }
             
             NSDate *warningNotificationTimeDelay = [NSDate dateWithTimeIntervalSinceNow:3.0];
-            UILocalNotification *warningNotification = [[UILocalNotification alloc] init];
-            [warningNotification setFireDate:warningNotificationTimeDelay];
-            [warningNotification setTimeZone:[NSTimeZone defaultTimeZone]];
-            [warningNotification setAlertBody:@"Exiting app disables alarms. Come back to re-activate them."];
-            [warningNotification setRepeatInterval:0];
-            [warningNotification setSoundName:UILocalNotificationDefaultSoundName];
-            [[UIApplication sharedApplication] scheduleLocalNotification:warningNotification];
-            
-            // Pausing the processor is necessary in order to make notification fire
-            [NSThread sleepForTimeInterval:2];
-            
-            //NSLog(@"Set alarm warning!!");
+            [self.alarmManager setupWarningNotificationWithDate:warningNotificationTimeDelay];
             break;
         }
     }
@@ -132,8 +104,7 @@
 
 -(void) backgroundCallback:(id)info
 {
-    //NSLog(@"########");
-    //NSLog(@"###### BG TASK RUNNING:%f", [UIApplication sharedApplication].backgroundTimeRemaining);
+    //NSLog(@"BackroundTaskRunning: %f", [UIApplication sharedApplication].backgroundTimeRemaining);
 }
 
 -(void) startBackgroundTask
@@ -151,29 +122,9 @@
 {
     //NSLog(@"functionYouWantToRunInTheBackground");
     
-    [[UIApplication sharedApplication] cancelAllLocalNotifications];
-    //NSLog(@"Canceled all notications to create new ones.");
-    
-    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"meow" ofType:@"wav"];
-    NSURL *fileURL = [[NSURL alloc] initFileURLWithPath:filePath];
-    
     for (AlarmModel *alarm in self.alarmManager.alarmsArray) {
         if (alarm.switchState == YES) {
-            
-            //NSLog(@"Set alarm notification for: %@", alarm.timeString);
-            
-            UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-            [localNotification setTimeZone:[NSTimeZone defaultTimeZone]];
-            [localNotification setAlertBody:@"Meeeeoww!"];
-            [localNotification setAlertAction:@"Open App"];
-            [localNotification setHasAction:YES];
-            [localNotification setFireDate:alarm.date];
-            [localNotification setSoundName:filePath];
-            [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
             [self.alarmManager startTimerWithDate:alarm.date];
-            
-            self.alarmAudioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:fileURL error:nil];
-            [self.alarmAudioPlayer prepareToPlay];
         }
     }
 }

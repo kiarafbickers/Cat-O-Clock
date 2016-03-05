@@ -48,7 +48,7 @@
 
 -(NSDate *)setSecondsToZeroWithDate:(NSDate *)setDate
 {
-    /*SET SECONDS ON DATE To ZERO*/
+    // Set seconds on the alarm to 0
     NSDateComponents *comp = [[NSCalendar currentCalendar] components:NSCalendarUnitSecond fromDate:setDate];
     return [setDate dateByAddingTimeInterval:-comp.second];
 }

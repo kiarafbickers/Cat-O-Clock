@@ -303,7 +303,6 @@
     }
 }
 
-
 #pragma mark - ModalViewController Methods
 
 - (void)checkForModalViewController:(NSNotification *)notification
@@ -330,7 +329,6 @@
             
             // Get the GIF from Giphy results index array
             AXCGiphy *gif = results[0];
-            
             
             // *Some images do not have URLs
             if (gif.originalImage.url) {
@@ -440,8 +438,13 @@
     // Add the image view to the gif image view
     [self.gifViewController.gifImageView addSubview:imageView];
     
-    // Present the GIF view controller
-    [self presentViewController:self.gifViewController animated:YES completion:(^{
+    // Present the GIF view controller from the top most view controller
+    UIViewController *topViewController = [self topMostController];
+    [topViewController presentViewController:self.gifViewController animated:YES completion:(^{
+        
+        // Start "meowing" audio once cat GIF is presented
+        [self.alarmManager startAudioPlayer];
+        [self.alarmManager sendNoticationInAppBackgroundAndInactiveState];
         
         // Animate its alpha for a fade in effect
         [UIView animateWithDuration:.5 delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
@@ -650,6 +653,17 @@
     }
     
     return [[UIColor flatBlueColor] colorWithAlphaComponent:val];
+}
+
+- (UIViewController *)topMostController
+{
+    UIViewController *topController = [UIApplication sharedApplication].keyWindow.rootViewController;
+    
+    while (topController.presentedViewController) {
+        topController = topController.presentedViewController;
+    }
+    
+    return topController;
 }
 
 #pragma mark - Alert Methods
