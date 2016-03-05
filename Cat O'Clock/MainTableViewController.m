@@ -57,13 +57,14 @@
 {
     [super viewDidLoad];
     
+    [self setTableViewCellHeight];
+    
     // Setup the custom refesh control animation
     [self setupRefreshControl];
     
     // Get alarms from alarm Manager data store
     self.alarmManager = [AlarmManager sharedAlarmDataStore];
-    self.alarmsArray = [[self.alarmManager getAlarmsFromUserDefaults] mutableCopy];
-    
+
     // Hide the navigation controller
     self.navigationController.navigationBar.hidden = YES;
     
@@ -110,13 +111,12 @@
 - (void)reloadDataAndTableView
 {
     //NSLog(@"Reloaded Data");
-    self.alarmsArray = [[self.alarmManager getAlarmsFromUserDefaults] mutableCopy];
+//    self.alarmsArray = [[self.alarmManager getAlarmsFromUserDefaults] mutableCopy];
     [self.alarmManager checkForOldAlarm];
     [self.alarmManager checkForValidAlarm];
     [self.tableView reloadData];
     //NSLog(@"____________");
 }
-
 
 #pragma mark - Action Methods
 
@@ -143,9 +143,12 @@
 {
     // Get touched indexpath from tableview
     NSIndexPath *hitIndex = [self getIndexPathFromSender:sender];
+    NSLog(@"hitIndex.row %ld",(long)hitIndex.row);
     
     // Set properties in alarm manager to indicate which alarm in the array to edit
     self.alarmManager.alarmToEditNSNumber = [NSNumber numberWithInteger:hitIndex.row];
+    NSLog(@"hitIndex.row %@", self.alarmManager.alarmToEditNSNumber);
+    
     self.alarmManager.alarmToEditBool = YES;
     
     // Show alarmSetViewController and set observer for its dismissal
@@ -171,7 +174,7 @@
 {
     // Set 1 or 0 sections in tableview depending on alarm array count
     NSInteger numOfSections = 0;
-    if (self.alarmsArray.count > 0)
+    if (self.alarmManager.alarmsArray.count > 0)
     {
         numOfSections = 1;
         self.tableView.backgroundView = nil;
@@ -193,7 +196,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Set the number of tableview cells equal to the alarms in the alarm array count
-    return self.alarmsArray.count;
+    return self.alarmManager.alarmsArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -209,8 +212,7 @@
     cell.backgroundColor = [self colorForIndex:indexPath.row];
     
     // Get the alarm from alarm array that corresponds to the indexpath row
-    AlarmModel *alarmAtIndexRow = self.alarmsArray[indexPath.row];
-    
+    AlarmModel *alarmAtIndexRow = self.alarmManager.alarmsArray[indexPath.row];
     
     // Create an alarm on/off switch from tag, and set its UI values
     UISwitch *alarmSwitch = (UISwitch *)[cell viewWithTag:1];
@@ -223,7 +225,6 @@
     
     // Set a selector method to execute when switch changes
     [alarmSwitch  addTarget:self action:@selector(switchChanged:) forControlEvents:UIControlEventValueChanged];
-    
     
     // Create the time display label from tag,
     UILabel *timeLabel = (UILabel *)[cell viewWithTag:2];
@@ -238,14 +239,11 @@
         timeLabel.textColor = [[UIColor flatBlackColor] colorWithAlphaComponent:0.25f];
     }
     
-    
     // Create a button over the time label to allow for editing the time
     UIButton *editAlarm = (UIButton *)[cell viewWithTag:3];
     
     // Set a selector method to execute when button is pressed
     [editAlarm addTarget:self action:@selector(editAlarmPressed:) forControlEvents:UIControlEventTouchUpInside];
-    
-    
     
     // Create view to add slight seperation between the cells
     UIView *cellSeparatorLineView;
@@ -266,13 +264,17 @@
     return cell;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+// Using heightForRowAtIndexPath with the cell delete fuctionality causes a thread error
+//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)setTableViewCellHeight
 {
     // Set 4 cells to fill the view
-    CGFloat viewHeight = self.view.frame.size.height;
+    CGFloat statusBar = [UIApplication sharedApplication].statusBarFrame.size.height;
+    CGFloat viewHeight = self.view.bounds.size.height - statusBar;
     CGFloat customTableCellHeight = viewHeight/4;
     
-    return customTableCellHeight;
+    self.tableView.sectionHeaderHeight = UITableViewAutomaticDimension;
+    self.tableView.rowHeight  = customTableCellHeight;
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
@@ -288,14 +290,14 @@
     
         // Remove alarm from alarm array at index path row
         [self.alarmManager removeAlarmFromAlarmArrayAtIndex:indexPath.row];
-        
+
         // Animate alarm/cell delete
-        NSArray* paths = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:indexPath.row inSection:0]];
-        [self.tableView beginUpdates];
-        [self.tableView insertRowsAtIndexPaths:paths withRowAnimation:UITableViewRowAnimationFade];
-        [self.tableView deleteRowsAtIndexPaths:paths withRowAnimation:UITableViewRowAnimationFade];
-        [self.tableView endUpdates];
-        
+         NSArray *paths = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:indexPath.row inSection:0]];
+         [tableView beginUpdates];
+         //[tableView insertRowsAtIndexPaths:paths withRowAnimation:UITableViewRowAnimationFade];
+         [tableView deleteRowsAtIndexPaths:paths withRowAnimation:UITableViewRowAnimationFade];
+         [tableView endUpdates];
+
         [self reloadDataAndTableView];
     }
 }
@@ -328,6 +330,7 @@
             // Get the GIF from Giphy results index array
             AXCGiphy *gif = results[0];
             
+            
             // *Some images do not have URLs
             if (gif.originalImage.url) {
                 
@@ -335,7 +338,7 @@
                 NSURLRequest *request = [NSURLRequest requestWithURL:gif.originalImage.url];
                 [[[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
                     if (!error) {
-                        
+
                         // Get image size parameters from data
                         // TODO: Change the way this is done to use autolayout instead of frames
                         UIImage *gifImage = [UIImage imageWithData:data];
@@ -345,44 +348,48 @@
                         NSUInteger gifNewWidth = self.view.frame.size.width;
                         NSUInteger gifNewHeight = gifRatio * gifNewWidth;
                         
-                        // Update UI on mainQueue
-                        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                            
-                            // Creates a storyboard object for the specified storyboard resource file
-                            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-                            
-                            // Instantiates and creates the 0 alpha view controller frome the specified identifier.
-                            self.gifViewController = (ModalViewController *)[storyboard instantiateViewControllerWithIdentifier:@"modalViewController"];
-                            self.gifViewController.view.alpha = 0;
-                            
-                            // Create GIF from data and set it to the image view
-                            FLAnimatedImage *image = [FLAnimatedImage animatedImageWithGIFData:data];
-                            FLAnimatedImageView *imageView = [[FLAnimatedImageView alloc] init];
-                            imageView.animatedImage = image;
-                            
-                            // Ensure the image keep its ratio in the view
-                            imageView.contentMode = UIViewContentModeScaleAspectFit;
-                            
-                            NSUInteger gifY = 0;
-                            if (gifNewHeight < self.view.bounds.size.width) {
-                                gifY = (self.view.bounds.size.width - gifNewHeight)/2;
-                                //NSLog(@"gifY %lu", (long)gifY);
+                        if (gifNewHeight < self.view.bounds.size.width) {
+                        
+                            // Update UI on mainQueue
+                            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                                
+                                // Creates a storyboard object for the specified storyboard resource file
+                                UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                                
+                                // Instantiates and creates the 0 alpha view controller frome the specified identifier.
+                                self.gifViewController = (ModalViewController *)[storyboard instantiateViewControllerWithIdentifier:@"modalViewController"];
+                                self.gifViewController.view.alpha = 0;
+                                
+                                // Create GIF from data and set it to the image view
+                                FLAnimatedImage *image = [FLAnimatedImage animatedImageWithGIFData:data];
+                                FLAnimatedImageView *imageView = [[FLAnimatedImageView alloc] init];
+                                imageView.animatedImage = image;
+                                
+                                // Ensure the image keep its ratio in the view
+                                imageView.contentMode = UIViewContentModeScaleAspectFit;
+                                
+                                NSUInteger gifY = 0;
+                                if (gifNewHeight < self.view.bounds.size.width) {
+                                    gifY = (self.view.bounds.size.width - gifNewHeight)/2;
+                                    //NSLog(@"gifY %lu", (long)gifY);
+                                }
+                                
+                                // Set new size to image
+                                imageView.frame = CGRectMake(0, gifY, gifNewWidth, gifNewHeight);
+                                
+                                [self presentAndAnimateModalGifViewControllerWithImageView:imageView];
+                            }];
                             }
-                            
-                            // Set new size to image
-                            imageView.frame = CGRectMake(0, gifY, gifNewWidth, gifNewHeight);
-                            
-                            [self presentAndAnimateModalGifViewControllerWithImageView:imageView];
-                        }];
+                        } else {
+                        // If the image is too big
+                        [self callGiphyApiForGifImage];
                     }
                 }] resume];
-            }
-            else {
+            } else {
                 // If there is no gif.originalImage.url call the method again
                 [self callGiphyApiForGifImage];
             }
-        }
-        else {
+        } else {
             //NSLog(@"%@", error);
             
             // Update UI on mainQueue
@@ -628,13 +635,13 @@
 
 - (UIColor *)colorForIndex:(NSInteger)index
 {
-    NSUInteger itemCount = self.alarmsArray.count - 1;
+    NSUInteger itemCount = self.alarmManager.alarmsArray.count - 1;
     float val = 1.0f - (((float)index / (float)itemCount) * 0.99);
     
     if (index == 0) {
         val = 1.0f;
     }
-    if (index == 1 && self.alarmsArray.count == 2) {
+    if (index == 1 && self.alarmManager.alarmsArray.count == 2) {
         val = 0.5f;
     }
     if (val < 0.15f) {

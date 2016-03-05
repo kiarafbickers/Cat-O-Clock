@@ -62,7 +62,8 @@
 - (IBAction)save:(id)sender
 {
     if (self.alarmManager.alarmToEditBool == YES) {
-        NSInteger index = [self.alarmManager.alarmToEditNSNumber integerValue];
+        
+        NSNumber *index = self.alarmManager.alarmToEditNSNumber;
         AlarmModel *newAlarm = [[AlarmModel alloc] initWithDate:self.datePicker.date withSwitchState:YES];
         [self.alarmManager updateAlarmInAlarmArray:index andAlarm:newAlarm];
     }

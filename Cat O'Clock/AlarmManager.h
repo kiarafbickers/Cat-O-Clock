@@ -11,15 +11,15 @@
 
 @interface AlarmManager : NSObject
 
-@property (nonatomic, strong) NSMutableArray *alarmsArray;
-@property (nonatomic) NSNumber *alarmToEditNSNumber;
+@property (nonatomic, retain) NSMutableArray *alarmsArray;
+@property (nonatomic, strong) NSNumber *alarmToEditNSNumber;
 @property (nonatomic) NSInteger alarmToEditAtIndex;
 @property (nonatomic) BOOL alarmToEditBool;
 
 + (instancetype)sharedAlarmDataStore;
 
 - (void)addAlarmToAlarmArray:(AlarmModel *)alarmModel;
-- (void)updateAlarmInAlarmArray:(NSUInteger)alarmIndex andAlarm:(AlarmModel *)newAlarm;
+- (void)updateAlarmInAlarmArray:(NSNumber *)alarmIndex andAlarm:(AlarmModel *)newAlarm;
 
 - (void)removeAlarmFromAlarmArrayAtIndex:(NSUInteger)alarmIndex;
 - (void)updateAlarmInAlarmArray:(NSUInteger)alarmIndex;
@@ -33,6 +33,6 @@
 - (void)stopAudioPlayer;
 - (void)startAudioPlayer;
 
-- (NSArray *)getAlarmsFromUserDefaults;
+//- (NSArray *)getAlarmsFromUserDefaults;
 
 @end

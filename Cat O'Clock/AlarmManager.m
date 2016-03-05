@@ -20,6 +20,9 @@
 
 @implementation AlarmManager
 
+@synthesize alarmsArray = _alarmsArray;
+
+
 #pragma mark - Singleton Method
 
 + (instancetype)sharedAlarmDataStore
@@ -33,81 +36,116 @@
     return _sharedAlarmManager;
 }
 
-#pragma mark - Initialization Method
+#pragma mark - Setter and Getter / User Defaults Methods
 
-- (instancetype)init
+
+- (NSMutableArray *)alarmsArray
 {
-    self = [super init];
-    if (self) {
-        _alarmsArray = [[NSMutableArray alloc] init];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSData *decodedAlarmsData = [userDefaults objectForKey: [NSString stringWithFormat:@"alarmsArray"]];
+    NSArray *decodedAlarmsArray =[NSKeyedUnarchiver unarchiveObjectWithData:decodedAlarmsData];
+    
+    _alarmsArray = [decodedAlarmsArray mutableCopy];
+    
+    return _alarmsArray;
+}
+
+- (void)setAlarmsArray:(NSMutableArray *)newArray
+{
+    if (_alarmsArray != newArray)
+    {
+        NSMutableArray *mSortedArray = [[NSMutableArray alloc] init];
+        
+        /*SORT ARRAY IN ORDER OF MOST RESENT*/
+        NSMutableArray *onAlarms = [[NSMutableArray alloc] init];
+        NSMutableArray *offAlarms = [[NSMutableArray alloc] init];
+        for (AlarmModel *alarm in newArray) {
+            if (alarm.switchState == YES) {
+                [onAlarms addObject:alarm];
+                [onAlarms sortUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"date" ascending:YES]]];
+            } else {
+                [offAlarms addObject:alarm];
+                [onAlarms sortUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"date" ascending:YES]]];
+            }
+        }
+        for (AlarmModel *alarm in onAlarms) {
+            [mSortedArray addObject:alarm];
+        }
+        for (AlarmModel *alarm in offAlarms) {
+            [mSortedArray addObject:alarm];
+        }
+        
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        NSData *encodedAlarmsData = [NSKeyedArchiver archivedDataWithRootObject:mSortedArray];
+        [userDefaults setObject:encodedAlarmsData forKey:[NSString stringWithFormat:@"alarmsArray"]];
     }
-    return self;
 }
 
 #pragma mark - Alarm Array Methods
 
 - (void)addAlarmToAlarmArray:(AlarmModel *)newAlarm
 {
-    self.alarmsArray = [[self getAlarmsFromUserDefaults] mutableCopy];
+    NSMutableArray *updatedAlarmsArray = [self.alarmsArray mutableCopy];
     
-    if (self.alarmsArray == nil) {
-        self.alarmsArray = [[NSMutableArray alloc] init];
+    if (updatedAlarmsArray == nil) {
+        updatedAlarmsArray = [[NSMutableArray alloc] init];
     }
     
     NSDate *nextTime = [self guaranteeTimeOfFutureDate:newAlarm.date];
     AlarmModel *updatedAlarm = [[AlarmModel alloc] initWithDate:nextTime WithString:newAlarm.timeString withSwitchState:newAlarm.switchState];
     
-    [self.alarmsArray addObject:updatedAlarm];
-    [self saveAlarmsToUserDefaults];
+    [updatedAlarmsArray addObject:updatedAlarm];
+    [self setAlarmsArray:updatedAlarmsArray];
 }
 
-- (void)updateAlarmInAlarmArray:(NSUInteger)alarmIndex andAlarm:(AlarmModel *)newAlarm
+- (void)updateAlarmInAlarmArray:(NSNumber *)alarmIndex andAlarm:(AlarmModel *)newAlarm
 {
-    self.alarmsArray = [[self getAlarmsFromUserDefaults] mutableCopy];
+    NSMutableArray *updatedAlarmsArray = [self.alarmsArray mutableCopy];
     
-    if (self.alarmsArray == nil) {
-        self.alarmsArray = [[NSMutableArray alloc] init];
+    // Why? would this ever be nil?
+    if (updatedAlarmsArray == nil) {
+        updatedAlarmsArray = [[NSMutableArray alloc] init];
     }
     
     NSDate *nextTime = [self guaranteeTimeOfFutureDate:newAlarm.date];
     AlarmModel *updatedAlarm = [[AlarmModel alloc] initWithDate:nextTime WithString:newAlarm.timeString withSwitchState:newAlarm.switchState];
     
-    [self.alarmsArray removeObjectAtIndex:alarmIndex];
-    [self.alarmsArray insertObject:updatedAlarm atIndex:alarmIndex];
-    [self saveAlarmsToUserDefaults];
+    [updatedAlarmsArray removeObjectAtIndex:[alarmIndex intValue]];
+    [updatedAlarmsArray insertObject:updatedAlarm atIndex:[alarmIndex intValue]];
+    [self setAlarmsArray:updatedAlarmsArray];
 }
 
 - (void)updateAlarmInAlarmArray:(NSUInteger)alarmIndex
 {
-//    self.alarmsArray = [[self getAlarmsFromUserDefaults] mutableCopy];
-    AlarmModel *oldAlarm = self.alarmsArray[alarmIndex];
+    NSMutableArray *updatedAlarmsArray = [self.alarmsArray mutableCopy];
+    AlarmModel *oldAlarm = updatedAlarmsArray[alarmIndex];
     
     NSDate *nextTime = [self guaranteeTimeOfFutureDate:oldAlarm.date];
     AlarmModel *updatedAlarm = [[AlarmModel alloc] initWithDate:nextTime WithString:oldAlarm.timeString withSwitchState:!oldAlarm.switchState];
     
-    [self.alarmsArray removeObjectAtIndex:alarmIndex];
-    [self.alarmsArray insertObject:updatedAlarm atIndex:alarmIndex];
-    [self saveAlarmsToUserDefaults];
+    [updatedAlarmsArray removeObjectAtIndex:alarmIndex];
+    [updatedAlarmsArray insertObject:updatedAlarm atIndex:alarmIndex];
+    [self setAlarmsArray:updatedAlarmsArray];
 }
 
 - (void)removeAlarmFromAlarmArrayAtIndex:(NSUInteger)alarmIndex
 {
-//    self.alarmsArray = [[self getAlarmsFromUserDefaults] mutableCopy];
+    NSMutableArray *updatedAlarmsArray = [self.alarmsArray mutableCopy];
     
-    [self.alarmsArray removeObjectAtIndex:alarmIndex];
-    [self saveAlarmsToUserDefaults];
+    [updatedAlarmsArray removeObjectAtIndex:alarmIndex];
+    [self setAlarmsArray:updatedAlarmsArray];
 }
 
 - (void)checkForValidAlarm
 {
-//    NSMutableArray *alarmsArray = [[self getAlarmsFromUserDefaults] mutableCopy];
+    NSMutableArray *updatedAlarmsArray = [self.alarmsArray mutableCopy];
     
     [[UIApplication sharedApplication] cancelAllLocalNotifications];
     
     NSString *filePath = [[NSBundle mainBundle] pathForResource:@"meow" ofType:@"wav"];
     NSURL *fileURL = [[NSURL alloc] initFileURLWithPath:filePath];
     
-    for (AlarmModel *firstAlarm in self.alarmsArray) {
+    for (AlarmModel *firstAlarm in updatedAlarmsArray) {
         
         if (firstAlarm.switchState == YES) {
             
@@ -147,7 +185,7 @@
 
 - (void)checkForOldAlarm
 {
-    NSMutableArray *mArray = [[self getAlarmsFromUserDefaults] mutableCopy];
+    NSMutableArray *mArray = [self.alarmsArray mutableCopy];
     
     for (AlarmModel *thisAlarm in mArray) {
         if ([thisAlarm.date isEarlierThan:[NSDate date]]){
@@ -156,8 +194,7 @@
     }
     
     [self.alarmsArray removeAllObjects];
-    self.alarmsArray = mArray;
-    [self saveAlarmsToUserDefaults];
+    [self setAlarmsArray:mArray];
 }
 
 -(NSDate *)guaranteeTimeOfFutureDate:(NSDate *)date
@@ -189,46 +226,6 @@
     }
     
     return nextTime;
-}
-
-#pragma mark - User Defaults Methods
-
-- (void)saveAlarmsToUserDefaults
-{
-    NSMutableArray *mSortedArray = [[NSMutableArray alloc] init];
-    NSArray *array = self.alarmsArray;
-    
-    /*SORT ARRAY IN ORDER OF MOST RESENT*/
-    NSMutableArray *onAlarms = [[NSMutableArray alloc] init];
-    NSMutableArray *offAlarms = [[NSMutableArray alloc] init];
-    for (AlarmModel *alarm in array) {
-        if (alarm.switchState == YES) {
-            [onAlarms addObject:alarm];
-            [onAlarms sortUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"date" ascending:YES]]];
-        } else {
-            [offAlarms addObject:alarm];
-            [onAlarms sortUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"date" ascending:YES]]];
-        }
-    }
-    for (AlarmModel *alarm in onAlarms) {
-        [mSortedArray addObject:alarm];
-    }
-    for (AlarmModel *alarm in offAlarms) {
-        [mSortedArray addObject:alarm];
-    }
-    
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSData *myEncodedObject = [NSKeyedArchiver archivedDataWithRootObject:mSortedArray];
-    [userDefaults setObject:myEncodedObject forKey:[NSString stringWithFormat:@"alarmsArray"]];
-}
-
-- (NSArray *)getAlarmsFromUserDefaults
-{
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSData *myDecodedObject = [userDefaults objectForKey: [NSString stringWithFormat:@"alarmsArray"]];
-    NSArray *decodedArray =[NSKeyedUnarchiver unarchiveObjectWithData: myDecodedObject];
-
-    return decodedArray;
 }
 
 #pragma mark - Timer Methods
