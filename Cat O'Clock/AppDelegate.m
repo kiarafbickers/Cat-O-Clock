@@ -28,7 +28,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    NSLog(@"application didFinishLaunchingWithOptions");
+    //NSLog(@"application didFinishLaunchingWithOptions");
     
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent];
     
@@ -48,7 +48,7 @@
     [self.alarmManager checkForOldAlarm];
     [self.alarmManager checkForValidAlarm];
     
-    NSLog(@"stopBackgroundTask");
+    //NSLog(@"stopBackgroundTask");
     [self stopBackgroundTask];
     
     return YES;
@@ -56,28 +56,28 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-    NSLog(@"DidBecomeActive");
+    //NSLog(@"DidBecomeActive");
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
-    NSLog(@"WillResignActive");
+    //NSLog(@"WillResignActive");
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
-    NSLog(@"WillEnterForeground");
+    //NSLog(@"WillEnterForeground");
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    NSLog(@"applicationDidEnterBackground");
+    //NSLog(@"applicationDidEnterBackground");
 
     self.backgroundTask = [[BackgroundTask alloc] init];
-    NSLog(@"self.backgroundTask %@", self.backgroundTask);
+    //NSLog(@"self.backgroundTask %@", self.backgroundTask);
     
     // Handle events exceeding 3-10 minutes here
-    NSLog(@"########");
+    //NSLog(@"########");
     [self functionYouWantToRunInTheBackground];
     
     [self startBackgroundTask];
@@ -85,7 +85,7 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-    NSLog(@"WillTerminate!");
+    //NSLog(@"WillTerminate!");
     
     [self.alarmManager stopTimer];
     [[AVAudioSession sharedInstance] setActive:NO error:NULL];
@@ -120,7 +120,7 @@
             // Pausing the processor is necessary in order to make notification fire
             [NSThread sleepForTimeInterval:2];
             
-            NSLog(@"Set alarm warning!!");
+            //NSLog(@"Set alarm warning!!");
             break;
         }
     }
@@ -138,7 +138,7 @@
 
 -(void) startBackgroundTask
 {
-    NSLog(@"startBackgroundTask");
+    //NSLog(@"startBackgroundTask");
     [self.backgroundTask startBackgroundTasks:2 target:self selector:@selector(backgroundCallback:)];
 }
 
@@ -149,15 +149,15 @@
 
 -(void) functionYouWantToRunInTheBackground
 {
-    NSLog(@"functionYouWantToRunInTheBackground");
+    //NSLog(@"functionYouWantToRunInTheBackground");
     
     [[UIApplication sharedApplication] cancelAllLocalNotifications];
-    NSLog(@"Canceled all notications to create new ones.");
+    //NSLog(@"Canceled all notications to create new ones.");
     
     for (AlarmModel *alarm in self.alarmManager.alarmsArray) {
         if (alarm.switchState == YES) {
             
-            NSLog(@"Set alarm notification for: %@", alarm.timeString);
+            //NSLog(@"Set alarm notification for: %@", alarm.timeString);
             NSString *filePath = [[NSBundle mainBundle] pathForResource:@"meow" ofType:@"wav"];
             UILocalNotification *localNotification = [[UILocalNotification alloc] init];
             [localNotification setTimeZone:[NSTimeZone defaultTimeZone]];
@@ -170,7 +170,7 @@
             [self.alarmManager startTimerWithDate:alarm.date];
             
             self.timeDifference = [alarm.date timeIntervalSinceDate:[NSDate date]];
-            NSLog(@"diff %fs", self.timeDifference);
+            //NSLog(@"diff %fs", self.timeDifference);
         }
     }
 }

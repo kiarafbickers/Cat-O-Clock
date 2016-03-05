@@ -67,7 +67,7 @@ void interruptionListenerCallback (void *inUserData, UInt32 interruptionState);
 }
 void interruptionListenerCallback (void *inUserData, UInt32 interruptionState)
 {
-    NSLog(@"Got Interrupt######");
+    //NSLog(@"Got Interrupt######");
     if (interruptionState == kAudioSessionBeginInterruption)
     {
        /// [self initBackgroudTask];
@@ -93,7 +93,7 @@ void interruptionListenerCallback (void *inUserData, UInt32 interruptionState)
         bgTask = UIBackgroundTaskInvalid;
         [timer invalidate];
         [player stop];
-        NSLog(@"###############Background Task Expired.");
+        //NSLog(@"###############Background Task Expired.");
        // [self playMusic];
     };
     bgTask = [app beginBackgroundTaskWithExpirationHandler:expirationHandler];

@@ -109,29 +109,12 @@
 
 - (void)reloadDataAndTableView
 {
-    NSLog(@"Reloaded Data");
+    //NSLog(@"Reloaded Data");
     self.alarmsArray = [[self.alarmManager getAlarmsFromUserDefaults] mutableCopy];
     [self.alarmManager checkForOldAlarm];
     [self.alarmManager checkForValidAlarm];
     [self.tableView reloadData];
-    NSLog(@"____________");
-    
-    [[UIApplication sharedApplication] cancelAllLocalNotifications];
-    for (AlarmModel *alarm in self.alarmsArray) {
-        if (alarm.switchState == YES) {
-            NSLog(@"Set alarm notification for: %@", alarm.timeString);
-            NSString *filePath = [[NSBundle mainBundle] pathForResource:@"meow" ofType:@"wav"];
-            UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-            [localNotification setTimeZone:[NSTimeZone defaultTimeZone]];
-            [localNotification setAlertBody:@"Meeeeoww!"];
-            [localNotification setAlertAction:@"Open App"];
-            [localNotification setHasAction:YES];
-            [localNotification setFireDate:alarm.date];
-            [localNotification setSoundName:filePath];
-            [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
-            [self.alarmManager startTimerWithDate:alarm.date];
-        }
-    }
+    //NSLog(@"____________");
 }
 
 
@@ -322,7 +305,7 @@
 
 - (void)checkForModalViewController:(NSNotification *)notification
 {
-    NSLog(@"Received notification %@", [notification name]);
+    //NSLog(@"Received notification %@", [notification name]);
     
     // Present GIF view controller if one does not already exist
     if (!self.gifViewController) {
@@ -383,7 +366,7 @@
                             NSUInteger gifY = 0;
                             if (gifNewHeight < self.view.bounds.size.width) {
                                 gifY = (self.view.bounds.size.width - gifNewHeight)/2;
-                                NSLog(@"gifY %lu", (long)gifY);
+                                //NSLog(@"gifY %lu", (long)gifY);
                             }
                             
                             // Set new size to image
@@ -400,7 +383,7 @@
             }
         }
         else {
-            NSLog(@"%@", error);
+            //NSLog(@"%@", error);
             
             // Update UI on mainQueue
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{

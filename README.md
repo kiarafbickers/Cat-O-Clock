@@ -15,11 +15,11 @@ Cat O'Clock requires iOS 9.0 or higher.
 
 ## Features
 
-[X] Infinte alarms
-[ ] Save and copy GIFs
-[ ] Special Birthday Alarms
-[X] Cat GIFs powered by Giphy
-[ ] Scroll though GIFs when alarm is presented
+- [X] Infinte alarms
+- [ ] Save and copy GIFs
+- [ ] Special Birthday Alarms
+- [X] Cat GIFs powered by Giphy
+- [ ] Scroll though GIFs when alarm is presented
 
 ## Installation & Usage
 
