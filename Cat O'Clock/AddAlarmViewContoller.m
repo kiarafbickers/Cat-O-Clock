@@ -7,9 +7,11 @@
 //
 
 #import "AddAlarmViewContoller.h"
+
 #import "AlarmModel.h"
 #import "AlarmManager.h"
 #import <ChameleonFramework/Chameleon.h>
+
 
 @interface AddAlarmViewContoller ()
 
@@ -47,6 +49,7 @@
     [super didReceiveMemoryWarning];
 }
 
+
 #pragma mark - Action Methods
 
 - (IBAction)hideView:(id)sender
@@ -62,15 +65,14 @@
 - (IBAction)save:(id)sender
 {
     if (self.alarmManager.alarmToEditBool == YES) {
-        
         NSNumber *index = self.alarmManager.alarmToEditNSNumber;
         AlarmModel *newAlarm = [[AlarmModel alloc] initWithDate:self.datePicker.date withSwitchState:YES];
         [self.alarmManager updateAlarmInAlarmArray:index andAlarm:newAlarm];
-    }
-    else {
+    } else {
         AlarmModel *newAlarm = [[AlarmModel alloc] initWithDate:self.datePicker.date withSwitchState:YES];
         [self.alarmManager addAlarmToAlarmArray:newAlarm];
     }
+    
     [self dismissModal];
 }
 
@@ -78,6 +80,7 @@
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"SecondViewControllerDismissed" object:nil userInfo:nil];
 }
+
 
 #pragma mark - Helper Methods
 
@@ -92,6 +95,7 @@
         [self.delegate timeChanged:self.datePicker.date];
     }
 }
+
 
 #pragma mark - Override Methods
 

@@ -10,6 +10,7 @@
 
 @implementation AlarmModel
 
+
 #pragma mark - Initialization Method
 
 - (instancetype)initWithDate:(NSDate *)date withSwitchState:(BOOL)switchState
@@ -34,6 +35,7 @@
     return self;
 }
 
+
 #pragma mark - Helper Methods
 
 - (NSString *)getTimeStringFromDate:(NSDate *)alarmTime
@@ -46,12 +48,13 @@
     return [formatter stringFromDate:alarmTime];
 }
 
--(NSDate *)setSecondsToZeroWithDate:(NSDate *)setDate
+- (NSDate *)setSecondsToZeroWithDate:(NSDate *)setDate
 {
     // Set seconds on the alarm to 0
-    NSDateComponents *comp = [[NSCalendar currentCalendar] components:NSCalendarUnitSecond fromDate:setDate];
-    return [setDate dateByAddingTimeInterval:-comp.second];
+    NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitSecond fromDate:setDate];
+    return [setDate dateByAddingTimeInterval:-components.second];
 }
+
 
 # pragma mark - NSDefaults Methods
 
@@ -65,8 +68,7 @@
 - (id)initWithCoder:(NSCoder *)decoder
 {
     self = [super init];
-    if( self != nil )
-    {
+    if( self != nil ) {
         self.date = [decoder decodeObjectForKey:@"date"];
         self.timeString = [decoder decodeObjectForKey:@"timeString"];
         self.switchState = [[decoder decodeObjectForKey:@"switchState"] intValue];

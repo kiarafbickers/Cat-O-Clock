@@ -9,14 +9,20 @@
 #define IS_OS_8_OR_LATER ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
 
 #import "AppDelegate.h"
-#import "AlarmManager.h"
+
 #import "AlarmModel.h"
+#import "AlarmManager.h"
+#import "BackgroundTask.h"
 #import "MainTableViewController.h"
+
 @import AVFoundation;
+
 
 @interface AppDelegate ()
 
 @property (nonatomic, strong) AlarmManager *alarmManager;
+@property (nonatomic) UIBackgroundTaskIdentifier backgroundUploadTask;
+@property (nonatomic) BackgroundTask *backgroundTask;
 
 @end
 
@@ -45,7 +51,6 @@
     [self.alarmManager checkForOldAlarm];
     [self.alarmManager checkForValidAlarm];
     
-    //NSLog(@"stopBackgroundTask");
     [self stopBackgroundTask];
     
     return YES;
@@ -93,12 +98,12 @@
             
             NSDate *warningNotificationTimeDelay = [NSDate dateWithTimeIntervalSinceNow:3.0];
             [self.alarmManager setupWarningNotificationWithDate:warningNotificationTimeDelay];
+            
             break;
         }
     }
-    
-    [self.alarmManager.alarmsArray removeAllObjects];
 }
+
 
 #pragma mark - Backround Methods
 
@@ -122,9 +127,12 @@
 {
     //NSLog(@"functionYouWantToRunInTheBackground");
     
-    for (AlarmModel *alarm in self.alarmManager.alarmsArray) {
-        if (alarm.switchState == YES) {
-            [self.alarmManager startTimerWithDate:alarm.date];
+    [self.alarmManager stopTimer];
+    
+    for (AlarmModel *firstAlarm in self.alarmManager.alarmsArray) {
+        if (firstAlarm.switchState == YES) {
+            [self.alarmManager startTimerWithDate:firstAlarm.date];
+            break;
         }
     }
 }

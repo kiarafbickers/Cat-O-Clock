@@ -8,7 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import "AlarmModel.h"
+
 @import AVFoundation;
+
 
 @interface AlarmManager : NSObject
 
@@ -21,23 +23,35 @@
 
 + (instancetype)sharedAlarmDataStore;
 
-- (void)addAlarmToAlarmArray:(AlarmModel *)alarmModel;
-- (void)updateAlarmInAlarmArray:(NSNumber *)alarmIndex andAlarm:(AlarmModel *)newAlarm;
 
-- (void)removeAlarmFromAlarmArrayAtIndex:(NSUInteger)alarmIndex;
-- (void)updateAlarmInAlarmArray:(NSUInteger)alarmIndex;
+# pragma mark - MainTableView Methods
 
 - (void)checkForOldAlarm;
 - (void)checkForValidAlarm;
 
-- (void)startTimerWithDate:(NSDate *)date;
-- (void)stopTimer;
-
-- (void)startAudioPlayer;
-- (void)stopAudioPlayer;
+- (void)removeAlarmFromAlarmArrayAtIndex:(NSUInteger)alarmIndex;
+- (void)updateAlarmInAlarmArray:(NSUInteger)alarmIndex;
 
 - (void)sendNoticationInAppBackgroundAndInactiveState;
-- (void)setupWarningNotificationWithDate:(NSDate *)date;
 
+- (void)startTimerWithDate:(NSDate *)date;
+- (void)startAudioPlayer;
+
+
+# pragma mark - AddAlarmViewContoller Methods
+
+- (void)addAlarmToAlarmArray:(AlarmModel *)alarmModel;
+- (void)updateAlarmInAlarmArray:(NSNumber *)alarmIndex andAlarm:(AlarmModel *)newAlarm;
+
+
+# pragma mark - ModalViewController Methods
+
+- (void)stopTimer;
+- (void)stopAudioPlayer;
+
+
+# pragma mark - AppDelegate Methods
+
+- (void)setupWarningNotificationWithDate:(NSDate *)date;
 
 @end

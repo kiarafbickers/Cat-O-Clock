@@ -119,6 +119,7 @@
     //NSLog(@"____________");
 }
 
+
 #pragma mark - Action Methods
 
 - (void)refresh:(id)sender
@@ -175,13 +176,11 @@
 {
     // Set 1 or 0 sections in tableview depending on alarm array count
     NSInteger numOfSections = 0;
-    if (self.alarmManager.alarmsArray.count > 0)
-    {
+    if (self.alarmManager.alarmsArray.count > 0) {
         numOfSections = 1;
         self.tableView.backgroundView = nil;
     }
-    else
-    {
+    else {
         // Configure background view with instructional label if there are no alarms
         UILabel *noDataLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
         noDataLabel.font = [UIFont fontWithName:@"Code-Pro-Demo" size:15.0f];
@@ -235,8 +234,7 @@
     timeLabel.text = alarmAtIndexRow.timeString;
     if (alarmSwitch.on) {
         timeLabel.textColor = [[UIColor flatWhiteColor] colorWithAlphaComponent:1.0f];
-    }
-    else {
+    } else {
         timeLabel.textColor = [[UIColor flatBlackColor] colorWithAlphaComponent:0.25f];
     }
     
@@ -287,7 +285,7 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Code in if statement will execute on delete
-    if (editingStyle == UITableViewCellEditingStyleDelete){
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
     
         // Remove alarm from alarm array at index path row
         [self.alarmManager removeAlarmFromAlarmArrayAtIndex:indexPath.row];
@@ -302,6 +300,7 @@
         [self reloadDataAndTableView];
     }
 }
+
 
 #pragma mark - ModalViewController Methods
 
@@ -403,7 +402,7 @@
                 
                 // Set cat image based on error localized description
                 UIImage *image;
-                if ([error.localizedDescription isEqualToString:@"The Internet connection appears to be offline."]){
+                if ([error.localizedDescription isEqualToString:@"The Internet connection appears to be offline."]) {
                     image = [UIImage imageNamed:@"cat_nointernet"];
                 } else {
                     image = [UIImage imageNamed:@"cat_api"];
@@ -443,6 +442,7 @@
     [topViewController presentViewController:self.gifViewController animated:YES completion:(^{
         
         // Start "meowing" audio once cat GIF is presented
+        [self.alarmManager.alarmAudioPlayer prepareToPlay];
         [self.alarmManager startAudioPlayer];
         [self.alarmManager sendNoticationInAppBackgroundAndInactiveState];
         
@@ -454,6 +454,7 @@
         }];
     })];
 }
+
 
 #pragma mark - AddAlarmViewContoller Methods
 
@@ -516,6 +517,7 @@
         }
     }];
 }
+
 
 #pragma mark - Pull to Refresh Methods
 
@@ -606,10 +608,9 @@
          colorIndex = (colorIndex + 1) % colorArray.count;
      }
      completion:^(BOOL finished) {
-         
          if (self.refreshControl.isRefreshing) {
              [self animateRefreshView];
-         }else{
+         } else {
              [self resetAnimation];
          }
     }];
@@ -666,6 +667,7 @@
     return topController;
 }
 
+
 #pragma mark - Alert Methods
 
 - (void)triggerWarningAlert
@@ -678,6 +680,7 @@
     [alert addAction:okayAction];
     [self presentViewController:alert animated:YES completion:nil];
 }
+
 
 #pragma mark - Override Methods
 

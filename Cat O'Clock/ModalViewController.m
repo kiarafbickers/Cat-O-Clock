@@ -9,6 +9,7 @@
 #import "ModalViewController.h"
 #import "AlarmManager.h"
 
+
 @interface ModalViewController ()
 
 @property (nonatomic, strong) AlarmManager *alarmManager;
@@ -17,6 +18,7 @@
 @end
 
 @implementation ModalViewController
+
 
 #pragma mark - View Lifecyle Methods
 
@@ -35,6 +37,7 @@
 {
     [super didReceiveMemoryWarning];
 }
+
 
 #pragma mark - Navigation Methods
 

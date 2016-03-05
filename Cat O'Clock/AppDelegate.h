@@ -7,14 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "BackgroundTask.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-
-@property (nonatomic) UIBackgroundTaskIdentifier backgroundUploadTask;
-@property (nonatomic) BackgroundTask *backgroundTask;
 
 @end
 

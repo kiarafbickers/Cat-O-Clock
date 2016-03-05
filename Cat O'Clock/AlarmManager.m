@@ -7,8 +7,10 @@
 //
 
 #import "AlarmManager.h"
-#import "NSDate+Comparison.h"
+
 #import "AppDelegate.h"
+#import "NSDate+Comparison.h"
+
 
 @interface AlarmManager ()
 
@@ -34,8 +36,8 @@
     return _sharedAlarmManager;
 }
 
-#pragma mark - Setter and Getter / User Defaults Methods
 
+#pragma mark - Setter and Getter / User Defaults Methods
 
 - (NSMutableArray *)alarmsArray
 {
@@ -54,7 +56,7 @@
     {
         NSMutableArray *mSortedArray = [[NSMutableArray alloc] init];
         
-        /*SORT ARRAY IN ORDER OF MOST RESENT*/
+        // Sort array in order of most resent
         NSMutableArray *onAlarms = [[NSMutableArray alloc] init];
         NSMutableArray *offAlarms = [[NSMutableArray alloc] init];
         for (AlarmModel *alarm in newArray) {
@@ -79,7 +81,48 @@
     }
 }
 
-#pragma mark - Alarm Array Methods
+
+#pragma mark - Update Alarm Array Methods
+
+- (void)checkForValidAlarm
+{
+    NSMutableArray *updatedAlarmsArray = [self.alarmsArray mutableCopy];
+    
+    [self stopTimer];
+    
+    for (AlarmModel *firstAlarm in updatedAlarmsArray) {
+        if (firstAlarm.switchState == YES) {
+        
+            NSComparisonResult result = [[NSDate date] compare:firstAlarm.date];
+            
+            if (result == NSOrderedAscending) {
+                [self startTimerWithDate:firstAlarm.date];
+                break;
+            } else if (result == NSOrderedDescending) {
+                break;
+            } else if (result == NSOrderedSame) {
+                break;
+            }
+        }
+    }
+}
+
+- (void)checkForOldAlarm
+{
+    NSMutableArray *mArray = [self.alarmsArray mutableCopy];
+    
+    for (AlarmModel *thisAlarm in mArray) {
+        if ([thisAlarm.date isEarlierThan:[NSDate date]]) {
+            thisAlarm.switchState = NO;
+        }
+    }
+    
+    [self.alarmsArray removeAllObjects];
+    [self setAlarmsArray:mArray];
+}
+
+
+#pragma mark - Edit Alarm Array Methods
 
 - (void)addAlarmToAlarmArray:(AlarmModel *)newAlarm
 {
@@ -133,53 +176,10 @@
     [self setAlarmsArray:updatedAlarmsArray];
 }
 
-- (void)checkForValidAlarm
-{
-    NSMutableArray *updatedAlarmsArray = [self.alarmsArray mutableCopy];
-    
-    for (AlarmModel *firstAlarm in updatedAlarmsArray) {
-        
-        if (firstAlarm.switchState == YES) {
-            
-            NSDate *today = [NSDate date];
-            //NSLog(@"Compare today:%@, to Alarm date: %@", today, firstAlarm.date);
-            NSComparisonResult result = [today compare:firstAlarm.date];
-            
-            if (result == NSOrderedAscending) {
-                //NSLog(@"Future Date %@, Time: %@", firstAlarm.date, firstAlarm.timeString);
-                
-                [self startTimerWithDate:firstAlarm.date];
-                [self.alarmAudioPlayer prepareToPlay];
-                
-                break;
-            } else if (result == NSOrderedDescending) {
-                //NSLog(@"Earlier Date %@, Time: %@", firstAlarm.date, firstAlarm.timeString);
-                break;
-            } else if (result == NSOrderedSame) {
-                //NSLog(@"Today/Null Date Passed %@", firstAlarm.date);
-                break;
-            }
-        }
-    }
-}
 
 #pragma mark - Helper Methods
 
-- (void)checkForOldAlarm
-{
-    NSMutableArray *mArray = [self.alarmsArray mutableCopy];
-    
-    for (AlarmModel *thisAlarm in mArray) {
-        if ([thisAlarm.date isEarlierThan:[NSDate date]]){
-            thisAlarm.switchState = NO;
-        }
-    }
-    
-    [self.alarmsArray removeAllObjects];
-    [self setAlarmsArray:mArray];
-}
-
--(NSDate *)guaranteeTimeOfFutureDate:(NSDate *)date
+- (NSDate *)guaranteeTimeOfFutureDate:(NSDate *)date
 {
     NSDate *nextTime;
     
@@ -202,13 +202,13 @@
         NSInteger minute = [oldComponents minute];
         
         nextTime = [calendar dateBySettingHour:hour minute:minute second:0 ofDate:[NSDate date] options:options];
-    }
-    else {
+    } else {
         nextTime = date;
     }
     
     return nextTime;
 }
+
 
 #pragma mark - Audio Player Methods
 
@@ -231,6 +231,7 @@
     }
 }
 
+
 #pragma mark - Timer Methods
 
 - (void)startTimerWithDate:(NSDate *)date
@@ -249,20 +250,19 @@
     }
 }
 
+
 #pragma mark - Notification Methods
 
 - (void)postGifModalViewNotification
 {
-    NSLog(@"postGifModalViewNotification");
-    
     [[NSNotificationCenter defaultCenter] postNotificationName:@"alarmPlaying" object:nil userInfo:nil];;
 }
 
 - (void)sendNoticationInAppBackgroundAndInactiveState
 {
     UIApplicationState state = [[UIApplication sharedApplication] applicationState];
-    if (state == UIApplicationStateBackground || state == UIApplicationStateInactive)
-    {
+    if (state == UIApplicationStateBackground || state == UIApplicationStateInactive) {
+        
         NSDate *notificationTimeDelay = [NSDate dateWithTimeIntervalSinceNow:1.0];
         [self setupMeowNoticationWithDate:notificationTimeDelay];
     }
