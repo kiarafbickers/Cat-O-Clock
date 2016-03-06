@@ -9,11 +9,6 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>AnimatedGIFImageSerialization.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>ChameleonFramework.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -36,37 +31,6 @@
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
-	<dict>
-		<key>1A79BA86DB198181905CBBFC1F1E6701</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>30AE813EC89F218C1C26EFF7ABBDFFD4</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>34A2F62255BEF1F1BF9AC4A9045556D0</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>372134479973790B9EFB36D12016B94B</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>4BDA044AECE6E1C8F4A991E6866614FB</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>935A7E52B6D8B7E37EAEA138EDC52155</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-	</dict>
+	<dict/>
 </dict>
 </plist>

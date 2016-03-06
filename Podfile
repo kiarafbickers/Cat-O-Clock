@@ -5,11 +5,10 @@
 
 target 'Cat O\'Clock' do
 
-   pod 'ChameleonFramework'
    pod 'Giphy-iOS'
    pod 'AFNetworking/Serialization', '~> 2.3.1'
-   pod 'AnimatedGIFImageSerialization', '~> 0.2.0'
    pod 'FLAnimatedImage', '~> 1.0'
+   pod 'ChameleonFramework'
 
 end
 

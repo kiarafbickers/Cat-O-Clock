@@ -1,6 +1,5 @@
 PODS:
   - AFNetworking/Serialization (2.3.1)
-  - AnimatedGIFImageSerialization (0.2.0)
   - ChameleonFramework (2.1.0):
     - ChameleonFramework/Default (= 2.1.0)
   - ChameleonFramework/Default (2.1.0)
@@ -10,14 +9,12 @@ PODS:
 
 DEPENDENCIES:
   - AFNetworking/Serialization (~> 2.3.1)
-  - AnimatedGIFImageSerialization (~> 0.2.0)
   - ChameleonFramework
   - FLAnimatedImage (~> 1.0)
   - Giphy-iOS
 
 SPEC CHECKSUMS:
   AFNetworking: 05b9f6e3aa5ac45bc383b4bb108ef338080a26c7
-  AnimatedGIFImageSerialization: b0f0cfe71eac1ee45a3d57ae533c23b8e6f29501
   ChameleonFramework: d21a3cc247abfe5e37609a283a8238b03575cf64
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
   Giphy-iOS: 95ce787749b73435524f40f700f026db5dfe251b
