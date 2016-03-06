@@ -9,7 +9,6 @@
 #ifndef Constants_h
 #define Constants_h
 
-#define kGiphyApiKey @"6RiGOhd3EgklW"
 #define kGiphyQuery @"cute-cats"
 
 #define kTypeFace @"Code-Pro-Demo"
