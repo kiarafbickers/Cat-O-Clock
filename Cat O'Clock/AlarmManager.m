@@ -7,7 +7,6 @@
 //
 
 #import "AlarmManager.h"
-
 #import "AppDelegate.h"
 #import "NSDate+Comparison.h"
 
@@ -37,7 +36,7 @@
 }
 
 
-#pragma mark - Setter and Getter / User Defaults Methods
+#pragma mark - Data Store: Setter and Getter / User Defaults Methods
 
 - (NSMutableArray *)alarmsArray
 {
@@ -82,7 +81,7 @@
 }
 
 
-#pragma mark - Update Alarm Array Methods
+#pragma mark - Update / Edit Alarm Array Methods
 
 - (void)checkForValidAlarm
 {
@@ -121,9 +120,6 @@
     [self setAlarmsArray:mArray];
 }
 
-
-#pragma mark - Edit Alarm Array Methods
-
 - (void)addAlarmToAlarmArray:(AlarmModel *)newAlarm
 {
     NSMutableArray *updatedAlarmsArray = [self.alarmsArray mutableCopy];
@@ -132,7 +128,7 @@
         updatedAlarmsArray = [[NSMutableArray alloc] init];
     }
     
-    NSDate *nextTime = [self guaranteeTimeOfFutureDate:newAlarm.date];
+    NSDate *nextTime = [newAlarm.date returnTimeOfFutureDate];
     AlarmModel *updatedAlarm = [[AlarmModel alloc] initWithDate:nextTime WithString:newAlarm.timeString withSwitchState:newAlarm.switchState];
     
     [updatedAlarmsArray addObject:updatedAlarm];
@@ -147,7 +143,7 @@
         updatedAlarmsArray = [[NSMutableArray alloc] init];
     }
     
-    NSDate *nextTime = [self guaranteeTimeOfFutureDate:newAlarm.date];
+    NSDate *nextTime = [newAlarm.date returnTimeOfFutureDate];
     AlarmModel *updatedAlarm = [[AlarmModel alloc] initWithDate:nextTime WithString:newAlarm.timeString withSwitchState:newAlarm.switchState];
     
     [updatedAlarmsArray removeObjectAtIndex:[alarmIndex intValue]];
@@ -160,7 +156,7 @@
     NSMutableArray *updatedAlarmsArray = [self.alarmsArray mutableCopy];
     AlarmModel *oldAlarm = updatedAlarmsArray[alarmIndex];
     
-    NSDate *nextTime = [self guaranteeTimeOfFutureDate:oldAlarm.date];
+    NSDate *nextTime = [oldAlarm.date returnTimeOfFutureDate];
     AlarmModel *updatedAlarm = [[AlarmModel alloc] initWithDate:nextTime WithString:oldAlarm.timeString withSwitchState:!oldAlarm.switchState];
     
     [updatedAlarmsArray removeObjectAtIndex:alarmIndex];
@@ -174,39 +170,6 @@
     
     [updatedAlarmsArray removeObjectAtIndex:alarmIndex];
     [self setAlarmsArray:updatedAlarmsArray];
-}
-
-
-#pragma mark - Helper Methods
-
-- (NSDate *)guaranteeTimeOfFutureDate:(NSDate *)date
-{
-    NSDate *nextTime;
-    
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSCalendarUnit calendarUnits = NSCalendarUnitTimeZone | NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond;
-    NSDateComponents *components = [calendar components:calendarUnits fromDate:[NSDate date]];
-    components.day += 1;
-    NSDate *oneDayFromNow = [calendar dateFromComponents:components];
-    
-    NSCalendarOptions options = NSCalendarMatchNextTime;
-    if ([date isEarlierThan:[NSDate date]]){
-        NSDateComponents *oldComponents = [calendar components:(NSCalendarUnitHour | NSCalendarUnitMinute) fromDate:date];
-        NSInteger hour = [oldComponents hour];
-        NSInteger minute = [oldComponents minute];
-
-        nextTime = [calendar nextDateAfterDate:date matchingHour:hour minute:minute second:0 options:options];
-    } else if ([date isLaterThan:oneDayFromNow]) {
-        NSDateComponents *oldComponents = [calendar components:(NSCalendarUnitHour | NSCalendarUnitMinute) fromDate:date];
-        NSInteger hour = [oldComponents hour];
-        NSInteger minute = [oldComponents minute];
-        
-        nextTime = [calendar dateBySettingHour:hour minute:minute second:0 ofDate:[NSDate date] options:options];
-    } else {
-        nextTime = date;
-    }
-    
-    return nextTime;
 }
 
 

@@ -10,9 +10,10 @@
 
 @interface NSDate (Compare)
 
--(BOOL) isLaterThanOrEqualTo:(NSDate*)date;
--(BOOL) isEarlierThanOrEqualTo:(NSDate*)date;
--(BOOL) isLaterThan:(NSDate*)date;
--(BOOL) isEarlierThan:(NSDate*)date;
+- (BOOL)isLaterThanOrEqualTo:(NSDate*)date;
+- (BOOL)isEarlierThanOrEqualTo:(NSDate*)date;
+- (BOOL)isLaterThan:(NSDate*)date;
+- (BOOL)isEarlierThan:(NSDate*)date;
+- (NSDate *)returnTimeOfFutureDate;
 
 @end

@@ -15,8 +15,7 @@
 @interface AlarmManager : NSObject
 
 @property (nonatomic, retain) NSMutableArray *alarmsArray;
-@property (strong, nonatomic) AVAudioPlayer *alarmAudioPlayer;
-
+@property (nonatomic, strong) AVAudioPlayer *alarmAudioPlayer;
 @property (nonatomic, strong) NSNumber *alarmToEditNSNumber;
 @property (nonatomic) NSInteger alarmToEditAtIndex;
 @property (nonatomic) BOOL alarmToEditBool;

@@ -82,7 +82,7 @@
 }
 
 
-#pragma mark - Helper Methods
+#pragma mark - Date Methods
 
 - (void)setDate:(NSDate *)date
 {
