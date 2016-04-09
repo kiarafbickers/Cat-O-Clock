@@ -25,6 +25,7 @@
 		E9F4DDE81C8A1CEA006C5A26 /* BackgroundTask.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F4DDE71C8A1CEA006C5A26 /* BackgroundTask.m */; };
 		E9F9F25F1C7620C0001067FF /* AlarmModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F9F25E1C7620C0001067FF /* AlarmModel.m */; };
 		E9F9F2611C776E04001067FF /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9F9F2601C776E04001067FF /* EventKit.framework */; };
+		E9FA63651CB98160006AC2C2 /* AlarmTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E9FA63641CB98160006AC2C2 /* AlarmTableViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -61,6 +62,8 @@
 		E9F9F25D1C7620C0001067FF /* AlarmModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlarmModel.h; sourceTree = "<group>"; };
 		E9F9F25E1C7620C0001067FF /* AlarmModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlarmModel.m; sourceTree = "<group>"; };
 		E9F9F2601C776E04001067FF /* EventKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKit.framework; path = System/Library/Frameworks/EventKit.framework; sourceTree = SDKROOT; };
+		E9FA63631CB98160006AC2C2 /* AlarmTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlarmTableViewCell.h; sourceTree = "<group>"; };
+		E9FA63641CB98160006AC2C2 /* AlarmTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlarmTableViewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +132,8 @@
 				E9F9F25E1C7620C0001067FF /* AlarmModel.m */,
 				E906CA041C7A7A4500DC535F /* AlarmManager.h */,
 				E906CA051C7A7A4500DC535F /* AlarmManager.m */,
+				E9FA63631CB98160006AC2C2 /* AlarmTableViewCell.h */,
+				E9FA63641CB98160006AC2C2 /* AlarmTableViewCell.m */,
 				E959C05C1C75515500B0878D /* Main.storyboard */,
 				E959C05F1C75515700B0878D /* Assets.xcassets */,
 				E959C0611C75515700B0878D /* LaunchScreen.storyboard */,
@@ -287,6 +292,7 @@
 				E93A27481C7D9036008730EA /* AddAlarmViewContoller.m in Sources */,
 				E959C0551C75515000B0878D /* main.m in Sources */,
 				E9F4DDE81C8A1CEA006C5A26 /* BackgroundTask.m in Sources */,
+				E9FA63651CB98160006AC2C2 /* AlarmTableViewCell.m in Sources */,
 				E9F9F25F1C7620C0001067FF /* AlarmModel.m in Sources */,
 				E906CA061C7A7A4500DC535F /* AlarmManager.m in Sources */,
 				E93A27651C80009E008730EA /* MainTableViewController.m in Sources */,

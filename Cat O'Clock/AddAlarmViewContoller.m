@@ -38,8 +38,19 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    // create effect
+    UIBlurEffect *blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
     
-    self.view.backgroundColor = [[UIColor flatBlackColor] colorWithAlphaComponent:0.5f];
+    // add effect to an effect view
+    UIVisualEffectView *effectView = [[UIVisualEffectView alloc]initWithEffect:blur];
+    UIView *blurView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.view.frame.size.width, (self.view.frame.size.height * 0.55f) - 8)];
+    effectView.frame = blurView.frame;
+
+    // add the effect view to the image view
+    [self.view addSubview:effectView];
+    
+//    self.view.backgroundColor = [[UIColor flatBlackColor] colorWithAlphaComponent:0.5f];
     self.datePickerBackroundView.backgroundColor = [UIColor flatWhiteColor];
     self.alarmManager = [AlarmManager sharedAlarmDataStore];
 }
@@ -81,7 +92,6 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:@"SecondViewControllerDismissed" object:nil userInfo:nil];
 }
 
-
 #pragma mark - Date Methods
 
 - (void)setDate:(NSDate *)date
@@ -95,7 +105,6 @@
         [self.delegate timeChanged:self.datePicker.date];
     }
 }
-
 
 #pragma mark - Override Methods
 

@@ -14,6 +14,7 @@
 #import "AlarmManager.h"
 #import "ModalViewController.h"
 #import "AddAlarmViewContoller.h"
+#import "AlarmTableViewCell.h"
 
 #import <Giphy-iOS/AXCGiphy.h>
 #import <ChameleonFramework/Chameleon.h>
@@ -205,7 +206,13 @@
     // TODO: Refactor, subclass UITableViewCell and add properties to it.
     
     // Get a reusable table-view cell object for the specified reuse identifier and add it to the table
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"alarmCell" forIndexPath:indexPath];
+    AlarmTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"alarmCell" forIndexPath:indexPath];
+
+//    cell.preservesSuperviewLayoutMargins = false;
+//    cell.separatorInset = UIEdgeInsetsZero;
+//    cell.layoutMargins = UIEdgeInsetsZero;
+    
+    
     
     // Set cell style
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -214,17 +221,22 @@
     // Get the alarm from alarm array that corresponds to the indexpath row
     AlarmModel *alarmAtIndexRow = self.alarmManager.alarmsArray[indexPath.row];
     
+    cell.switchControl.thumbTintColor = [UIColor whiteColor];
+    cell.switchControl.tintColor = [[UIColor clearColor] colorWithAlphaComponent:0.2f];
+    
     // Create an alarm on/off switch from tag, and set its UI values
-    UISwitch *alarmSwitch = (UISwitch *)[cell viewWithTag:1];
-    [alarmSwitch setThumbTintColor:[UIColor whiteColor]];
-    [alarmSwitch setTintColor:[[UIColor clearColor] colorWithAlphaComponent:0.2f]];
+//    UISwitch *alarmSwitch = (UISwitch *)[cell viewWithTag:1];
+//    [alarmSwitch setThumbTintColor:[UIColor whiteColor]];
+//    [alarmSwitch setTintColor:[[UIColor clearColor] colorWithAlphaComponent:0.2f]];
     
     // Set the UI switch on/off state from the corresponding property on the alarm model
     BOOL switchState = alarmAtIndexRow.switchState;
-    [alarmSwitch setOn:switchState animated:YES];
+//    [alarmSwitch setOn:switchState animated:YES];
+    
+    cell.switchControl.on = switchState;
     
     // Set a selector method to execute when switch changes
-    [alarmSwitch  addTarget:self action:@selector(switchChanged:) forControlEvents:UIControlEventValueChanged];
+    [cell.switchControl  addTarget:self action:@selector(switchChanged:) forControlEvents:UIControlEventValueChanged];
     
     // Create the time display label from tag,
     UILabel *timeLabel = (UILabel *)[cell viewWithTag:2];
@@ -232,17 +244,23 @@
     // Set labels UI values to to correspond with timeString from alarm model
     // ON == Full Alpha, OFF == Dim
     timeLabel.text = alarmAtIndexRow.timeString;
-    if (alarmSwitch.on) {
+    if (cell.switchControl.on) {
         timeLabel.textColor = [[UIColor flatWhiteColor] colorWithAlphaComponent:1.0f];
     } else {
         timeLabel.textColor = [[UIColor flatBlackColor] colorWithAlphaComponent:0.25f];
     }
     
     // Create a button over the time label to allow for editing the time
-    UIButton *editAlarm = (UIButton *)[cell viewWithTag:3];
+//    UIButton *editAlarm = (UIButton *)[cell viewWithTag:3];
     
     // Set a selector method to execute when button is pressed
-    [editAlarm addTarget:self action:@selector(editAlarmPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [cell.editAlarmButton addTarget:self action:@selector(editAlarmPressed:) forControlEvents:UIControlEventTouchUpInside];
+    
+    cell.onSwitchChange=^(AlarmTableViewCell *cellAffected){
+        // Add code to deal with the swicth switch using properties of cellAffected
+        [self.alarmManager updateAlarmInAlarmArray:indexPath.row - 1];
+        [self reloadDataAndTableView];
+    };
     
     // Create view to add slight seperation between the cells
     UIView *cellSeparatorLineView;

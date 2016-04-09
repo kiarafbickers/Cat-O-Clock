@@ -38,44 +38,25 @@
 
 #pragma mark - Data Store: Setter and Getter / User Defaults Methods
 
-- (NSMutableArray *)alarmsArray
+- (NSArray *)alarmsArray
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSData *decodedAlarmsData = [userDefaults objectForKey: [NSString stringWithFormat:@"alarmsArray"]];
     NSArray *decodedAlarmsArray =[NSKeyedUnarchiver unarchiveObjectWithData:decodedAlarmsData];
     
-    _alarmsArray = [decodedAlarmsArray mutableCopy];
-    
-    return _alarmsArray;
+    if (decodedAlarmsArray == NULL) {
+        return @[];
+    } else {
+        return [decodedAlarmsArray copy];
+    }
 }
 
-- (void)setAlarmsArray:(NSMutableArray *)newArray
+- (void)setAlarmsArray:(NSArray *)newArray
 {
     if (_alarmsArray != newArray)
     {
-        NSMutableArray *mSortedArray = [[NSMutableArray alloc] init];
-        
-        // Sort array in order of most resent
-        NSMutableArray *onAlarms = [[NSMutableArray alloc] init];
-        NSMutableArray *offAlarms = [[NSMutableArray alloc] init];
-        for (AlarmModel *alarm in newArray) {
-            if (alarm.switchState == YES) {
-                [onAlarms addObject:alarm];
-                [onAlarms sortUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"date" ascending:YES]]];
-            } else {
-                [offAlarms addObject:alarm];
-                [onAlarms sortUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"date" ascending:YES]]];
-            }
-        }
-        for (AlarmModel *alarm in onAlarms) {
-            [mSortedArray addObject:alarm];
-        }
-        for (AlarmModel *alarm in offAlarms) {
-            [mSortedArray addObject:alarm];
-        }
-        
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-        NSData *encodedAlarmsData = [NSKeyedArchiver archivedDataWithRootObject:mSortedArray];
+        NSData *encodedAlarmsData = [NSKeyedArchiver archivedDataWithRootObject:newArray];
         [userDefaults setObject:encodedAlarmsData forKey:[NSString stringWithFormat:@"alarmsArray"]];
     }
 }
@@ -91,9 +72,7 @@
     
     for (AlarmModel *firstAlarm in updatedAlarmsArray) {
         if (firstAlarm.switchState == YES) {
-        
             NSComparisonResult result = [[NSDate date] compare:firstAlarm.date];
-            
             if (result == NSOrderedAscending) {
                 [self startTimerWithDate:firstAlarm.date];
                 break;
@@ -116,7 +95,7 @@
         }
     }
     
-    [self.alarmsArray removeAllObjects];
+    [[self.alarmsArray mutableCopy] removeAllObjects];
     [self setAlarmsArray:mArray];
 }
 
@@ -131,7 +110,7 @@
     NSDate *nextTime = [newAlarm.date returnTimeOfFutureDate];
     AlarmModel *updatedAlarm = [[AlarmModel alloc] initWithDate:nextTime WithString:newAlarm.timeString withSwitchState:newAlarm.switchState];
     
-    [updatedAlarmsArray addObject:updatedAlarm];
+    [updatedAlarmsArray insertObject:updatedAlarm atIndex:0];
     [self setAlarmsArray:updatedAlarmsArray];
 }
 
@@ -172,7 +151,6 @@
     [self setAlarmsArray:updatedAlarmsArray];
 }
 
-
 #pragma mark - Audio Player Methods
 
 - (void)startAudioPlayer
@@ -194,7 +172,6 @@
     }
 }
 
-
 #pragma mark - Timer Methods
 
 - (void)startTimerWithDate:(NSDate *)date
@@ -213,8 +190,7 @@
     }
 }
 
-
-#pragma mark - Notification Methods
+#pragma mark - Notification and State Methods
 
 - (void)postGifModalViewNotification
 {
@@ -234,11 +210,11 @@
 - (void)setupMeowNoticationWithDate:(NSDate *)date
 {
     UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-    [localNotification setTimeZone:[NSTimeZone defaultTimeZone]];
-    [localNotification setAlertBody:@"Meeeeoww!"];
-    [localNotification setAlertAction:@"Open App"];
-    [localNotification setHasAction:YES];
-    [localNotification setFireDate:date];
+    localNotification.timeZone = [NSTimeZone defaultTimeZone];
+    localNotification.alertBody = @"Meeeeoww!";
+    localNotification.alertAction = @"Open App";
+    localNotification.hasAction = YES;
+    localNotification.fireDate = date;
     
     [[UIApplication sharedApplication] cancelAllLocalNotifications];
     [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
@@ -247,11 +223,11 @@
 - (void)setupWarningNotificationWithDate:(NSDate *)date
 {
     UILocalNotification *warningNotification = [[UILocalNotification alloc] init];
-    [warningNotification setFireDate:date];
-    [warningNotification setTimeZone:[NSTimeZone defaultTimeZone]];
-    [warningNotification setAlertBody:@"Exiting app disables alarms. Come back to re-activate them."];
-    [warningNotification setRepeatInterval:0];
-    [warningNotification setSoundName:UILocalNotificationDefaultSoundName];
+    warningNotification.timeZone = [NSTimeZone defaultTimeZone];
+    warningNotification.alertBody = @"Exiting app disables alarms. Come back to re-activate them.";
+    warningNotification.repeatInterval = 0;
+    warningNotification.soundName = UILocalNotificationDefaultSoundName;
+    warningNotification.fireDate = date;
     
     [[UIApplication sharedApplication] cancelAllLocalNotifications];
     [[UIApplication sharedApplication] scheduleLocalNotification:warningNotification];

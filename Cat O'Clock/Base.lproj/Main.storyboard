@@ -21,7 +21,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="alarmCell" rowHeight="94" id="Yia-wl-onN">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="alarmCell" rowHeight="94" id="Yia-wl-onN" customClass="AlarmTableViewCell">
                                 <rect key="frame" x="0.0" y="28" width="375" height="94"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Yia-wl-onN" id="UIC-Aq-AeC">
@@ -52,6 +52,11 @@
                                         <constraint firstItem="nHZ-zi-fgV" firstAttribute="leading" secondItem="UIC-Aq-AeC" secondAttribute="leading" constant="17" id="xIk-Wh-gta"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="editAlarmButton" destination="ZPh-fH-9ce" id="nL5-Xq-Bu5"/>
+                                    <outlet property="switchControl" destination="Qup-lt-g55" id="6Bt-A8-tBa"/>
+                                    <outlet property="timeLabel" destination="UIC-Aq-AeC" id="LaY-mB-rO3"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -181,10 +186,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pxq-Wb-TzF">
-                                <rect key="frame" x="0.0" y="334" width="375" height="333"/>
+                                <rect key="frame" x="0.0" y="367" width="375" height="300"/>
                                 <subviews>
                                     <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="K6H-4P-lry">
-                                        <rect key="frame" x="0.0" y="83" width="375" height="167"/>
+                                        <rect key="frame" x="0.0" y="64" width="375" height="220"/>
                                         <date key="date" timeIntervalSinceReferenceDate="432765217.24695998">
                                             <!--2014-09-18 20:33:37 +0000-->
                                         </date>
@@ -196,7 +201,7 @@
                                         </connections>
                                     </datePicker>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8jW-un-tVL">
-                                        <rect key="frame" x="0.0" y="23" width="60" height="60"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="60" height="64"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="60" id="CoX-uI-JYA"/>
                                             <constraint firstAttribute="width" constant="60" id="Z3c-mO-SnH"/>
@@ -206,6 +211,11 @@
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="CoX-uI-JYA"/>
+                                            </mask>
+                                        </variation>
                                         <variation key="widthClass=compact" misplaced="YES">
                                             <rect key="frame" x="253" y="99" width="59" height="30"/>
                                         </variation>
@@ -215,7 +225,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S0e-TT-ULC">
-                                        <rect key="frame" x="315" y="23" width="60" height="60"/>
+                                        <rect key="frame" x="315" y="0.0" width="60" height="64"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="60" id="4yI-Y5-yak"/>
                                             <constraint firstAttribute="width" constant="60" id="RpM-IC-6To"/>
@@ -225,6 +235,11 @@
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="4yI-Y5-yak"/>
+                                            </mask>
+                                        </variation>
                                         <variation key="widthClass=compact" misplaced="YES">
                                             <rect key="frame" x="253" y="99" width="59" height="30"/>
                                         </variation>
@@ -239,12 +254,20 @@
                                     <constraint firstItem="K6H-4P-lry" firstAttribute="top" secondItem="8jW-un-tVL" secondAttribute="bottom" id="860-wf-b1z"/>
                                     <constraint firstItem="K6H-4P-lry" firstAttribute="width" secondItem="pxq-Wb-TzF" secondAttribute="width" id="9Ua-Pn-CDL"/>
                                     <constraint firstItem="K6H-4P-lry" firstAttribute="centerX" secondItem="pxq-Wb-TzF" secondAttribute="centerX" id="au9-1y-t1j"/>
+                                    <constraint firstItem="8jW-un-tVL" firstAttribute="top" secondItem="pxq-Wb-TzF" secondAttribute="top" id="c0a-sR-gA4"/>
                                     <constraint firstItem="K6H-4P-lry" firstAttribute="top" secondItem="S0e-TT-ULC" secondAttribute="bottom" id="elI-r0-nn4"/>
                                     <constraint firstAttribute="trailing" secondItem="S0e-TT-ULC" secondAttribute="trailing" id="h1H-bC-X1D"/>
+                                    <constraint firstAttribute="bottom" secondItem="K6H-4P-lry" secondAttribute="bottom" constant="16" id="kxn-0H-b6g"/>
                                     <constraint firstItem="8jW-un-tVL" firstAttribute="leading" secondItem="pxq-Wb-TzF" secondAttribute="leading" id="lIE-LR-Wbi"/>
-                                    <constraint firstItem="K6H-4P-lry" firstAttribute="height" secondItem="pxq-Wb-TzF" secondAttribute="height" multiplier="0.5" id="uCD-SP-Uwd"/>
+                                    <constraint firstItem="S0e-TT-ULC" firstAttribute="top" secondItem="pxq-Wb-TzF" secondAttribute="top" id="mQX-6f-imi"/>
+                                    <constraint firstItem="K6H-4P-lry" firstAttribute="height" secondItem="pxq-Wb-TzF" secondAttribute="height" multiplier="0.5" constant="70" id="uCD-SP-Uwd"/>
                                     <constraint firstItem="K6H-4P-lry" firstAttribute="centerY" secondItem="pxq-Wb-TzF" secondAttribute="centerY" id="vaR-jW-NO6"/>
                                 </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="vaR-jW-NO6"/>
+                                    </mask>
+                                </variation>
                                 <variation key="widthClass=compact" misplaced="YES">
                                     <rect key="frame" x="0.0" y="308" width="320" height="292"/>
                                 </variation>
@@ -255,7 +278,7 @@
                         <constraints>
                             <constraint firstItem="pxq-Wb-TzF" firstAttribute="width" secondItem="00D-Uk-q5V" secondAttribute="width" id="DUr-CO-Jsy"/>
                             <constraint firstItem="pxq-Wb-TzF" firstAttribute="centerX" secondItem="00D-Uk-q5V" secondAttribute="centerX" id="IWP-GD-8xX"/>
-                            <constraint firstItem="pxq-Wb-TzF" firstAttribute="height" secondItem="00D-Uk-q5V" secondAttribute="height" multiplier="0.5" id="gy0-em-LWK"/>
+                            <constraint firstItem="pxq-Wb-TzF" firstAttribute="height" secondItem="00D-Uk-q5V" secondAttribute="height" multiplier="0.45" id="gy0-em-LWK"/>
                             <constraint firstAttribute="bottomMargin" secondItem="pxq-Wb-TzF" secondAttribute="bottom" id="q1S-Ph-3Y4"/>
                         </constraints>
                         <connections>

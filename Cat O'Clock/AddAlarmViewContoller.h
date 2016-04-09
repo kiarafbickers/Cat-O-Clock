@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-
 @protocol AddAlarmViewContollerDelegate;
 
 @interface AddAlarmViewContoller : UIViewController
@@ -18,12 +17,10 @@
 
 @end
 
-
 @protocol AddAlarmViewContollerDelegate <NSObject>
 
 @optional
 - (void)timeChanged:(NSDate *)date;
 - (void)dismissTapped:(AddAlarmViewContoller *)controller;
-
 
 @end
