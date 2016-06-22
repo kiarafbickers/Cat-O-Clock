@@ -18,7 +18,7 @@
 @import AVFoundation;
 
 
-@interface AppDelegate ()
+@interface AppDelegate () <AlarmManagerDelegate>
 
 @property (nonatomic, strong) AlarmManager *alarmManager;
 @property (nonatomic) UIBackgroundTaskIdentifier backgroundUploadTask;
@@ -47,9 +47,7 @@
     [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayback withOptions:AVAudioSessionCategoryOptionMixWithOthers error:&setCategoryErr];
     [[AVAudioSession sharedInstance] setActive:YES error:&activationErr];
     
-    self.alarmManager = [AlarmManager sharedAlarmDataStore];
-    [self.alarmManager checkForOldAlarm];
-    [self.alarmManager checkForValidAlarm];
+    self.alarmManager = [[AlarmManager alloc] init];
     
     [self stopBackgroundTask];
     
@@ -86,22 +84,22 @@
 {
     //NSLog(@"WillTerminate!");
     
-    [self.alarmManager stopTimer];
-    [[AVAudioSession sharedInstance] setActive:NO error:NULL];
-    [self.alarmManager stopAudioPlayer];
-
-    for (AlarmModel *alarm in self.alarmManager.alarmsArray) {
-        if (alarm.switchState == YES) {
-            if (application.applicationIconBadgeNumber == 0) {
-                [application setApplicationIconBadgeNumber:1];
-            }
-            
-            NSDate *warningNotificationTimeDelay = [NSDate dateWithTimeIntervalSinceNow:3.0];
-            [self.alarmManager setupWarningNotificationWithDate:warningNotificationTimeDelay];
-            
-            break;
-        }
-    }
+//    [self.alarmManager stopTimer];
+//    [[AVAudioSession sharedInstance] setActive:NO error:NULL];
+//    [self.alarmManager stopAudioPlayer];
+//
+//    for (AlarmModel *alarm in self.alarmManager.alarmsArray) {
+//        if (alarm.switchState == YES) {
+//            if (application.applicationIconBadgeNumber == 0) {
+//                [application setApplicationIconBadgeNumber:1];
+//            }
+//            
+//            NSDate *warningNotificationTimeDelay = [NSDate dateWithTimeIntervalSinceNow:3.0];
+//            [self.alarmManager setupWarningNotificationWithDate:warningNotificationTimeDelay];
+//            
+//            break;
+//        }
+//    }
 }
 
 
@@ -127,14 +125,7 @@
 {
     //NSLog(@"functionYouWantToRunInTheBackground");
     
-    [self.alarmManager stopTimer];
-    
-    for (AlarmModel *firstAlarm in self.alarmManager.alarmsArray) {
-        if (firstAlarm.switchState == YES) {
-            [self.alarmManager startTimerWithDate:firstAlarm.date];
-            break;
-        }
-    }
+    //[self.alarmManager refreshAlarmData];
 }
 
 @end

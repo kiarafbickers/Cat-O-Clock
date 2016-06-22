@@ -9,48 +9,38 @@
 #import <Foundation/Foundation.h>
 #import "AlarmModel.h"
 
-@import AVFoundation;
+@class AlarmManager;
+
+@protocol AlarmManagerDelegate
+
+@optional
+
+@end
 
 
 @interface AlarmManager : NSObject
 
+@property (nonatomic, weak) id<AlarmManagerDelegate> delegate;
 @property (nonatomic, retain) NSArray *alarmsArray;
-@property (nonatomic, strong) AVAudioPlayer *alarmAudioPlayer;
-@property (nonatomic, strong) NSNumber *alarmToEditNSNumber;
-@property (nonatomic) NSInteger alarmToEditAtIndex;
-@property (nonatomic) BOOL alarmToEditBool;
+@property (nonatomic) NSNumber *indexOfAlarm;
+@property (nonatomic) BOOL isAlarmToEdit;
+
 
 + (instancetype)sharedAlarmDataStore;
 
+- (void)addAlarm:(AlarmModel *)alarm;
+- (void)updateAlarmAtIndex:(NSNumber *)alarmIndex withAlarm:(AlarmModel *)alarm;
+- (void)switchAlarmAtIndex:(NSUInteger)alarmIndex;
+- (void)removeAlarmAtIndex:(NSUInteger)alarmIndex;
+- (void)refreshAlarmData;
+- (AlarmModel *)alarmAtIndex:(NSUInteger)index;
+- (NSUInteger)alarmCount;
 
-# pragma mark - MainTableView Methods
+- (void)stopAlarm;
 
-- (void)checkForOldAlarm;
-- (void)checkForValidAlarm;
-
-- (void)removeAlarmFromAlarmArrayAtIndex:(NSUInteger)alarmIndex;
-- (void)updateAlarmInAlarmArray:(NSUInteger)alarmIndex;
-
-- (void)sendNoticationInAppBackgroundAndInactiveState;
-
-- (void)startTimerWithDate:(NSDate *)date;
 - (void)startAudioPlayer;
-
-
-# pragma mark - AddAlarmViewContoller Methods
-
-- (void)addAlarmToAlarmArray:(AlarmModel *)alarmModel;
-- (void)updateAlarmInAlarmArray:(NSNumber *)alarmIndex andAlarm:(AlarmModel *)newAlarm;
-
-
-# pragma mark - ModalViewController Methods
-
-- (void)stopTimer;
 - (void)stopAudioPlayer;
-
-
-# pragma mark - AppDelegate Methods
-
-- (void)setupWarningNotificationWithDate:(NSDate *)date;
+- (void)startTimerWithDate:(NSDate *)date;
+- (void)stopTimer;
 
 @end

@@ -11,8 +11,9 @@
 @interface AlarmTableViewCell : UITableViewCell
 
 @property (copy, nonatomic) void (^onSwitchChange)(AlarmTableViewCell *cell);
+@property (copy, nonatomic) void (^onEditAlarmButton)(AlarmTableViewCell *cell);
 @property (strong, nonatomic) IBOutlet UIButton *editAlarmButton;
-@property (strong, nonatomic) IBOutlet UIView *timeLabel;
+@property (strong, nonatomic) IBOutlet UILabel *timeLabel;
 @property (strong, nonatomic) IBOutlet UISwitch *switchControl;
 
 @end

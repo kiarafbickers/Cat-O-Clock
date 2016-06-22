@@ -10,7 +10,7 @@
 #import "AlarmManager.h"
 
 
-@interface ModalViewController ()
+@interface ModalViewController () <AlarmManagerDelegate>
 
 @property (nonatomic, strong) AlarmManager *alarmManager;
 @property (weak, nonatomic) IBOutlet UIButton *dismissButton;
@@ -26,6 +26,7 @@
 {
     [super viewDidLoad];
     self.alarmManager = [AlarmManager sharedAlarmDataStore];
+    self.alarmManager.delegate = self;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -38,13 +39,11 @@
     [super didReceiveMemoryWarning];
 }
 
-
 #pragma mark - Navigation Methods
 
 - (IBAction)endGifAlarm:(id)sender
 {
-    [[AlarmManager sharedAlarmDataStore] stopTimer];
-    [[AlarmManager sharedAlarmDataStore] stopAudioPlayer];
+    [self.alarmManager stopAlarm];
     [self performSegueWithIdentifier:@"showMainView" sender:self];
 }
 

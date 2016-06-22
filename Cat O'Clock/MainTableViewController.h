@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AlarmManager.h"
 
-@interface MainTableViewController : UITableViewController
+@interface MainTableViewController : UITableViewController <AlarmManagerDelegate>
 
 @end

@@ -13,7 +13,9 @@
 @interface AddAlarmViewContoller : UIViewController
 
 @property (nonatomic, assign) id <AddAlarmViewContollerDelegate> delegate;
-@property (weak, nonatomic) NSLayoutConstraint *pickerViewVerticalSpaceConstraint;
+@property (nonatomic, weak) NSLayoutConstraint *pickerViewVerticalSpaceConstraint;
+@property (nonatomic) NSNumber *alarmIndex;
+@property (nonatomic) BOOL isAlarmToEdit;
 
 @end
 

@@ -8,21 +8,21 @@
 
 #import "AlarmManager.h"
 #import "AppDelegate.h"
+@import AVFoundation;
 #import "NSDate+Comparison.h"
 
 
 @interface AlarmManager ()
 
 @property (nonatomic, strong) NSTimer *alarmTimer;
+@property (nonatomic, strong) AVAudioPlayer *alarmAudioPlayer;
 
 @end
+
 
 @implementation AlarmManager
 
 @synthesize alarmsArray = _alarmsArray;
-
-
-#pragma mark - Singleton Method
 
 + (instancetype)sharedAlarmDataStore
 {
@@ -35,7 +35,6 @@
     return _sharedAlarmManager;
 }
 
-
 #pragma mark - Data Store: Setter and Getter / User Defaults Methods
 
 - (NSArray *)alarmsArray
@@ -47,30 +46,32 @@
     if (decodedAlarmsArray == NULL) {
         return @[];
     } else {
-        return [decodedAlarmsArray copy];
+        return decodedAlarmsArray;
     }
 }
 
 - (void)setAlarmsArray:(NSArray *)newArray
 {
-    if (_alarmsArray != newArray)
-    {
+    if (![_alarmsArray isEqualToArray:newArray]) {
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         NSData *encodedAlarmsData = [NSKeyedArchiver archivedDataWithRootObject:newArray];
         [userDefaults setObject:encodedAlarmsData forKey:[NSString stringWithFormat:@"alarmsArray"]];
     }
 }
 
+#pragma mark - Update Alarm Array Methods
 
-#pragma mark - Update / Edit Alarm Array Methods
+- (void)refreshAlarmData
+{
+    [self checkForExpiredAlarm];
+    [self checkForValidAlarm];
+}
 
 - (void)checkForValidAlarm
 {
-    NSMutableArray *updatedAlarmsArray = [self.alarmsArray mutableCopy];
-    
-    [self stopTimer];
-    
-    for (AlarmModel *firstAlarm in updatedAlarmsArray) {
+    NSMutableArray *mArray= [self.alarmsArray mutableCopy];
+    mArray = [self sortArrayByTime];
+    for (AlarmModel *firstAlarm in mArray) {
         if (firstAlarm.switchState == YES) {
             NSComparisonResult result = [[NSDate date] compare:firstAlarm.date];
             if (result == NSOrderedAscending) {
@@ -85,7 +86,7 @@
     }
 }
 
-- (void)checkForOldAlarm
+- (void)checkForExpiredAlarm
 {
     NSMutableArray *mArray = [self.alarmsArray mutableCopy];
     
@@ -95,60 +96,105 @@
         }
     }
     
-    [[self.alarmsArray mutableCopy] removeAllObjects];
-    [self setAlarmsArray:mArray];
+    self.alarmsArray = mArray;
 }
 
-- (void)addAlarmToAlarmArray:(AlarmModel *)newAlarm
+#pragma mark - Edit Alarm Array Methods
+
+- (void)addAlarm:(AlarmModel *)alarm
 {
-    NSMutableArray *updatedAlarmsArray = [self.alarmsArray mutableCopy];
+    NSMutableArray *mArray = [self.alarmsArray mutableCopy];
     
-    if (updatedAlarmsArray == nil) {
-        updatedAlarmsArray = [[NSMutableArray alloc] init];
+    if (mArray == nil) {
+        mArray = [[NSMutableArray alloc] init];
     }
     
-    NSDate *nextTime = [newAlarm.date returnTimeOfFutureDate];
-    AlarmModel *updatedAlarm = [[AlarmModel alloc] initWithDate:nextTime WithString:newAlarm.timeString withSwitchState:newAlarm.switchState];
+    NSDate *nextTime = [alarm.date returnTimeOfFutureDate];
+    AlarmModel *updatedAlarm = [[AlarmModel alloc] initWithDate:nextTime WithString:alarm.timeString withSwitchState:alarm.switchState];
     
-    [updatedAlarmsArray insertObject:updatedAlarm atIndex:0];
-    [self setAlarmsArray:updatedAlarmsArray];
+    [mArray insertObject:updatedAlarm atIndex:0];
+    self.alarmsArray = mArray;
 }
 
-- (void)updateAlarmInAlarmArray:(NSNumber *)alarmIndex andAlarm:(AlarmModel *)newAlarm
+- (void)updateAlarmAtIndex:(NSNumber *)alarmIndex withAlarm:(AlarmModel *)alarm
 {
-    NSMutableArray *updatedAlarmsArray = [self.alarmsArray mutableCopy];
+    NSMutableArray *mArray = [self.alarmsArray mutableCopy];
     
-    if (updatedAlarmsArray == nil) {
-        updatedAlarmsArray = [[NSMutableArray alloc] init];
+    if (mArray == nil) {
+        mArray = [[NSMutableArray alloc] init];
     }
     
-    NSDate *nextTime = [newAlarm.date returnTimeOfFutureDate];
-    AlarmModel *updatedAlarm = [[AlarmModel alloc] initWithDate:nextTime WithString:newAlarm.timeString withSwitchState:newAlarm.switchState];
+    NSDate *nextTime = [alarm.date returnTimeOfFutureDate];
+    AlarmModel *updatedAlarm = [[AlarmModel alloc] initWithDate:nextTime WithString:alarm.timeString withSwitchState:alarm.switchState];
     
-    [updatedAlarmsArray removeObjectAtIndex:[alarmIndex intValue]];
-    [updatedAlarmsArray insertObject:updatedAlarm atIndex:[alarmIndex intValue]];
-    [self setAlarmsArray:updatedAlarmsArray];
+    [mArray removeObjectAtIndex:[alarmIndex intValue]];
+    [mArray insertObject:updatedAlarm atIndex:[alarmIndex intValue]];
+    self.alarmsArray = mArray;
 }
 
-- (void)updateAlarmInAlarmArray:(NSUInteger)alarmIndex
+- (void)switchAlarmAtIndex:(NSUInteger)alarmIndex
 {
-    NSMutableArray *updatedAlarmsArray = [self.alarmsArray mutableCopy];
-    AlarmModel *oldAlarm = updatedAlarmsArray[alarmIndex];
+    NSMutableArray *mArray = [self.alarmsArray mutableCopy];
+    AlarmModel *oldAlarm = mArray[alarmIndex];
     
     NSDate *nextTime = [oldAlarm.date returnTimeOfFutureDate];
     AlarmModel *updatedAlarm = [[AlarmModel alloc] initWithDate:nextTime WithString:oldAlarm.timeString withSwitchState:!oldAlarm.switchState];
     
-    [updatedAlarmsArray removeObjectAtIndex:alarmIndex];
-    [updatedAlarmsArray insertObject:updatedAlarm atIndex:alarmIndex];
-    [self setAlarmsArray:updatedAlarmsArray];
+    [mArray removeObjectAtIndex:alarmIndex];
+    [mArray insertObject:updatedAlarm atIndex:alarmIndex];
+    self.alarmsArray = mArray;
 }
 
-- (void)removeAlarmFromAlarmArrayAtIndex:(NSUInteger)alarmIndex
+- (void)removeAlarmAtIndex:(NSUInteger)alarmIndex
 {
-    NSMutableArray *updatedAlarmsArray = [self.alarmsArray mutableCopy];
+    NSMutableArray *mArray = [self.alarmsArray mutableCopy];
     
-    [updatedAlarmsArray removeObjectAtIndex:alarmIndex];
-    [self setAlarmsArray:updatedAlarmsArray];
+    [mArray removeObjectAtIndex:alarmIndex];
+    self.alarmsArray = mArray;
+}
+
+- (NSMutableArray *)sortArrayByTime
+{
+    NSMutableArray *mArray = [NSMutableArray new];
+    
+    NSMutableArray *onAlarms = [[NSMutableArray alloc] init];
+    NSMutableArray *offAlarms = [[NSMutableArray alloc] init];
+    for (AlarmModel *alarm in self.alarmsArray) {
+        if (alarm.switchState == YES) {
+            [onAlarms addObject:alarm];
+            [onAlarms sortUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"date" ascending:YES]]];
+        } else {
+            [offAlarms addObject:alarm];
+            [onAlarms sortUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"date" ascending:YES]]];
+        }
+    }
+    for (AlarmModel *alarm in onAlarms) {
+        [mArray addObject:alarm];
+    }
+    for (AlarmModel *alarm in offAlarms) {
+        [mArray addObject:alarm];
+    }
+    
+    return mArray;
+}
+
+- (AlarmModel *)alarmAtIndex:(NSUInteger)index
+{
+    NSLog(@"index: %lu", (unsigned long)index);
+    return [self.alarmsArray objectAtIndex:index];
+}
+
+- (NSUInteger)alarmCount
+{
+    return self.alarmsArray.count;
+}
+
+#pragma mark - Alarm Control Methods
+
+- (void)stopAlarm
+{
+    [self stopTimer];
+    [self stopAudioPlayer];
 }
 
 #pragma mark - Audio Player Methods
@@ -176,6 +222,8 @@
 
 - (void)startTimerWithDate:(NSDate *)date
 {
+    [self stopTimer];
+    
     if (!self.alarmTimer || !self.alarmTimer.valid) {
         self.alarmTimer = [[NSTimer alloc] initWithFireDate:date interval:5.0 target:self selector:@selector(postGifModalViewNotification) userInfo:nil repeats:YES];
         [[NSRunLoop currentRunLoop] addTimer:self.alarmTimer forMode:NSDefaultRunLoopMode];
@@ -236,5 +284,5 @@
     [NSThread sleepForTimeInterval:2];
 }
 
-@end
 
+@end
